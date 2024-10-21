@@ -1,1 +1,29 @@
-spring.application.name=book4w
+server:
+  port: 8181
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/jpa?serverTimezone=Asia/Seoul
+    username: root
+    password: mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+
+
+
+# log level setting
+logging:
+  level:
+    root: info
+    com:
+      spring:
+        jpa: debug
+    org:
+      hibernate:
+        SQL: debug
+
+
