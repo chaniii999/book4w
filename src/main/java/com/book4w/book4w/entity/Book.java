@@ -1,4 +1,4 @@
-package com.book4w.book4w.main.entity;
+package com.book4w.book4w.entity;
 
 
 import jakarta.persistence.*;
@@ -27,7 +27,7 @@ public class Book {
     private String writer;
 
     @Column(name = "book_pub", nullable = false)
-    private String publisher;
+    private String pub;
 
     @Column(name = "book_year", nullable = false)
     private int year;
