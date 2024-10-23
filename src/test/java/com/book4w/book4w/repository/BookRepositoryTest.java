@@ -1,30 +1,39 @@
 package com.book4w.book4w.repository;
 
 import com.book4w.book4w.entity.Book;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import static org.assertj.core.api.Assertions.assertThat; // AssertJ import
 
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BookRepositoryTest {
     @Autowired
-    private BookRepository bookRepository;
+    BookRepository bookRepository;
 
     @Test
-    @DisplayName("좋아요 순으로 도서 목록을 조회한다")
-    void findAllByOrderByLikeCountDesc() {
-        Pageable pageable = PageRequest.of(0, 9);
-        Page<Book> books = bookRepository.findAllByOrderByLikeCountDesc(pageable);
-        System.out.println("도서 목록 (좋아요 순):");
-        books.getContent().forEach(book -> {
-            System.out.println("제목: " + book.getName() + ", 좋아요 수: " + book.getLikeCount());
-        });
-        assertThat(books).isNotNull();
+    @DisplayName("더미데이터 생성")
+    void createDummy() {
+        for (int i = 1; i <= 20; i++) {
+            Book book = Book.builder()
+                    .id(UUID.randomUUID().toString()) // UUID 생성
+                    .name("Book Name " + i)
+                    .writer("Writer " + i)
+                    .pub("Publisher " + i)
+                    .year(2020 + (i % 5)) // 2020 ~ 2024 사이의 연도
+                    .rating(4.0 + (i % 5) * 0.1) // 4.0 ~ 4.4 사이의 평점
+                    .reviewCount(i * 5) // 리뷰 수
+                    .likeCount(i * 10) // 좋아요 수
+                    .build();
+            bookRepository.save(book);
+        }
     }
+
+
+
 }
