@@ -1,5 +1,6 @@
 package com.book4w.book4w.controller;
 
+import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class BoardController {
         log.info("/list/board: GET");
 
         // page 설정에 맞춰 북 목록을 Map에 저장하겠다.
-        Page<Book> bookPage = getSortedBookPage(sort,page);
+        Page<BookDetailResponseDTO> bookPage = getSortedBookPage(sort,page);
 
         model.addAttribute("bList",bookPage.getContent());
         model.addAttribute("maker", bookPage);
@@ -36,7 +37,7 @@ public class BoardController {
         return "list";
     }
 
-    private Page<Book> getSortedBookPage(String sort, Pageable pageable) {
+    private Page<BookDetailResponseDTO> getSortedBookPage(String sort, Pageable pageable) {
         if (sort == null) {
             return boardService.getBookList(pageable);
         }
