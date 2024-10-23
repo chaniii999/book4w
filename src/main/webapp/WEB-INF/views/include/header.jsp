@@ -19,8 +19,6 @@
         </form>
     </div>
 
-    <div class="search-result">
-        검색 결과가 표시될 영역
-    </div>
+
 </header>
 </body>

@@ -62,9 +62,3 @@ header {
     cursor: pointer;
 }
 
-/* 검색 결과 영역 */
-.search-result {
-    background-color: #f9f9f9;
-    padding: 20px;
-    margin-top: 20px;
-}
