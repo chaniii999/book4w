@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest
@@ -19,19 +20,22 @@ public class dummyDataTest {
     @Test
     @DisplayName("더미데이터 생성")
     void createDummy() {
+        Random random = new Random();
+
         for (int i = 1; i <= 20; i++) {
             Book book = Book.builder()
                     .id(UUID.randomUUID().toString()) // UUID 생성
                     .name("Book Name " + i)
-                    .writer("Writer " + i)
-                    .pub("Publisher " + i)
-                    .year(2020 + (i % 5)) // 2020 ~ 2024 사이의 연도
-                    .rating(4.0 + (i % 5) * 0.1) // 4.0 ~ 4.4 사이의 평점
-                    .reviewCount(i * 5) // 리뷰 수
-                    .likeCount(i * 10) // 좋아요 수
+                    .writer("Writer " + random.nextInt(100)) // 0부터 99 사이의 랜덤 작가 이름
+                    .pub("Publisher " + random.nextInt(10)) // 0부터 9 사이의 랜덤 출판사
+                    .year(2020 + random.nextInt(5)) // 2020 ~ 2024 사이의 랜덤 연도
+                    .rating(3.0 + (random.nextDouble() * 2)) // 3.0 ~ 5.0 사이의 랜덤 평점
+                    .reviewCount(random.nextInt(100)) // 0부터 99 사이의 랜덤 리뷰 수
+                    .likeCount(random.nextInt(100)) // 0부터 99 사이의 랜덤 좋아요 수
                     .build();
             bookRepository.save(book);
         }
     }
+
 
 }
