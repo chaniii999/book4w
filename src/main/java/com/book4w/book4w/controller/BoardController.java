@@ -28,9 +28,7 @@ public class BoardController {
         log.info("/list/board: GET");
 
         // page 설정에 맞춰 북 목록을 Map에 저장하겠다.
-        //Page<Book> bookPage = getSortedBookPage(sort,page);
-
-        Page<Book> bookPage = boardService.getBookList(page);
+        Page<Book> bookPage = getSortedBookPage(sort,page);
 
         model.addAttribute("bList",bookPage.getContent());
         model.addAttribute("maker", bookPage);
@@ -38,9 +36,13 @@ public class BoardController {
     }
 
     private Page<Book> getSortedBookPage(String sort, Pageable pageable) {
+        if (sort == null) {
+            return boardService.getBookList(pageable);
+        }
+
         return switch (sort) {
-            case "likes" -> boardService.getOrderLikesDesc(pageable);
-            case "reviews" -> boardService.getOrderReviewDesc(pageable);
+            case "likeCount" -> boardService.getOrderLikeDesc(pageable);
+            case "reviewCount" -> boardService.getOrderReviewDesc(pageable);
             case "rating" -> boardService.getOrderRatingDesc(pageable);
             default -> boardService.getBookList(pageable);
         };

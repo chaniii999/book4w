@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 public class BoardService {
     private final BookRepository bookRepository;
 
-    public Page<Book> getBookList(Pageable pageable) {
-        return bookRepository.findAll(pageable);
+    public Page<Book> getBookList(Pageable page) {
+        return bookRepository.findAll(page);
     }
 
-    public Page<Book> getOrderLikesDesc(Pageable page) {
+    public Page<Book> getOrderLikeDesc(Pageable page) {
         return bookRepository.findAllByOrderByLikeCountDesc(page);
     }
 
@@ -27,8 +27,8 @@ public class BoardService {
         return bookRepository.findAllByOrderByReviewCountDesc(page);
     }
 
-    public Page<Book> getOrderRatingDesc(Pageable pageable) {
-        return bookRepository.findAllByOrderByRatingDesc(pageable);
+    public Page<Book> getOrderRatingDesc(Pageable page) {
+        return bookRepository.findAllByOrderByRatingDesc(page);
     }
 
 }

@@ -87,15 +87,17 @@
 
 <div class="container">
     <h2>도서 목록</h2>
-<%--    <form action="/board/list" method="get">--%>
-<%--        <label for="sort">정렬 기준:</label>--%>
-<%--        <select name="sort" id="sort" onchange="this.form.submit()">--%>
-<%--            <option value="">기본 정렬</option>--%>
-<%--            <option value="likes">좋아요 순</option>--%>
-<%--            <option value="reviews">리뷰 수 순</option>--%>
-<%--            <option value="rating">평점 수 순</option>--%>
-<%--        </select>--%>
-<%--    </form>--%>
+    <form action="${pageContext.request.contextPath}/board/list" method="get">
+    <input type="hidden" name="page" value="${maker.number}" /> <!-- 현재 페이지 번호 유지 -->
+        <label for="sort">정렬 기준:</label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+            <option value="">기본 정렬</option>
+            <option value="likeCount">좋아요 순</option>
+            <option value="reviewCount">리뷰 수 순</option>
+            <option value="rating">평점 수 순</option>
+        </select>
+    </form>
+
 
 
     <div class="card-container">
