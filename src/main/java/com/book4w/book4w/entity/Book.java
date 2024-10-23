@@ -1,12 +1,10 @@
 package com.book4w.book4w.entity;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
-@Setter
-@Getter
+@Setter @Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +17,8 @@ public class Book {
 
     @Id
     @Column(name = "book_uuid")
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "book_name", nullable = false)
     private String name;
@@ -41,5 +40,4 @@ public class Book {
 
     @Column(name = "book_like_count", nullable = false)
     private int likeCount = 0;
-
 }
