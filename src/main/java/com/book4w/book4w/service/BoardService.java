@@ -28,7 +28,7 @@ public class BoardService {
         Page<Book> bookPage = bookRepository.findAllByOrderByLikeCountDesc(page);
         return bookPage.map(BookDetailResponseDTO::new);
     }
-
+    
     public Page<BookDetailResponseDTO> getOrderReviewDesc(Pageable page) {
         Page<Book> bookPage = bookRepository.findAllByOrderByReviewCountDesc(page);
         return bookPage.map(BookDetailResponseDTO::new);
