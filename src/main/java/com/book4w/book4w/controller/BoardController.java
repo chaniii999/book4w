@@ -52,7 +52,7 @@ public class BoardController {
 
     @GetMapping("/detail/{id}")
     public String detail() {
-
+        return null;
     }
 
 }

@@ -11,6 +11,7 @@ public class BookDetailResponseDTO {
     private String writer;
     private String pub;
     private int year;
+    private final String coverImage;
     private double rating;
     private int reviewCount;
     private int likeCount;
@@ -22,6 +23,7 @@ public class BookDetailResponseDTO {
         this.writer = book.getWriter();
         this.pub = book.getPub();
         this.year = book.getYear();
+        this.coverImage = book.getCoverImage();
         this.rating = book.getRating();
         this.reviewCount = book.getReviewCount();
         this.likeCount = book.getLikeCount();

@@ -32,12 +32,18 @@ public class Book {
     @Column(name = "book_year", nullable = false)
     private int year;
 
+    @Column(name = "book_cover_image")
+    private String coverImage;
+
     @Column(name = "book_rating", nullable = false)
     private double rating;
 
+    @Builder.Default
     @Column(name = "book_review_count", nullable = false)
     private int reviewCount = 0;
 
+    @Builder.Default
     @Column(name = "book_like_count", nullable = false)
     private int likeCount = 0;
+
 }
