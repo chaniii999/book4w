@@ -1,8 +1,11 @@
 package com.book4w.book4w.dto.response;
 
 import com.book4w.book4w.entity.Book;
+import lombok.Builder;
+import lombok.Getter;
 
-public class BoardDetailResponseDTO {
+@Getter
+public class BookDetailResponseDTO {
     private String id;
     private String name;
     private String writer;
@@ -13,7 +16,7 @@ public class BoardDetailResponseDTO {
     private int likeCount;
 
     // 생성자
-    public BookDetailRequestDTO(Book book) {
+    public BookDetailResponseDTO(Book book) {
         this.id = book.getId();
         this.name = book.getName();
         this.writer = book.getWriter();
