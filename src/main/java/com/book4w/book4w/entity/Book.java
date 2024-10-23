@@ -1,0 +1,45 @@
+package com.book4w.book4w.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.UUID;
+
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Builder
+
+@Entity
+@Table(name = "books")
+public class Book {
+
+    @Id
+    @Column(name = "book_uuid")
+    private String id = UUID.randomUUID().toString();
+
+    @Column(name = "book_name", nullable = false)
+    private String name;
+
+    @Column(name = "book_writer", nullable = false)
+    private String writer;
+
+    @Column(name = "book_pub", nullable = false)
+    private String pub;
+
+    @Column(name = "book_year", nullable = false)
+    private int year;
+
+    @Column(name = "book_rating", nullable = false)
+    private double rating;
+
+    @Column(name = "book_review_count", nullable = false)
+    private int reviewCount = 0;
+
+    @Column(name = "book_like_count", nullable = false)
+    private int likeCount = 0;
+
+}
