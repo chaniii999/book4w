@@ -41,14 +41,3 @@ public class Book {
     @Column(name = "book_like_count", nullable = false)
     private int likeCount = 0;
 }
-
-/*
-book_uuid char(36) PK
-book_name varchar(100)
-book_writer varchar(100)
-book_pub varchar(100)
-book_year int
-book_rating double
-book_review_count int
-book_like_count int
- */
