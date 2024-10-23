@@ -25,6 +25,13 @@
             padding: 20px;
         }
 
+        /* 제목 스타일 */
+        h2 {
+            display: flex;
+            justify-content: space-between; /* 제목과 정렬 기준을 양쪽에 배치 */
+            align-items: center; /* 수직 정렬 */
+        }
+
         /* 카드 컨테이너 */
         .card-container {
             display: flex;
@@ -81,24 +88,31 @@
             background-color: #4CAF50;
             color: white;
         }
+
+        /* 정렬 기준 스타일 */
+        .sort-container {
+            margin-left: auto; /* 정렬 기준을 오른쪽으로 이동 */
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>도서 목록</h2>
-    <form action="${pageContext.request.contextPath}/board/list" method="get">
-    <input type="hidden" name="page" value="${maker.number}" /> <!-- 현재 페이지 번호 유지 -->
-        <label for="sort">정렬 기준:</label>
-        <select name="sort" id="sort" onchange="this.form.submit()">
-            <option value="">기본 정렬</option>
-            <option value="likeCount">좋아요 순</option>
-            <option value="reviewCount">리뷰 수 순</option>
-            <option value="rating">평점 수 순</option>
-        </select>
-    </form>
-
-
+    <h2>
+        <a href="${pageContext.request.contextPath}/board/list" style="text-decoration: none; color: black;">도서 목록</a>
+        <div class="sort-container">
+            <form action="${pageContext.request.contextPath}/board/list" method="get">
+                <input type="hidden" name="page" value="${maker.number}" /> <!-- 현재 페이지 번호 유지 -->
+                <label for="sort">정렬 기준:</label>
+                <select name="sort" id="sort" onchange="this.form.submit()">
+                    <option value="">기본 정렬</option>
+                    <option value="likeCount" <c:if test="${param.sort == 'likeCount'}">selected</c:if>>좋아요 순</option>
+                    <option value="reviewCount" <c:if test="${param.sort == 'reviewCount'}">selected</c:if>>리뷰 수 순</option>
+                    <option value="rating" <c:if test="${param.sort == 'rating'}">selected</c:if>>평점 수 순</option>
+                </select>
+            </form>
+        </div>
+    </h2>
 
     <div class="card-container">
         <c:if test="${not empty bList}">
@@ -120,21 +134,22 @@
     <div class="pagination">
         <!-- 이전 페이지로 이동하는 버튼 -->
         <c:if test="${maker.hasPrevious()}">
-            <a href="?page=${maker.number - 1}" class="prev">&laquo; 이전</a>
+            <a href="?sort=${param.sort}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
         </c:if>
 
         <!-- 페이지 번호 리스트 출력 -->
         <c:if test="${maker.totalPages > 0}">
             <c:forEach var="i" begin="0" end="${maker.totalPages - 1}">
-                <a href="?page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
+                <a href="?sort=${param.sort}&page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
             </c:forEach>
         </c:if>
 
         <!-- 다음 페이지로 이동하는 버튼 -->
         <c:if test="${maker.hasNext()}">
-            <a href="?page=${maker.number + 1}" class="next">다음 &raquo;</a>
+            <a href="?sort=${param.sort}&page=${maker.number + 1}" class="next">다음 &raquo;</a>
         </c:if>
     </div>
+
 </div>
 
 </body>

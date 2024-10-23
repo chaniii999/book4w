@@ -32,6 +32,7 @@ public class BoardController {
 
         model.addAttribute("bList",bookPage.getContent());
         model.addAttribute("maker", bookPage);
+        model.addAttribute("currentSort",sort);
         return "list";
     }
 
