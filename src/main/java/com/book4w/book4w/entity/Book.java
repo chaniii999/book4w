@@ -17,7 +17,7 @@ public class Book {
 
     @Id
     @Column(name = "book_uuid")
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "book_name", nullable = false)
@@ -33,7 +33,7 @@ public class Book {
     private int year;
 
     @Column(name = "book_rating", nullable = false)
-    private double rating;
+    private double rating = 0.0;
 
     @Column(name = "book_review_count", nullable = false)
     private int reviewCount = 0;
