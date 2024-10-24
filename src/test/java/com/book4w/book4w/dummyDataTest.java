@@ -2,7 +2,6 @@ package com.book4w.book4w;
 
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.repository.BookRepository;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

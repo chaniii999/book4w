@@ -45,6 +45,9 @@ public class Member {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "session_id")
+    private String sessionId; // 멤버 테이블에 세션 ID 필드 추가
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews; // 작성한 리뷰 목록
 
