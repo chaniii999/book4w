@@ -53,6 +53,8 @@
             padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none; /* 링크에서 밑줄 제거 */
+            display: inline-block; /* 블록으로 변경 */
         }
         .login-button:hover {
             background-color: #0056b3;
@@ -62,17 +64,17 @@
             align-items: center;
         }
         .search-container input[type="text"] {
-            padding: 6px; /* 패딩을 줄여서 크기를 작게 설정 */
+            padding: 6px;
             border: 1px solid #ced4da;
             border-radius: 5px;
             margin-right: 5px;
-            width: 200px; /* 너비를 일반 웹사이트 크기로 설정 */
+            width: 200px;
         }
         .search-container input[type="submit"] {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 6px 10px; /* 패딩을 줄여서 크기를 작게 설정 */
+            padding: 6px 10px;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -84,22 +86,22 @@
 <body>
 <header>
     <div class="header-container">
-        <a href="${pageContext.request.contextPath}/" class="logo">BookForW</a> <!-- 로고 클릭 시 메인 페이지로 이동 -->
+        <a href="${pageContext.request.contextPath}/" class="logo">BookForW</a>
         <nav class="nav-links">
             <a href="#">내 리뷰 관리</a>
             <a href="#">내 좋아요 목록</a>
             <a href="#">내 프로필</a>
-            <a href="${pageContext.request.contextPath}/board/list">도서 목록</a> <!-- 도서 목록 버튼 추가 -->
+            <a href="${pageContext.request.contextPath}/board/list">도서 목록</a>
         </nav>
         <div class="search-container">
             <form action="${pageContext.request.contextPath}/board/list" method="get">
                 <input type="hidden" name="page" value="${maker.number}" />
                 <input type="text" name="query" placeholder="검색어 입력" value="${param.query}" />
-                <input type="hidden" name="sort" value="${param.sort}" /> <!-- 정렬 기준 유지 -->
+                <input type="hidden" name="sort" value="${param.sort}" />
                 <input type="submit" value="검색" />
             </form>
         </div>
-        <button class="login-button">Log-in</button> <!-- 로그인 버튼을 검색 버튼 오른쪽에 배치 -->
+        <a href="${pageContext.request.contextPath}/domain/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼을 링크로 변경 -->
     </div>
 </header>
 </body>
