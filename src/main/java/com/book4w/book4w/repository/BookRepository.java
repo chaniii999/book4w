@@ -23,7 +23,7 @@ public interface BookRepository extends JpaRepository<Book, String> {
     List<Book> findTop3ByOrderByLikeCountDesc();
 
     @Query("SELECT  COUNT(b) FROM Book b")
-    int getTotalCount(PageDTO pageDTO);
+    int getTotalCount();
 
     // 좋아요순
     Page<Book> findAllByOrderByLikeCountDesc(Pageable page);
