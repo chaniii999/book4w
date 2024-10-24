@@ -17,17 +17,28 @@ public class MemberController {
         return "/domain/sign-in";
     }
 
+    @PostMapping("sign-in")
+    public String signIn(@RequestParam String email,
+                         @RequestParam String password) {
+
+        if (true) {
+            return "redirect:/";
+        } else {
+            return "redirect:/domain/sign-in";
+        }
+    }
+
     @GetMapping("/sign-up")
     public String signUp() {
         return "/domain/sign-up";
     }
 
     @PostMapping("/sign-up")
-    public String signUp(@PathVariable String email,
-                         @PathVariable String nickname,
-                         @PathVariable String password) {
+    public String signUp(@RequestParam String email,
+                         @RequestParam String nickname,
+                         @RequestParam String password) {
 
         memberService.save(new MemberRequestDTO(email, nickname, password));
-        return "redirect:/sign-in";
+        return "redirect:/domain/sign-in";
     }
 }
