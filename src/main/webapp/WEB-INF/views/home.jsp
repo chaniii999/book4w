@@ -25,7 +25,6 @@
         .card:hover {
             transform: scale(1.05); /* 마우스 오버 시 카드 확대 */
         }
-
     </style>
 </head>
 <body>
@@ -39,7 +38,10 @@
         <c:forEach var="book" items="${recommendedByRating}">
             <div class="col-md-4">
                 <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
-                    <div class="card mb-4 shadow-sm"> <!-- 그림자 효과 추가 -->
+                    <div class="card mb-4 shadow-sm">
+                     <!-- 그림자 효과 추가 -->
+                     <img src="/images/Book4.jpg" class="card-img-top" alt="Book 4 이미지">
+
                         <div class="card-body">
                             <h5 class="card-title">${book.bookName}</h5>
                             <p class="card-text">작가: ${book.bookWriter}</p>
@@ -61,6 +63,8 @@
             <div class="col-md-4">
                 <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
                     <div class="card mb-4 shadow-sm">
+                    <img src="/images/Book2.jpg" class="card-img-top" alt="Book 2 이미지">
+
                         <div class="card-body">
                             <h5 class="card-title">${book.bookName}</h5>
                             <p class="card-text">작가: ${book.bookWriter}</p>
@@ -82,6 +86,8 @@
             <div class="col-md-4">
                 <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
                     <div class="card mb-4 shadow-sm">
+                    <img src="/images/Book1.jpg" class="card-img-top" alt="Book 1 이미지">
+
                         <div class="card-body">
                             <h5 class="card-title">${book.bookName}</h5>
                             <p class="card-text">작가: ${book.bookWriter}</p>
