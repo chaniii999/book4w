@@ -23,6 +23,7 @@ CREATE TABLE members (
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "members")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
