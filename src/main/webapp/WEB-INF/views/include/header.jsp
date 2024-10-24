@@ -101,7 +101,16 @@
                 <input type="submit" value="검색" />
             </form>
         </div>
-        <a href="${pageContext.request.contextPath}/domain/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼을 링크로 변경 -->
+
+        <!-- 세션 체크 후 버튼 변경 -->
+        <c:choose>
+            <c:when test="${not empty sessionScope.sessionId}">
+                <a href="${pageContext.request.contextPath}/domain/logout" class="login-button">Log-out</a> <!-- 로그아웃 버튼 -->
+            </c:when>
+            <c:otherwise>
+                <a href="${pageContext.request.contextPath}/domain/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼 -->
+            </c:otherwise>
+        </c:choose>
     </div>
 </header>
 </body>

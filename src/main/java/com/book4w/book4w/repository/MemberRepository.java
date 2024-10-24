@@ -2,11 +2,12 @@ package com.book4w.book4w.repository;
 
 import com.book4w.book4w.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
+    Member findByEmail(String email);
 
+    Member findBySessionId(String id);
 
-
-    @Query("SELECT m.memberUuid FROM Member m WHERE m.memberEmail = :email AND m.memberPw = :password)
-    String findMemberUuid(@Param("email") String email, @Param("password") String password);
 }
