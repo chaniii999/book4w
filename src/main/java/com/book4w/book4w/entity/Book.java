@@ -43,6 +43,9 @@ public class Book {
     @Column(name = "book_like_count", nullable = false)
     private int likeCount = 0;
 
+    @Column(name = "book_cover_image")
+    private String coverImage;
+
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 리뷰와의 관계 추가
     private List<Review> reviews; // 해당 책에 대한 리뷰 목록
 }
