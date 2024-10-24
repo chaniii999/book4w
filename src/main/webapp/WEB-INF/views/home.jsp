@@ -25,6 +25,7 @@
         .card:hover {
             transform: scale(1.05); /* 마우스 오버 시 카드 확대 */
         }
+
     </style>
 </head>
 <body>
