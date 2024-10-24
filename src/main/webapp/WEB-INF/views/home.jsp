@@ -20,6 +20,7 @@
         }
         .card {
             transition: transform 0.2s; /* 카드 확대 효과 */
+            cursor: pointer; /* 클릭 가능 커서 */
         }
         .card:hover {
             transform: scale(1.05); /* 마우스 오버 시 카드 확대 */
@@ -36,16 +37,18 @@
     <div class="row">
         <c:forEach var="book" items="${recommendedByRating}">
             <div class="col-md-4">
-                <div class="card mb-4 shadow-sm"> <!-- 그림자 효과 추가 -->
-                    <div class="card-body">
-                        <h5 class="card-title">${book.bookName}</h5>
-                        <p class="card-text">작가: ${book.bookWriter}</p>
-                        <p class="card-text">출판사: ${book.bookPub}</p>
-                        <p class="card-text">평점: ${book.bookRating}</p>
-                        <p class="card-text">리뷰 수: ${book.reviewCount}</p>
-                        <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
+                    <div class="card mb-4 shadow-sm"> <!-- 그림자 효과 추가 -->
+                        <div class="card-body">
+                            <h5 class="card-title">${book.bookName}</h5>
+                            <p class="card-text">작가: ${book.bookWriter}</p>
+                            <p class="card-text">출판사: ${book.bookPub}</p>
+                            <p class="card-text">평점: ${book.bookRating}</p>
+                            <p class="card-text">리뷰 수: ${book.reviewCount}</p>
+                            <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </c:forEach>
     </div>
@@ -55,16 +58,18 @@
     <div class="row">
         <c:forEach var="book" items="${recommendedByReviewCount}">
             <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">${book.bookName}</h5>
-                        <p class="card-text">작가: ${book.bookWriter}</p>
-                        <p class="card-text">출판사: ${book.bookPub}</p>
-                        <p class="card-text">평점: ${book.bookRating}</p>
-                        <p class="card-text">리뷰 수: ${book.reviewCount}</p>
-                        <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">${book.bookName}</h5>
+                            <p class="card-text">작가: ${book.bookWriter}</p>
+                            <p class="card-text">출판사: ${book.bookPub}</p>
+                            <p class="card-text">평점: ${book.bookRating}</p>
+                            <p class="card-text">리뷰 수: ${book.reviewCount}</p>
+                            <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </c:forEach>
     </div>
@@ -74,16 +79,18 @@
     <div class="row">
         <c:forEach var="book" items="${recommendedByLikeCount}">
             <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">${book.bookName}</h5>
-                        <p class="card-text">작가: ${book.bookWriter}</p>
-                        <p class="card-text">출판사: ${book.bookPub}</p>
-                        <p class="card-text">평점: ${book.bookRating}</p>
-                        <p class="card-text">리뷰 수: ${book.reviewCount}</p>
-                        <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">${book.bookName}</h5>
+                            <p class="card-text">작가: ${book.bookWriter}</p>
+                            <p class="card-text">출판사: ${book.bookPub}</p>
+                            <p class="card-text">평점: ${book.bookRating}</p>
+                            <p class="card-text">리뷰 수: ${book.reviewCount}</p>
+                            <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </c:forEach>
     </div>

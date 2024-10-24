@@ -20,7 +20,7 @@ public class HomeService {
         List<Book> books = bookRepository.findTop3ByOrderByRatingDesc();  // 평점 순 상위 3개
         return books.stream()
                 .map(book -> new HomeRecommendedResponseDTO(
-//                        book.getId(),
+                       book.getId(),
                         book.getName(),
                         book.getWriter(),
                         book.getPub(),
@@ -36,7 +36,7 @@ public class HomeService {
         List<Book> books = bookRepository.findTop3ByOrderByReviewCountDesc();  // 리뷰 수 상위 3개
         return books.stream()
                 .map(book -> new HomeRecommendedResponseDTO(
-//                        book.getId(),
+                        book.getId(),
                         book.getName(),
                         book.getWriter(),
                         book.getPub(),
@@ -52,7 +52,7 @@ public class HomeService {
         List<Book> books = bookRepository.findTop3ByOrderByLikeCountDesc();  // 좋아요 수 상위 3개
         return books.stream()
                 .map(book -> new HomeRecommendedResponseDTO(
-//                        book.getId(),
+                        book.getId(),
                         book.getName(),
                         book.getWriter(),
                         book.getPub(),

@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 public class HomeRecommendedResponseDTO {
 
-//    private String bookUuid;
+    private String bookUuid;
     private String bookName;
     private String bookWriter;
     private String bookPub;
@@ -20,7 +20,7 @@ public class HomeRecommendedResponseDTO {
     private int likeCount;
 
     public HomeRecommendedResponseDTO(Book book) {
-//        this.bookUuid = book.getId();
+        this.bookUuid = book.getId();
         this.bookName = book.getName();
         this.bookWriter = book.getWriter();
         this.bookPub = book.getPub();
@@ -31,6 +31,7 @@ public class HomeRecommendedResponseDTO {
         this.likeCount = book.getLikeCount();
 
     }
+
 }
 
 
