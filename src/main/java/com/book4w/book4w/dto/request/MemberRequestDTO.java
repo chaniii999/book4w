@@ -1,13 +1,11 @@
 package com.book4w.book4w.dto.request;
 
 import com.book4w.book4w.entity.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter @Setter @ToString
 @Builder
+@AllArgsConstructor
 public class MemberRequestDTO {
     private String email;
     private String password;
