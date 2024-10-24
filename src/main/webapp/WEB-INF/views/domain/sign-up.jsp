@@ -115,7 +115,7 @@
 
 <div class="container">
     <h2>로그인</h2>
-    <form action="#">
+    <form action="${pageContext.request.contextPath}/domain/sign-in" method="post">
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" placeholder="이메일 입력">
 

@@ -4,10 +4,7 @@ import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,8 +23,11 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public String signUp(@RequestBody MemberRequestDTO dto) {
-        memberService.save(dto);
-        return "redirect:/domain/sign-in";
+    public String signUp(@PathVariable String email,
+                         @PathVariable String nickname,
+                         @PathVariable String password) {
+
+        memberService.save(new MemberRequestDTO(email, nickname, password));
+        return "redirect:/sign-in";
     }
 }
