@@ -17,6 +17,11 @@ public class ReviewService {
         Book pickBook = review.getBook();
         Member pickMember = review.getMember();
 
+        review.setBook(pickBook);
+        review.setMember(pickMember);
+        review.setContent("화이팅 할 수 있다 4W");
+        return reviewRepository.save(review);
+
     }
 
 }
