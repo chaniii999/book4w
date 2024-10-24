@@ -13,9 +13,9 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public List<Book> searchBooks(String query) {
-        // 검색어로 책을 찾는 로직 (예: 책 이름 또는 저자명으로 검색)
-        return bookRepository.findByNameContainingOrWriterContaining(query, query);
-    }
+//    public List<Book> searchBooks(String query) {
+//        // 검색어로 책을 찾는 로직 (예: 책 이름 또는 저자명으로 검색)
+//        return bookRepository.findByNameContainingOrWriterContaining(query, query);
+//    }
 }
 

@@ -6,22 +6,31 @@ import com.book4w.book4w.entity.Review;
 import com.book4w.book4w.repository.BookRepository;
 import com.book4w.book4w.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
+@Service
 @RequiredArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+
+    List<Review>
 
     public Review createReview(Review review) {
 
         Book pickBook = review.getBook();
         Member pickMember = review.getMember();
 
-        review.setBook(pickBook);
-        review.setMember(pickMember);
-        review.setContent("화이팅 할 수 있다 4W");
-        return reviewRepository.save(review);
+        Review newReview = Review.builder()
+                .book(pickBook)
+                .member(pickMember)
+                .content(review.getContent())
+                .build();
 
+        return reviewRepository.save(newReview);
     }
 
 }
