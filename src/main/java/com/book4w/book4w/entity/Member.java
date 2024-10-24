@@ -3,6 +3,7 @@ package com.book4w.book4w.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "members")
 public class Member {
