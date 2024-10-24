@@ -13,10 +13,14 @@
             <a href="#">내 프로필</a>
             <button class="login-button">Log-in</button>
         </nav>
-        <form id="searchForm" action="/search" method="get">
-            <input type="text" id="searchInput" name="query" placeholder="검색어를 입력하세요" />
-            <button type="submit">검색</button>
-        </form>
+        <div class="search-container">
+            <form action="${pageContext.request.contextPath}/board/list" method="get">
+                <input type="hidden" name="page" value="${maker.number}" />
+                <input type="text" name="query" placeholder="검색어 입력" value="${param.query}" />
+                <input type="hidden" name="sort" value="${param.sort}" /> <!-- 정렬 기준 유지 -->
+                <input type="submit" value="검색" />
+            </form>
+        </div>
 
     </div>
 
