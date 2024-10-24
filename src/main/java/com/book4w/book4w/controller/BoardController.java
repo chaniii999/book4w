@@ -1,8 +1,10 @@
 package com.book4w.book4w.controller;
 
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
+import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.service.BoardService;
+import com.book4w.book4w.service.DetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,8 +54,16 @@ public class BoardController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail() {
-        return null;
+    public String detail(@PathVariable String id, Model model) {
+        log.info("Fetching detail for book id: {}", id);
+
+        // 서비스에서 책 상세 정보를 가져옴
+        DetailPageResponseDTO bookDetail = DetailService.
+
+        // 모델에 책의 상세 정보 추가
+        model.addAttribute("book", bookDetail);
+
+        return "detail";  // detail.html로 포워딩
     }
 
 }
