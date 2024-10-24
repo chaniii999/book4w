@@ -2,6 +2,7 @@ package com.book4w.book4w.controller;
 
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
+import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.repository.ReviewRepository;
 import com.book4w.book4w.service.BoardService;
@@ -92,7 +93,7 @@ public class BoardController {
 
 
         // 리뷰 보여주기
-        ReviewRepository reviewRepository
+        ReviewResponseDTO reviewPage = reviewService.
 
 
         return "detail";
