@@ -11,8 +11,8 @@ import java.util.Random;
 import java.util.UUID;
 
 @SpringBootTest
-//@Transactional // 테스트 전으로 데이터를 복구함.
 public class dummyDataTest {
+
     @Autowired
     BookRepository bookRepository;
 
@@ -21,20 +21,19 @@ public class dummyDataTest {
     void createDummy() {
         Random random = new Random();
 
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i <= 50; i++) {
             Book book = Book.builder()
                     .id(UUID.randomUUID().toString()) // UUID 생성
-                    .name("Book Name " + i)
-                    .writer("Writer " + i) // 0부터 99 사이의 랜덤 작가 이름
-                    .pub("Publisher " + i) // 0부터 9 사이의 랜덤 출판사
-                    .year(2020 + random.nextInt(5)) // 2020 ~ 2024 사이의 랜덤 연도
-                    .rating(3.0 + (random.nextDouble() * 2)) // 3.0 ~ 5.0 사이의 랜덤 평점
-                    .reviewCount(random.nextInt(100)) // 0부터 99 사이의 랜덤 리뷰 수
-                    .likeCount(random.nextInt(100)) // 0부터 99 사이의 랜덤 좋아요 수
+                    .name("Book Name " + i) // 책 이름
+                    .writer("Writer " + random.nextInt(100))
+                    .pub("Publisher " + random.nextInt(10))
+                    .year(2020 + random.nextInt(5))
+                    .coverImage("https://via.placeholder.com/150?text=Book+Cover+" + i)
+                    .rating(3.0 + (random.nextDouble() * 2))
+                    .reviewCount(random.nextInt(100))
+                    .likeCount(random.nextInt(100))
                     .build();
             bookRepository.save(book);
         }
     }
-
-
 }

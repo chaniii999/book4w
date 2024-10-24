@@ -13,6 +13,7 @@ public class BoardListResponseDTO {
     private final String writer;
     private final String pub;
     private final int year;
+    private final String coverImage;
     private final double rating;
     private final int reviewCount;
     private final int likeCount;
@@ -23,6 +24,7 @@ public class BoardListResponseDTO {
         this.writer = book.getWriter();
         this.pub = book.getPub();
         this.year = book.getYear();
+        this.coverImage = book.getCoverImage();
         this.rating = book.getRating();
         this.reviewCount = book.getReviewCount();
         this.likeCount = book.getLikeCount();
