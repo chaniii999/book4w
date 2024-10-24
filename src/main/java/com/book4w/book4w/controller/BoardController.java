@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BoardController {
 
     private final BoardService boardService;
+    private final DetailService detailService;
 
     @GetMapping("/list")
     public String list(Model model,
@@ -54,16 +55,15 @@ public class BoardController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable String id, Model model) {
+    public String detailPage(@PathVariable String id, Model model) {
         log.info("Fetching detail for book id: {}", id);
 
-        // 서비스에서 책 상세 정보를 가져옴
-        DetailPageResponseDTO bookDetail = DetailService.
+        DetailPageResponseDTO bookDetail = detailService.getBookDetail(id);
 
-        // 모델에 책의 상세 정보 추가
         model.addAttribute("book", bookDetail);
 
-        return "detail";  // detail.html로 포워딩
+
+        return "detail";
     }
 
 }
