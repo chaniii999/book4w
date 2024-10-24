@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,15 +123,6 @@
         </div>
     </h2>
 
-    <!-- 검색 필드 추가 -->
-    <div class="search-container">
-        <form action="${pageContext.request.contextPath}/board/list" method="get">
-            <input type="hidden" name="page" value="${maker.number}" />
-            <input type="text" name="query" placeholder="검색어 입력" value="${param.query}" />
-            <input type="hidden" name="sort" value="${param.sort}" /> <!-- 정렬 기준 유지 -->
-            <input type="submit" value="검색" />
-        </form>
-    </div>
 
     <div class="card-container">
         <c:if test="${not empty bList}">
