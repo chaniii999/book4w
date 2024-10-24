@@ -3,7 +3,6 @@ package com.book4w.book4w.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
 @Setter
 @Getter
 @ToString
@@ -21,10 +20,14 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(nullable = false)
-    private String memberId;
-    @Column(nullable = false)
-    private String bookUuid;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Member memberId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Book bookUuid;
+
     @Column(length = 500, nullable = false)
     private String content;
 
