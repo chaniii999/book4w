@@ -1,7 +1,10 @@
 package com.book4w.book4w.controller;
 
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
+import com.book4w.book4w.dto.response.DetailPageResponseDTO;
+import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.service.BoardService;
+import com.book4w.book4w.service.DetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -10,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BoardController {
 
     private final BoardService boardService;
+    private final DetailService detailService;
 
     @GetMapping("/list")
     public String list(Model model,
@@ -73,6 +78,16 @@ public class BoardController {
 
         return books;
     }
+    @GetMapping("/detail/{id}")
+    public String detailPage(@PathVariable String id, Model model) {
+        log.info("Fetching detail for book id: {}", id);
+
+        DetailPageResponseDTO bookDetail = detailService.getBookDetail(id);
+
+        model.addAttribute("book", bookDetail);
+
+
+        return "detail";
+    }
 
 }
-

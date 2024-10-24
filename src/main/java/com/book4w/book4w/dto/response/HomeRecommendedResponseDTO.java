@@ -12,6 +12,8 @@ public class HomeRecommendedResponseDTO {
     private String bookName;
     private String bookWriter;
     private String bookPub;
+    private String coverImage;
+
 
     private double bookRating;
     private int reviewCount;
@@ -22,6 +24,7 @@ public class HomeRecommendedResponseDTO {
         this.bookName = book.getName();
         this.bookWriter = book.getWriter();
         this.bookPub = book.getPub();
+        this.coverImage = book.getCoverImage();
 
         this.bookRating = book.getRating();
         this.reviewCount = book.getReviewCount();
