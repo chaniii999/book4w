@@ -20,9 +20,8 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable pageable) {
-        return reviewRepository.findByBookId(bookId, pageable)
-                .map(review -> new ReviewResponseDTO(review))
+    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
+        return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
     }
 
     public Review createReview(Review review) {

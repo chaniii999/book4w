@@ -84,17 +84,13 @@ public class BoardController {
         return books;
     }
     @GetMapping("/detail/{id}")
-    public String detailPage(@PathVariable String id, Model model) {
+    public String detailPage(@PathVariable String id, Model model, Pageable page) {
         log.info("Fetching detail for book id: {}", id);
 
         DetailPageResponseDTO bookDetail = detailService.getBookDetail(id);
 
         model.addAttribute("book", bookDetail);
-
-
-        // 리뷰 보여주기
-        ReviewResponseDTO reviewPage = reviewService.
-
+        model.addAttribute("reviewList", reviewService.getReviewList(id, page));
 
         return "detail";
     }
