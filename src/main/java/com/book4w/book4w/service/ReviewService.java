@@ -1,5 +1,7 @@
 package com.book4w.book4w.service;
 
+import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.entity.Review;
 import com.book4w.book4w.repository.BookRepository;
 import com.book4w.book4w.repository.ReviewRepository;
@@ -10,8 +12,10 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    // 리뷰를 작성할 책을 조회
-    public  createReview(Review review) {
+    public Review createReview(Review review) {
+
+        Book pickBook = review.getBook();
+        Member pickMember = review.getMember();
 
     }
 
