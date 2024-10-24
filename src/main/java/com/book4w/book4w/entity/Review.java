@@ -5,7 +5,7 @@ import lombok.*;
 
 @Setter
 @Getter
-@ToString
+@ToString(exclude = {"member","book"})
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -16,22 +16,22 @@ import lombok.*;
 public class Review {
 
     @Id
-    @Column(name = "book_uuid")
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "review_uuid", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Member memberId;
+    @JoinColumn(name = "member_uuid",nullable = false)
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Book bookUuid;
+    @JoinColumn(name = "book_uuid", nullable = false)
+    private Book book;
 
     @Column(length = 500, nullable = false)
     private String content;
 
     @Column(nullable = false)
-    private int rating = 1;
+    private int rating;
 
 }

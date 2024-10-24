@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /*
 -- 회원 관리 테이블
@@ -27,7 +28,7 @@ CREATE TABLE members (
 @Entity
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_uuid", nullable = false, updatable = false)
     private String uuid;
 
@@ -43,4 +44,15 @@ public class Member {
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Review> reviews; // 작성한 리뷰 목록
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // Cascade 옵션 재검토
+    @JoinTable(
+            name = "liked_books",
+            joinColumns = @JoinColumn(name = "member_uuid"),
+            inverseJoinColumns = @JoinColumn(name = "book_uuid")
+    )
+    private List<Book> likedBooks;
 }
