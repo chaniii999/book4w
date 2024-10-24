@@ -1,11 +1,13 @@
 package com.book4w.book4w.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter @Getter
-@ToString
+import java.util.List;
+
+@Setter
+@Getter
+@ToString(exclude = "reviews") // 순환 참조 방지를 위해 reviews 제외
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -17,7 +19,7 @@ public class Book {
 
     @Id
     @Column(name = "book_uuid")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID) // UUID 생성 전략
     private String id;
 
     @Column(name = "book_name", nullable = false)
@@ -40,4 +42,7 @@ public class Book {
 
     @Column(name = "book_like_count", nullable = false)
     private int likeCount = 0;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 리뷰와의 관계 추가
+    private List<Review> reviews; // 해당 책에 대한 리뷰 목록
 }
