@@ -16,4 +16,16 @@ public class MemberService {
         Member member = dto.toEntity();
         memberRepository.save(member);
     }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
+    public void updateMemberSessionId(Member member) {
+        memberRepository.save(member);
+    }
+
+    public Member findBySessionId(String id) {
+        return memberRepository.findBySessionId(id);
+    }
 }

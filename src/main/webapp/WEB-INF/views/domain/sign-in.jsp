@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -64,17 +65,29 @@
     button:hover {
       background-color: #45a049;
     }
+    .signup-button {
+      margin-top: 10px; /* 로그인 버튼과의 간격 */
+      padding: 10px;
+      background-color: #007bff; /* 회원가입 버튼 색상 */
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center; /* 중앙 정렬 */
+      display: block; /* 블록 요소로 설정 */
+      width: 100%; /* 너비를 100%로 설정 */
+      text-decoration: none; /* 링크의 밑줄 제거 */
+    }
+    .signup-button:hover {
+      background-color: #0056b3; /* 호버 색상 */
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>BookForW</h1>
-</header>
-
 <div class="container">
   <h2>로그인</h2>
-  <!-- form 태그 action을 '/domain/sign-in'으로 설정 -->
   <form action="${pageContext.request.contextPath}/domain/sign-in" method="post">
     <label for="email">이메일:</label>
     <input type="email" id="email" name="email" placeholder="이메일 입력" required>
@@ -84,7 +97,9 @@
 
     <button type="submit">로그인</button>
   </form>
+  <a href="${pageContext.request.contextPath}/domain/sign-up" class="signup-button">회원가입</a> <!-- 회원가입 버튼 추가 -->
 </div>
 
 </body>
 </html>
+;
