@@ -14,8 +14,8 @@ public class MemberRequestDTO {
     public Member toEntity() {
         return Member.builder()
                 .email(email)
-                .password(password)
                 .nickname(nickname)
+                .password(password)
                 .build();
     }
 }
