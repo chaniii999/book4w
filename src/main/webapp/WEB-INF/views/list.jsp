@@ -96,6 +96,11 @@
         .sort-container {
             margin-left: auto; /* 정렬 기준을 오른쪽으로 이동 */
         }
+
+        /* 검색 필드 스타일 */
+        .search-container {
+            margin-right: 20px; /* 검색 입력 필드를 정렬 */
+        }
     </style>
 </head>
 <body>
@@ -105,7 +110,8 @@
         <a href="${pageContext.request.contextPath}/board/list" style="text-decoration: none; color: black;">도서 목록</a>
         <div class="sort-container">
             <form action="${pageContext.request.contextPath}/board/list" method="get">
-                <input type="hidden" name="page" value="${maker.number}" /> <!-- 현재 페이지 번호 유지 -->
+                <input type="hidden" name="page" value="0" /> <!-- 페이지를 0으로 설정 -->
+                <input type="hidden" name="query" value="${param.query}" /> <!-- 검색어 유지 -->
                 <label for="sort">정렬 기준:</label>
                 <select name="sort" id="sort" onchange="this.form.submit()">
                     <option value="">기본 정렬</option>
@@ -116,6 +122,16 @@
             </form>
         </div>
     </h2>
+
+    <!-- 검색 필드 추가 -->
+    <div class="search-container">
+        <form action="${pageContext.request.contextPath}/board/list" method="get">
+            <input type="hidden" name="page" value="${maker.number}" />
+            <input type="text" name="query" placeholder="검색어 입력" value="${param.query}" />
+            <input type="hidden" name="sort" value="${param.sort}" /> <!-- 정렬 기준 유지 -->
+            <input type="submit" value="검색" />
+        </form>
+    </div>
 
     <div class="card-container">
         <c:if test="${not empty bList}">
@@ -131,25 +147,29 @@
                 </div>
             </c:forEach>
         </c:if>
+
+        <c:if test="${empty bList}">
+            <p>검색 결과가 없습니다.</p> <!-- 검색 결과가 없을 경우 메시지 -->
+        </c:if>
     </div>
 
     <!-- 페이지네이션 -->
     <div class="pagination">
         <!-- 이전 페이지로 이동하는 버튼 -->
         <c:if test="${maker.hasPrevious()}">
-            <a href="?sort=${param.sort}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
+            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
         </c:if>
 
         <!-- 페이지 번호 리스트 출력 -->
         <c:if test="${maker.totalPages > 0}">
             <c:forEach var="i" begin="0" end="${maker.totalPages - 1}">
-                <a href="?sort=${param.sort}&page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
+                <a href="?sort=${param.sort}&query=${param.query}&page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
             </c:forEach>
         </c:if>
 
         <!-- 다음 페이지로 이동하는 버튼 -->
         <c:if test="${maker.hasNext()}">
-            <a href="?sort=${param.sort}&page=${maker.number + 1}" class="next">다음 &raquo;</a>
+            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number + 1}" class="next">다음 &raquo;</a>
         </c:if>
     </div>
 

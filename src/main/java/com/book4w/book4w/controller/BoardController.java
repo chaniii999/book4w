@@ -1,6 +1,6 @@
 package com.book4w.book4w.controller;
 
-import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,19 +24,27 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Model model,
                        @PageableDefault(size = 9)Pageable page,
-                       @RequestParam(required = false) String sort) {
-        log.info("/list/board: GET");
+                       @RequestParam(required = false) String sort,
+                       @RequestParam(required = false) String query) {
 
         // page 설정에 맞춰 북 목록을 Map에 저장하겠다.
-        Page<Book> bookPage = getSortedBookPage(sort,page);
+        Page<BookDetailResponseDTO> bookPage;
+
+        if (query != null && !query.trim().isEmpty()) {
+            bookPage = getSortedBookPageForSearch(sort,page,query);
+        } else {
+            bookPage = getSortedBookPage(sort,page);
+        }
+
 
         model.addAttribute("bList",bookPage.getContent());
         model.addAttribute("maker", bookPage);
-        model.addAttribute("currentSort",sort);
+        model.addAttribute("sort",sort);
+        model.addAttribute("query", query);
         return "list";
     }
 
-    private Page<Book> getSortedBookPage(String sort, Pageable pageable) {
+    private Page<BookDetailResponseDTO> getSortedBookPage(String sort, Pageable pageable) {
         if (sort == null) {
             return boardService.getBookList(pageable);
         }
@@ -49,4 +57,22 @@ public class BoardController {
         };
     }
 
+    private Page<BookDetailResponseDTO> getSortedBookPageForSearch(String sort, Pageable page, String query) {
+        Page<BookDetailResponseDTO> books;
+
+        if (sort == null) {
+            books = boardService.searchByName(page, query);
+        } else {
+            books = switch (sort) {
+                case "likeCount" -> boardService.searchByNameOrderByLikeDesc(page, query);
+                case "reviewCount" -> boardService.searchBookByNameOrderByReviewDesc(page, query);
+                case "rating" -> boardService.searchBookByNameOrderByRatingDesc(page, query);
+                default -> boardService.searchByName(page, query);
+            };
+        }
+
+        return books;
+    }
+
 }
+
