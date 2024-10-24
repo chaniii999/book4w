@@ -3,35 +3,31 @@ package com.book4w.book4w.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
 @Getter
-@ToString(exclude = {"member","book"})
+@ToString(exclude = {"member", "book"})
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Builder
-
 @Entity
 @Table(name = "reviews")
 public class Review {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "review_uuid", nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private String id; // Long 타입으로 변경 (UUID 대신)
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_uuid",nullable = false)
-    private Member member;
+    @JoinColumn(name = "member_uuid", nullable = false)
+    private Member member; // 작성한 회원
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_uuid", nullable = false)
-    private Book book;
+    private Book book; // 리뷰가 작성된 도서
 
     @Column(length = 500, nullable = false)
-    private String content;
+    private String content; // 리뷰 내용
 
     @Column(nullable = false)
-    private int rating;
-
+    private int rating; // 평점
 }

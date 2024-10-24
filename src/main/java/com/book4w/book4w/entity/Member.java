@@ -7,55 +7,44 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/*
--- 회원 관리 테이블
-CREATE TABLE members (
-    member_uuid CHAR(36) NOT NULL PRIMARY KEY,  -- UUID, 고유 식별자
-    member_email VARCHAR(15) NOT NULL UNIQUE,       -- 회원 ID, 고유해야 함
-    member_pw VARCHAR(20) NOT NULL,             -- 회원 비밀번호
-    member_nickname VARCHAR(10) NOT NULL,        -- 회원 닉네임
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 회원 가입 일자
-);
- */
-
 @Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 @Entity
 @Table(name = "members")
 public class Member {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID) // UUID 대신 AUTO_INCREMENT 사용
     @Column(name = "member_uuid", nullable = false, updatable = false)
-    private String uuid;
+    private String uuid; // Long 타입으로 변경 (UUID 대신)
 
     @Column(name = "member_email", unique = true, nullable = false)
     private String email;
 
-    @Column(name ="member_pw", nullable = false)
+    @Column(name = "member_pw", nullable = false)
     private String password;
 
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "member_nickname", nullable = false)
     private String nickname;
+
+    @Column(name = "member_session_id")
+    private String sessionId; // 세션 ID 필드 추가
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "session_id")
-    private String sessionId; // 멤버 테이블에 세션 ID 필드 추가
-
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews; // 작성한 리뷰 목록
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // Cascade 옵션 재검토
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "liked_books",
             joinColumns = @JoinColumn(name = "member_uuid"),
             inverseJoinColumns = @JoinColumn(name = "book_uuid")
     )
-    private List<Book> likedBooks;
+    private List<Book> likedBooks; // 좋아요한 책 목록
 }

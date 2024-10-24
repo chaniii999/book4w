@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>도서 목록</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>추천 도서 목록</h1>
+
+<div class="book-list">
+    <!-- books 데이터를 반복하며 책 정보를 출력 -->
+    <div th:each="book : ${books}" class="book-card">
+        <h2 class="book-title" th:text="${book.name}"></h2>
+        <p class="book-author">작가: <span th:text="${book.writer}"></span></p>
+        <p class="book-publisher">출판사: <span th:text="${book.pub}"></span></p>
+        <p class="book-year">출판 연도: <span th:text="${book.year}"></span></p>
+        <p class="book-rating">평점: <span th:text="${book.rating}"></span></p>
+        <p class="book-review">리뷰 수: <span th:text="${book.reviewCount}"></span></p>
+        <p class="book-like">좋아요 수: <span th:text="${book.likeCount}"></span></p>
+    </div>
+</div>
+</body>
+</html>
