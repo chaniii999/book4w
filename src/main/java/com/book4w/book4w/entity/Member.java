@@ -24,7 +24,6 @@ CREATE TABLE members (
 @AllArgsConstructor
 @Builder
 
-@Table(name = "members")
 @Entity
 @Table(name = "members")
 public class Member {
