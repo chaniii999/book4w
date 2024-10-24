@@ -13,10 +13,11 @@
             <a href="#">내 프로필</a>
             <button class="login-button">Log-in</button>
         </nav>
-        <form action="/search" method="get" class="search-form">
-            <input type="text" name="keyword" placeholder="검색어를 입력하세요" class="search-input">
-            <button type="submit" class="search-button">검색</button>
+        <form id="searchForm" action="/search" method="get">
+            <input type="text" id="searchInput" name="query" placeholder="검색어를 입력하세요" />
+            <button type="submit">검색</button>
         </form>
+
     </div>
 
 
