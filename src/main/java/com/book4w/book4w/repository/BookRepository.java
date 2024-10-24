@@ -11,13 +11,13 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, String> {
 
-    // 평점 순 상위 3개의 책을 조회하는 쿼리 메서드
+    // 평점 순 상위 3
     List<Book> findTop3ByOrderByRatingDesc();
 
-    // 리뷰 수 순 상위 3개의 책을 조회하는 쿼리 메서드
+    // 리뷰 수 순 상위 3
     List<Book> findTop3ByOrderByReviewCountDesc();
 
-    // 좋아요 수 순 상위 3개의 책을 조회하는 쿼리 메서드
+    // 좋아요 수 순 상위 3
     List<Book> findTop3ByOrderByLikeCountDesc();
 
     // 좋아요순

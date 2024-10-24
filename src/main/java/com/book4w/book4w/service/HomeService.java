@@ -24,6 +24,7 @@ public class HomeService {
                         book.getName(),
                         book.getWriter(),
                         book.getPub(),
+                        book.getCoverImage(),
                         book.getRating(),
                         book.getReviewCount(),
                         book.getLikeCount()
@@ -39,6 +40,7 @@ public class HomeService {
                         book.getName(),
                         book.getWriter(),
                         book.getPub(),
+                        book.getCoverImage(),
                         book.getRating(),
                         book.getReviewCount(),
                         book.getLikeCount()
@@ -54,6 +56,7 @@ public class HomeService {
                         book.getName(),
                         book.getWriter(),
                         book.getPub(),
+                        book.getCoverImage(),
                         book.getRating(),
                         book.getReviewCount(),
                         book.getLikeCount()
