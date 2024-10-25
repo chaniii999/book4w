@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"> <!-- CSS 경로 수정 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -95,7 +95,8 @@
         </nav>
         <div class="search-container">
             <form action="${pageContext.request.contextPath}/board/list" method="get">
-                <input type="hidden" name="page" value="${maker.number}" />
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> <!-- CSRF Token 추가 -->
+                <input type="hidden" name="page" value=0 />
                 <input type="text" name="query" placeholder="검색어 입력" value="${param.query}" />
                 <input type="hidden" name="sort" value="${param.sort}" />
                 <input type="submit" value="검색" />
@@ -104,7 +105,7 @@
 
         <!-- 세션 체크 후 버튼 변경 -->
         <c:choose>
-            <c:when test="${not empty sessionScope.sessionId}">
+            <c:when test="${not empty sessionScope.login}"> <!-- 세션에 로그인 정보가 있는지 확인 -->
                 <a href="${pageContext.request.contextPath}/domain/logout" class="login-button">Log-out</a> <!-- 로그아웃 버튼 -->
             </c:when>
             <c:otherwise>
@@ -113,5 +114,14 @@
         </c:choose>
     </div>
 </header>
+
+<main>
+    <!-- 페이지 주요 내용이 들어갈 부분 -->
+</main>
+
+<!-- Bootstrap JS 및 jQuery 포함 -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
