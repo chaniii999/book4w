@@ -93,13 +93,61 @@
             color: white;
         }
 
-        .sort-container {
+        /*.sort-container {
             margin-left: auto;
-        }
+        }*/
 
         .search-container {
             margin-right: 20px;
         }
+        /* Styling for the sorting form container */
+        .sort-container {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            margin-left: auto;
+        }
+
+        /* Styling for the sort label */
+        .sort-container label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Styling for the sort select dropdown */
+        .sort-container select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: border-color 0.2s;
+        }
+
+        /* Change border color on focus */
+        .sort-container select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Change background on hover */
+        .sort-container select:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Change the appearance when an option is selected */
+        .sort-container select option {
+            padding: 10px;
+            color: #000;
+        }
+
     </style>
 </head>
 <body>
