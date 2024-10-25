@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.MultiDoc;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -20,10 +23,10 @@ public class MemberController {
 
     @GetMapping("/sign-in")
     public String signIn() {
-        return "/domain/sign-in";
+        return "domain/sign-in";
     }
 
-    @PostMapping("sign-in")
+    @PostMapping("/sign-in")
     public String signIn(@RequestParam String email,
                          @RequestParam String password,
                          HttpServletRequest request,
@@ -66,16 +69,23 @@ public class MemberController {
 
     @GetMapping("/sign-up")
     public String signUp() {
-        return "/domain/sign-up";
+        return "domain/sign-up";
     }
 
     @PostMapping("/sign-up")
     public String signUp(@RequestParam String email,
                          @RequestParam String nickname,
-                         @RequestParam String password) {
+                         @RequestParam String password,
+                         Model model) {
+       Member findMember = memberService.findByEmail(email);
 
-        memberService.save(new MemberRequestDTO(email, nickname, password));
+        if (findMember == null) {
+            memberService.save(new MemberRequestDTO(email, nickname, password));
+            return "redirect:/domain/sign-in";
 
-        return "redirect:/domain/sign-in";
+        } else {
+            model.addAttribute("emailError", "존재하는 이메일입니다.");
+            return "domain/sign-up";
+        }
     }
 }

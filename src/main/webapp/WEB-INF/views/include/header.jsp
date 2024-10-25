@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"> <!-- CSS 경로 수정 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -95,6 +95,7 @@
         </nav>
         <div class="search-container">
             <form action="${pageContext.request.contextPath}/board/list" method="get">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> <!-- CSRF Token 추가 -->
                 <input type="hidden" name="page" value="${maker.number}" />
                 <input type="text" name="query" placeholder="검색어 입력" value="${param.query}" />
                 <input type="hidden" name="sort" value="${param.sort}" />
@@ -113,5 +114,10 @@
         </c:choose>
     </div>
 </header>
+
+<main>
+    <!-- 페이지 주요 내용이 들어갈 부분 -->
+</main>
+
 </body>
 </html>
