@@ -193,9 +193,11 @@
     </div>
 
     <!-- 페이지네이션 -->
-    <div class="pagination">
+    <!-- 페이지네이션 -->
+<div class="pagination">
     <c:if test="${maker.hasPrevious()}">
-        <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
+        <c:set var="prevStartPage" value="${maker.number - 10 < 0 ? 0 : maker.number - 10}" />
+        <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage}" class="prev">&laquo; 이전</a>
     </c:if>
 
     <c:if test="${maker.totalPages > 0}">
@@ -212,9 +214,11 @@
 
     <!-- 다음 페이지 그룹이 있는 경우 '다음' 버튼 표시 -->
     <c:if test="${endPage < maker.totalPages - 1}">
-        <a href="?sort=${param.sort}&query=${param.query}&page=${endPage + 1}" class="next">다음 &raquo;</a>
+        <c:set var="nextStartPage" value="${endPage + 1}" />
+        <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage}" class="next">다음 &raquo;</a>
     </c:if>
 </div>
+
 
 
 </div>
