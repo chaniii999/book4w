@@ -93,13 +93,61 @@
             color: white;
         }
 
-        .sort-container {
+        /*.sort-container {
             margin-left: auto;
-        }
+        }*/
 
         .search-container {
             margin-right: 20px;
         }
+        /* Styling for the sorting form container */
+        .sort-container {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            margin-left: auto;
+        }
+
+        /* Styling for the sort label */
+        .sort-container label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Styling for the sort select dropdown */
+        .sort-container select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: border-color 0.2s;
+        }
+
+        /* Change border color on focus */
+        .sort-container select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Change background on hover */
+        .sort-container select:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Change the appearance when an option is selected */
+        .sort-container select option {
+            padding: 10px;
+            color: #000;
+        }
+
     </style>
 </head>
 <body>
@@ -145,21 +193,33 @@
     </div>
 
     <!-- 페이지네이션 -->
-    <div class="pagination">
-        <c:if test="${maker.hasPrevious()}">
-            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
-        </c:if>
+    <!-- 페이지네이션 -->
+<div class="pagination">
+    <c:if test="${maker.hasPrevious()}">
+        <c:set var="prevStartPage" value="${maker.number - 10 < 0 ? 0 : maker.number - 10}" />
+        <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage}" class="prev">&laquo; 이전</a>
+    </c:if>
 
-        <c:if test="${maker.totalPages > 0}">
-            <c:forEach var="i" begin="0" end="${maker.totalPages - 1}">
-                <a href="?sort=${param.sort}&query=${param.query}&page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
-            </c:forEach>
-        </c:if>
+    <c:if test="${maker.totalPages > 0}">
+        <c:set var="startPage" value="${maker.number / 10 * 10}" />
+        <c:set var="endPage" value="${startPage + 9 < maker.totalPages ? startPage + 9 : maker.totalPages - 1}" />
 
-        <c:if test="${maker.hasNext()}">
-            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number + 1}" class="next">다음 &raquo;</a>
-        </c:if>
-    </div>
+        <!-- 페이지 번호 표시 -->
+        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+            <a href="?sort=${param.sort}&query=${param.query}&page=${i}" class="${i == maker.number ? 'active' : ''}">
+                ${i + 1}
+            </a>
+        </c:forEach>
+    </c:if>
+
+    <!-- 다음 페이지 그룹이 있는 경우 '다음' 버튼 표시 -->
+    <c:if test="${endPage < maker.totalPages - 1}">
+        <c:set var="nextStartPage" value="${endPage + 1}" />
+        <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage}" class="next">다음 &raquo;</a>
+    </c:if>
+</div>
+
+
 
 </div>
 
