@@ -40,7 +40,7 @@
                 <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
                     <div class="card mb-4 shadow-sm">
                      <!-- 그림자 효과 추가 -->
-                     <img src="/images/Book1.jpg" class="card-img-top" alt="Book 1 이미지">
+                     <img src="/images/Cover1.jpg" class="card-img-top" alt="Book 1 이미지">
 
 
                         <div class="card-body">
@@ -64,7 +64,9 @@
             <div class="col-md-4">
                 <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
                     <div class="card mb-4 shadow-sm">
-                    <img src="/images/Book2.jpg" class="card-img-top" alt="Book 2 이미지">
+<%--                    <img src="${book.coverImage}" class="card-img-top" alt="${book.bookName} 표지 이미지">--%>
+                    <img src="/images/Cover2.jpg" class="card-img-top" alt="${book.bookName} 표지 이미지">
+
 
                         <div class="card-body">
                             <h5 class="card-title">${book.bookName}</h5>
@@ -87,7 +89,7 @@
             <div class="col-md-4">
                 <a href="board/detail/${book.bookUuid}" class="text-decoration-none"> <!-- 카드 클릭 시 링크 추가 -->
                     <div class="card mb-4 shadow-sm">
-                    <img src="/images/Book3.jpg" class="card-img-top" alt="Book 3 이미지">
+                    <img src="/images/Cover3.jpg" class="card-img-top" alt="Book 3 이미지">
 
                         <div class="card-body">
                             <h5 class="card-title">${book.bookName}</h5>
