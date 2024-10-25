@@ -3,6 +3,7 @@ package com.book4w.book4w.controller;
 import com.book4w.book4w.dto.request.ReviewPostRequestDTO;
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
+import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.entity.Review;
@@ -11,6 +12,7 @@ import com.book4w.book4w.service.BoardService;
 import com.book4w.book4w.service.BookService;
 import com.book4w.book4w.service.DetailService;
 import com.book4w.book4w.service.ReviewService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -85,13 +87,18 @@ public class BoardController {
         return books;
     }
     @GetMapping("/detail/{id}")
-    public String detailPage(@PathVariable String id, Model model, Pageable page) {
+    public String detailPage(@PathVariable String id, Model model, Pageable page, HttpSession session) {
         log.info("Fetching detail for book id: {}", id);
 
         DetailPageResponseDTO bookDetail = detailService.getBookDetail(id);
 
         model.addAttribute("book", bookDetail);
         model.addAttribute("reviewList", reviewService.getReviewList(id, page));
+
+        LoginUserResponseDTO loginUser = (LoginUserResponseDTO) session.getAttribute("LOGIN_KEY");
+        if (loginUser != null) {
+            model.addAttribute("writerName", loginUser.getNickname());
+        }
 
         return "detail";
     }
@@ -105,6 +112,12 @@ public class BoardController {
            return null;
         }
 
+        log.info("Received content: {}", dto.getContent());
+        log.info("Received rating: {}", dto.getRating());
+        log.info("Received memberName: {}", dto.getMemberName());
+
+        ReviewResponseDTO responseDTO = reviewService.registerReview(bookId, dto);
+        log.info("Response DTO: {}", responseDTO); // 로그로 출력 확인
         return reviewService.registerReview(bookId, dto);
 
     }

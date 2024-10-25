@@ -9,39 +9,15 @@
     <title>${book.name} - 상세 정보</title>
     <link rel="stylesheet" href="/css/style.css">
     <style>
-        .book-detail-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-        }
-
-        .book-cover {
-            width: 400px; /* 기존 크기의 2배 */
-            height: 600px; /* 기존 크기의 2배 */
-            margin-right: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .book-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .book-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .book-info h2 {
-            margin-bottom: 20px;
-        }
-
-        .book-meta {
-            margin-top: 20px;
-        }
+        .book-detail-container { display: flex; justify-content: center; align-items: flex-start; padding: 20px; }
+        .book-cover { width: 400px; height: 600px; margin-right: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
+        .book-info { display: flex; flex-direction: column; justify-content: space-between; }
+        .book-info h2 { margin-bottom: 20px; }
+        .book-meta { margin-top: 20px; }
+        .review-list { margin-top: 40px; }
+        .review-form { margin-top: 20px; }
+        .review-item { border-bottom: 1px solid #ccc; padding: 10px 0; }
     </style>
 </head>
 <body>
@@ -50,7 +26,6 @@
 </header>
 
 <div class="book-detail-container">
-    <!-- 책 표지 -->
     <div class="book-cover">
         <c:choose>
             <c:when test="${not empty book.coverImage}">
@@ -62,14 +37,11 @@
         </c:choose>
     </div>
 
-    <!-- 책 기본 정보 -->
     <div class="book-info">
         <h2>${book.name}</h2>
         <p><strong>작가:</strong> ${book.writer}</p>
         <p><strong>출판사:</strong> ${book.pub}</p>
         <p><strong>출판년도:</strong> ${book.year}</p>
-
-        <!-- 책 평점, 좋아요 및 리뷰 정보 -->
         <div class="book-meta">
             <p><strong>평점:</strong> ${book.rating} / 5.0</p>
             <p><strong>좋아요 수:</strong> ${book.likeCount}</p>
@@ -78,28 +50,67 @@
     </div>
 </div>
 
-<!-- 리뷰 리스트 -->
 <div class="review-list">
     <h3>리뷰 목록</h3>
+    <!-- 기존 리뷰 목록 -->
     <c:forEach var="review" items="${reviewList.content}">
-    <div class="review-item">
-        <div class="review-meta">
-            <p>작성자: ${review.memberName} : 내용: ${review.content} : 평점: ${review.rating} / 5.0</p>
+        <div class="review-item">
+            <p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} | <strong>평점:</strong> ${review.rating} / 5.0</p>
         </div>
-    </div>
-</c:forEach>
-
-    <!-- 페이징 처리 -->
-    <div class="pagination">
-        <c:if test="${reviewList.hasPrevious()}">
-            <a href="?page=${reviewList.number - 1}">이전</a>
-        </c:if>
-        <c:if test="${reviewList.hasNext()}">
-            <a href="?page=${reviewList.number + 1}">다음</a>
-        </c:if>
-    </div>
+    </c:forEach>
 </div>
 
+<!-- 리뷰 작성 폼 -->
+<div id="reviewForm" class="review-form" data-writer-name="${writerName}">
+    <h4>리뷰 작성</h4>
+    <textarea id="reviewContent" rows="3" cols="50" placeholder="리뷰 내용을 입력하세요"></textarea>
+    <br>
+    <label for="reviewRating">평점: </label>
+    <select id="reviewRating">
+        <c:forEach var="i" begin="1" end="5">
+            <option value="${i}">${i}</option>
+        </c:forEach>
+    </select>
+    <button onclick="submitReview()">리뷰 작성</button>
+</div>
+
+<!-- AJAX를 통해 리뷰 작성 요청 -->
+<script>
+    function submitReview() {
+        const content = document.getElementById("reviewContent").value;
+        const rating = document.getElementById("reviewRating").value;
+        const writer = document.getElementById("reviewForm").dataset.writerName;
+
+        console.log("Content-Type 확인:", { "Content-Type": "application/json" });  // 확인용 로그
+
+        fetch(`/board/detail/${book.name}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content, rating, memberName: writer })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    addReviewToPage(data);
+                    document.getElementById("reviewContent").value = "";
+                    document.getElementById("reviewRating").value = "1";
+                } else {
+                    alert("리뷰 작성에 실패했습니다.");
+                }
+            })
+            .catch(error => console.error("리뷰 작성 중 오류 발생:", error));
+    }
+
+
+
+    function addReviewToPage(review) {
+        const reviewList = document.querySelector(".review-list");
+        const reviewItem = document.createElement("div");
+        reviewItem.classList.add("review-item");
+        reviewItem.innerHTML = `<p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} | <strong>평점:</strong> ${review.rating} / 5.0</p>`;
+        reviewList.appendChild(reviewItem);
+    }
+</script>
 
 <footer>
     <p>&copy; 2024 Book4W. All rights reserved.</p>
