@@ -88,9 +88,9 @@
     <div class="header-container">
         <a href="${pageContext.request.contextPath}/" class="logo">BookForW</a>
         <nav class="nav-links">
-            <a href="#">내 리뷰 관리</a>
-            <a href="#">내 좋아요 목록</a>
-            <a href="#">내 프로필</a>
+            <a href="${pageContext.request.contextPath}/profile/my-reviews">내 리뷰 관리</a>
+            <a href="${pageContext.request.contextPath}/profile/liked-books">내 좋아요 목록</a>
+            <a href="${pageContext.request.contextPath}/profile/info">내 프로필</a>
             <a href="${pageContext.request.contextPath}/board/list">도서 목록</a>
         </nav>
         <div class="search-container">
