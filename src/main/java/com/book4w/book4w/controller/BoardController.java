@@ -96,16 +96,16 @@ public class BoardController {
         return "detail";
     }
 
-    @PostMapping ("/detail/{id}")
+    @PostMapping ("/detail/{bookId}")
     @ResponseBody
     public ReviewResponseDTO addReview(@Validated @RequestBody ReviewPostRequestDTO dto,
-                                       BindingResult result) {
+                                       BindingResult result, @PathVariable String bookId) {
 
         if(result.hasErrors()) {
            return null;
         }
 
-        return reviewService.registerReview(dto);
+        return reviewService.registerReview(bookId, dto);
 
     }
 

@@ -4,8 +4,10 @@ import com.book4w.book4w.entity.Review;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class ReviewPostRequestDTO {
     private int rating;
 

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 public interface MemberRepository extends JpaRepository<Member, String> {
     Member findByEmail(String email);
 
-    Member findBySessionId(String id);
+    Member findBySessionId(String sessionId);
+
 
 }
