@@ -86,7 +86,10 @@
 <body>
 <header>
     <div class="header-container">
-        <a href="${pageContext.request.contextPath}/" class="logo">BookForW</a>
+         <a href="${pageContext.request.contextPath}/" class="logo">
+            <img src="/images/Logo2.jpg" alt="BookForW 로고" style="height: 40px; vertical-align: middle;" />
+            BookForW
+        </a>
         <nav class="nav-links">
             <a href="#">내 리뷰 관리</a>
             <a href="#">내 좋아요 목록</a>
