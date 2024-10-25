@@ -78,6 +78,29 @@
     </div>
 </div>
 
+<!-- 리뷰 리스트 -->
+<div class="review-list">
+    <h3>리뷰 목록</h3>
+    <c:forEach var="review" items="${reviewList.content}">
+    <div class="review-item">
+        <div class="review-meta">
+            <p>작성자: ${review.memberName} : 내용: ${review.content} : 평점: ${review.rating} / 5.0</p>
+        </div>
+    </div>
+</c:forEach>
+
+    <!-- 페이징 처리 -->
+    <div class="pagination">
+        <c:if test="${reviewList.hasPrevious()}">
+            <a href="?page=${reviewList.number - 1}">이전</a>
+        </c:if>
+        <c:if test="${reviewList.hasNext()}">
+            <a href="?page=${reviewList.number + 1}">다음</a>
+        </c:if>
+    </div>
+</div>
+
+
 <footer>
     <p>&copy; 2024 Book4W. All rights reserved.</p>
 </footer>
