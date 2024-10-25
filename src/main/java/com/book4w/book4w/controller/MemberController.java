@@ -64,7 +64,6 @@ public class MemberController {
         return "redirect:/domain/sign-in"; // 로그아웃 후 리다이렉트
     }
 
-
     @GetMapping("/sign-up")
     public String signUp() {
         return "/domain/sign-up";
@@ -76,6 +75,7 @@ public class MemberController {
                          @RequestParam String password) {
 
         memberService.save(new MemberRequestDTO(email, nickname, password));
+
         return "redirect:/domain/sign-in";
     }
 }

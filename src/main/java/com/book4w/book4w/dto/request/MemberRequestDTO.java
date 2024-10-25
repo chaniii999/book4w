@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 public class MemberRequestDTO {
     private String email;
-    private String password;
     private String nickname;
+    private String password;
 
     public Member toEntity() {
         return Member.builder()
