@@ -105,7 +105,7 @@
 
         <!-- 세션 체크 후 버튼 변경 -->
         <c:choose>
-            <c:when test="${not empty sessionScope.loginUser}"> <!-- 세션에 로그인 정보가 있는지 확인 -->
+            <c:when test="${not empty sessionScope.login}"> <!-- 세션에 로그인 정보가 있는지 확인 -->
                 <a href="${pageContext.request.contextPath}/domain/logout" class="login-button">Log-out</a> <!-- 로그아웃 버튼 -->
             </c:when>
             <c:otherwise>

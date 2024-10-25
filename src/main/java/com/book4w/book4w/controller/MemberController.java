@@ -35,9 +35,10 @@ public class MemberController {
 
         Member member = memberService.findByEmail(email); // 계정 찾아서
         LoginResult result = memberService.authenticate(email,password); // 계정,비번 맞니?
+        HttpSession session = request.getSession(true);
         if (result == LoginResult.SUCCESS) { // 맞으면
 
-            memberService.maintainLoginState(request.getSession(true),email); // 로그인상태 유지!
+            memberService.maintainLoginState(session,email); // 로그인상태 유지!
             return "redirect:/"; // 로그인 성공 후 리다이렉트
         } else {
             return "redirect:/domain/sign-in"; // 로그인 실패 시 리다이렉트
