@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, String> {
@@ -35,6 +36,4 @@ public interface BookRepository extends JpaRepository<Book, String> {
     Page<Book> findAllByNameContainingOrderByReviewCountDesc(String query, Pageable page);
     // 검색 + 평점순
     Page<Book> findAllByNameContainingOrderByRatingDesc(String query, Pageable page);
-
-    List<Book> findByNameContainingOrWriterContaining(String query, String query1);
 }

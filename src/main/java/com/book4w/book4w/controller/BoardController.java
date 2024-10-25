@@ -2,9 +2,13 @@ package com.book4w.book4w.controller;
 
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
+import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.repository.ReviewRepository;
 import com.book4w.book4w.service.BoardService;
+import com.book4w.book4w.service.BookService;
 import com.book4w.book4w.service.DetailService;
+import com.book4w.book4w.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,6 +29,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final DetailService detailService;
+    private final ReviewService reviewService;
 
     @GetMapping("/list")
     public String list(Model model,
@@ -79,13 +84,13 @@ public class BoardController {
         return books;
     }
     @GetMapping("/detail/{id}")
-    public String detailPage(@PathVariable String id, Model model) {
+    public String detailPage(@PathVariable String id, Model model, Pageable page) {
         log.info("Fetching detail for book id: {}", id);
 
         DetailPageResponseDTO bookDetail = detailService.getBookDetail(id);
 
         model.addAttribute("book", bookDetail);
-
+        model.addAttribute("reviewList", reviewService.getReviewList(id, page));
 
         return "detail";
     }
