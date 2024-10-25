@@ -32,11 +32,6 @@ public class ReviewService {
     private final BookRepository bookRepository;
     private HttpServletRequest request;
 
-    public String getSessionId() {
-        HttpSession session = request.getSession();
-        return session.getId();
-
-    }
 
     public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
         return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
