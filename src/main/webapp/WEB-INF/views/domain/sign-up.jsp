@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -103,18 +104,8 @@
 </head>
 <body>
 
-<header>
-    <h1>BookForW</h1>
-    <div>
-        <a href="#">내 리뷰 관리</a>
-        <a href="#">내 좋아요 목록</a>
-        <a href="#">내 프로필</a>
-        <button>Log-in</button>
-    </div>
-</header>
-
 <div class="container">
-    <h2>로그인</h2>
+    <h2>회원가입</h2>
     <form action="${pageContext.request.contextPath}/domain/sign-up" method="post">
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" placeholder="이메일 입력">
