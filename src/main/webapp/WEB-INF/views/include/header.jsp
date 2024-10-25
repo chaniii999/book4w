@@ -96,7 +96,7 @@
         <div class="search-container">
             <form action="${pageContext.request.contextPath}/board/list" method="get">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> <!-- CSRF Token 추가 -->
-                <input type="hidden" name="page" value="${maker.number}" />
+                <input type="hidden" name="page" value=0 />
                 <input type="text" name="query" placeholder="검색어 입력" value="${param.query}" />
                 <input type="hidden" name="sort" value="${param.sort}" />
                 <input type="submit" value="검색" />

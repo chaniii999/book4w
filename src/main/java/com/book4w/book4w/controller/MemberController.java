@@ -2,6 +2,7 @@ package com.book4w.book4w.controller;
 
 import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.entity.Member;
+import com.book4w.book4w.service.LoginResult;
 import com.book4w.book4w.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,15 +34,9 @@ public class MemberController {
                          HttpServletResponse response) {
 
         Member member = memberService.findByEmail(email);
-        if (member != null && password.equals(member.getPassword())) {
-            // 세션 ID 생성
-            String sessionId = UUID.randomUUID().toString();
-            member.setSessionId(sessionId); // 세션 ID 설정
-            memberService.updateMemberSessionId(member); // 세션 ID 업데이트
+        LoginResult result = memberService.authenticate(email,password);
+        if (result == LoginResult.SUCCESS) {
 
-            // 세션을 생성하여 클라이언트에 전달 (예: HttpSession 사용)
-            HttpSession session = request.getSession();
-            session.setAttribute("sessionId", sessionId);
 
             return "redirect:/"; // 로그인 성공 후 리다이렉트
         } else {
@@ -84,7 +79,6 @@ public class MemberController {
             return "redirect:/domain/sign-in";
 
         } else {
-            model.addAttribute("emailError", "존재하는 이메일입니다.");
             return "domain/sign-up";
         }
     }

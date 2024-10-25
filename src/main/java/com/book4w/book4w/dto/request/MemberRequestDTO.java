@@ -2,6 +2,7 @@ package com.book4w.book4w.dto.request;
 
 import com.book4w.book4w.entity.Member;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter @Setter @ToString
 @Builder
@@ -11,11 +12,11 @@ public class MemberRequestDTO {
     private String nickname;
     private String password;
 
-    public Member toEntity() {
+    public Member toEntity(PasswordEncoder encoder) {
         return Member.builder()
                 .email(email)
                 .nickname(nickname)
-                .password(password)
+                .password(encoder.encode(password))
                 .build();
     }
 }
