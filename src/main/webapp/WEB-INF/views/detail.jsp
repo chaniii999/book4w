@@ -17,8 +17,8 @@
         }
 
         .book-cover {
-            width: 400px; /* 기존 크기의 2배 */
-            height: 600px; /* 기존 크기의 2배 */
+            width: 400px;
+            height: 600px;
             margin-right: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -41,6 +41,58 @@
 
         .book-meta {
             margin-top: 20px;
+        }
+
+        .review-list {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-list h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .review-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .review-item:hover {
+            background: #f1f1f1;
+        }
+
+        .review-meta {
+            color: #555;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
         }
     </style>
 </head>
@@ -82,12 +134,12 @@
 <div class="review-list">
     <h3>리뷰 목록</h3>
     <c:forEach var="review" items="${reviewList.content}">
-    <div class="review-item">
-        <div class="review-meta">
-            <p>작성자: ${review.memberName} : 내용: ${review.content} : 평점: ${review.rating} / 5.0</p>
+        <div class="review-item">
+            <div class="review-meta">
+                <p><strong>작성자:</strong> ${review.memberName} <strong>내용:</strong> ${review.content} <strong>평점:</strong> ${review.rating} / 5.0</p>
+            </div>
         </div>
-    </div>
-</c:forEach>
+    </c:forEach>
 
     <!-- 페이징 처리 -->
     <div class="pagination">
@@ -99,7 +151,6 @@
         </c:if>
     </div>
 </div>
-
 
 <footer>
     <p>&copy; 2024 Book4W. All rights reserved.</p>

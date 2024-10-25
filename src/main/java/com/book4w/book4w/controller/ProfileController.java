@@ -3,7 +3,7 @@ package com.book4w.book4w.controller;
 import com.book4w.book4w.dto.response.LikedBooksResponseDTO;
 import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.dto.response.MyReviewResponseDTO;
-import com.book4w.book4w.entity.Member;
+import com.book4w.book4w.dto.response.ProfileMemberResponseDTO;
 import com.book4w.book4w.service.ProfileService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -26,13 +26,14 @@ public class ProfileController {
 
 
     @GetMapping("/info")
-    public String info(HttpSession session, Model model) {
-        Member member = (Member) session.getAttribute(LOGIN_KEY);
+    public String info(HttpServletRequest request,
+                       Model model) {
+        HttpSession session = request.getSession();
+        LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
 
-        if (member != null) { // 세션에서 받은 멤버정보 받아오기.
+        if (user != null) {
+            ProfileMemberResponseDTO member = profileService.getMyProfile(user.getEmail());
             model.addAttribute("member", member);
-        } else {
-            return "redirect:/domain/sign-in";
         }
         return "member-info";
     }

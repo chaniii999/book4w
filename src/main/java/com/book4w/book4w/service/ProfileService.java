@@ -2,14 +2,13 @@ package com.book4w.book4w.service;
 
 import com.book4w.book4w.dto.response.LikedBooksResponseDTO;
 import com.book4w.book4w.dto.response.MyReviewResponseDTO;
+import com.book4w.book4w.dto.response.ProfileMemberResponseDTO;
 import com.book4w.book4w.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -52,5 +51,17 @@ public class ProfileService {
                     .toList();
         }
         return Collections.emptyList();
+    }
+
+    public ProfileMemberResponseDTO getMyProfile(String email) {
+        Member member = memberService.findByEmail(email);
+        if (member != null) {
+            return ProfileMemberResponseDTO.builder()
+                    .nickname(member.getNickname())
+                    .email(member.getEmail())
+                    .createdAt(member.getCreatedAt())
+                    .build();
+        }
+        return null;
     }
 }
