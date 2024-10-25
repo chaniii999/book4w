@@ -46,20 +46,9 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public String logout(HttpSession session) {
         // 현재 세션 무효화
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-
-        // 현재 사용자 세션 ID 삭제
-        Member member = memberService.findBySessionId(session.getId());
-        if (member != null) {
-            member.setSessionId(null); // 세션 ID 초기화
-            memberService.updateMemberSessionId(member); // 업데이트
-        }
-
+        session.invalidate();
         return "redirect:/domain/sign-in"; // 로그아웃 후 리다이렉트
     }
 
