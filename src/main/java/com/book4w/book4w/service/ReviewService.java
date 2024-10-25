@@ -1,5 +1,6 @@
 package com.book4w.book4w.service;
 
+import com.book4w.book4w.dto.request.ReviewPostRequestDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.entity.Member;
@@ -24,18 +25,12 @@ public class ReviewService {
         return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
     }
 
-    public Review createReview(Review review) {
 
-        Book pickBook = review.getBook();
-        Member pickMember = review.getMember();
+    public ReviewResponseDTO registerReview(ReviewPostRequestDTO dto) {
 
-        Review newReview = Review.builder()
-                .book(pickBook)
-                .member(pickMember)
-                .content(review.getContent())
+        Review review = Review.builder()
+                .member()
                 .build();
 
-        return reviewRepository.save(newReview);
     }
-
 }

@@ -42,6 +42,9 @@ dependencies {
 
     // 쿼리 파라미터 추가 외부 로그 남기기
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+
+    // 입력값 검증 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {

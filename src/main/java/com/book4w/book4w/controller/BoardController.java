@@ -1,9 +1,11 @@
 package com.book4w.book4w.controller;
 
+import com.book4w.book4w.dto.request.ReviewPostRequestDTO;
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.entity.Review;
 import com.book4w.book4w.repository.ReviewRepository;
 import com.book4w.book4w.service.BoardService;
 import com.book4w.book4w.service.BookService;
@@ -16,10 +18,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/board")
@@ -94,5 +95,19 @@ public class BoardController {
 
         return "detail";
     }
+
+    @PostMapping ("/detail/{id}")
+    @ResponseBody
+    public ReviewResponseDTO addReview(@Validated @RequestBody ReviewPostRequestDTO dto,
+                                       BindingResult result) {
+
+        if(result.hasErrors()) {
+           return null;
+        }
+
+        return reviewService.registerReview(dto);
+
+    }
+
 
 }
