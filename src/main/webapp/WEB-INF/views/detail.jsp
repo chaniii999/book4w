@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
@@ -61,7 +62,7 @@
 </div>
 
 <!-- 리뷰 작성 폼 -->
-<div id="reviewForm" class="review-form" data-writer-name="${writerName}">
+<div id="reviewForm" class="review-form">
     <h4>리뷰 작성</h4>
     <textarea id="reviewContent" rows="3" cols="50" placeholder="리뷰 내용을 입력하세요"></textarea>
     <br>
@@ -76,22 +77,27 @@
 
 <!-- AJAX를 통해 리뷰 작성 요청 -->
 <script>
+    // 전역 변수 선언
+    let latestReview;
+
     function submitReview() {
         const content = document.getElementById("reviewContent").value;
         const rating = document.getElementById("reviewRating").value;
-        const writer = document.getElementById("reviewForm").dataset.writerName;
 
-        console.log("Content-Type 확인:", { "Content-Type": "application/json" });  // 확인용 로그
-
-        fetch(`/board/detail/${book.name}`, {
+        fetch(`/board/detail/${book.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content, rating, memberName: writer })
+            body: JSON.stringify({ content, rating })
         })
-            .then(response => response.json())
+            .then(response => {
+                console.log("응답 상태 코드:", response.status);  // 응답 상태 코드 확인
+                return response.json();
+            })
             .then(data => {
+                console.log("서버 응답 데이터:", data);  // 서버 응답 데이터 확인
                 if (data) {
-                    addReviewToPage(data);
+                    latestReview = data;
+                    addReviewToPage();
                     document.getElementById("reviewContent").value = "";
                     document.getElementById("reviewRating").value = "1";
                 } else {
@@ -101,15 +107,22 @@
             .catch(error => console.error("리뷰 작성 중 오류 발생:", error));
     }
 
+    function addReviewToPage() {
+        const review = latestReview;
+        console.log("addReviewToPage에서 review 데이터 확인:", review);  // 데이터 확인
 
+        if (!review) {
+            console.error("리뷰 데이터가 없습니다.");
+            return;
+        }
 
-    function addReviewToPage(review) {
         const reviewList = document.querySelector(".review-list");
         const reviewItem = document.createElement("div");
         reviewItem.classList.add("review-item");
         reviewItem.innerHTML = `<p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} | <strong>평점:</strong> ${review.rating} / 5.0</p>`;
         reviewList.appendChild(reviewItem);
     }
+
 </script>
 
 <footer>

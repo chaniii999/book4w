@@ -24,6 +24,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.book4w.book4w.utils.LoginUtils.LOGIN_KEY;
+
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
@@ -87,7 +89,7 @@ public class BoardController {
         return books;
     }
     @GetMapping("/detail/{id}")
-    public String detailPage(@PathVariable String id, Model model, Pageable page, HttpSession session) {
+    public String detailPage(@PathVariable String id, Model model, Pageable page) {
         log.info("Fetching detail for book id: {}", id);
 
         DetailPageResponseDTO bookDetail = detailService.getBookDetail(id);
@@ -95,30 +97,26 @@ public class BoardController {
         model.addAttribute("book", bookDetail);
         model.addAttribute("reviewList", reviewService.getReviewList(id, page));
 
-        LoginUserResponseDTO loginUser = (LoginUserResponseDTO) session.getAttribute("LOGIN_KEY");
-        if (loginUser != null) {
-            model.addAttribute("writerName", loginUser.getNickname());
-        }
-
         return "detail";
     }
 
     @PostMapping ("/detail/{bookId}")
     @ResponseBody
     public ReviewResponseDTO addReview(@Validated @RequestBody ReviewPostRequestDTO dto,
-                                       BindingResult result, @PathVariable String bookId) {
+                                       BindingResult result, @PathVariable String bookId, HttpSession session) {
 
         if(result.hasErrors()) {
            return null;
         }
 
-        log.info("Received content: {}", dto.getContent());
-        log.info("Received rating: {}", dto.getRating());
-        log.info("Received memberName: {}", dto.getMemberName());
+        LoginUserResponseDTO loginUser = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
+        if (loginUser != null) {
+           dto.setMemberUuid(loginUser.getUuid());
+            return reviewService.registerReview(bookId, dto);
+        } else {
+            return null;
+        }
 
-        ReviewResponseDTO responseDTO = reviewService.registerReview(bookId, dto);
-        log.info("Response DTO: {}", responseDTO); // 로그로 출력 확인
-        return reviewService.registerReview(bookId, dto);
 
     }
 

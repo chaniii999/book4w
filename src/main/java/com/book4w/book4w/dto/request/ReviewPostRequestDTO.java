@@ -6,12 +6,16 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 public class ReviewPostRequestDTO {
-    private final String memberName;
+
+    private String memberUuid;
+    private String nickName;
 
     @NotBlank
     @Size(min = 1, max = 300)
@@ -20,8 +24,9 @@ public class ReviewPostRequestDTO {
 
 
     public ReviewPostRequestDTO(Review review) {
-        this.memberName = review.getMember().getNickname();
         this.content = review.getContent();
         this.rating = review.getRating();
+        this.memberUuid = review.getMember().getUuid();
+        this.nickName = review.getMember().getNickname();
     }
 }

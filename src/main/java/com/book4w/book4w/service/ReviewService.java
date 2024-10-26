@@ -34,8 +34,6 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final BookRepository bookRepository;
-    private HttpSession session;
-    private MemberService memberService;
 
 
     public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
@@ -44,10 +42,10 @@ public class ReviewService {
 
 
     /* 리뷰 DB저장 후 화면에 출력 */
-    public ReviewResponseDTO registerReview(String BookId, ReviewPostRequestDTO dto) {
+    public ReviewResponseDTO registerReview(String bookId, ReviewPostRequestDTO dto) {
 
-        Book book = bookRepository.findById(BookId).orElseThrow(() -> new EntityNotFoundException("X"));
-        String memberUuid = (String) session.getAttribute("LOGIN_KEY");
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("X"));
+        String memberUuid = dto.getMemberUuid();
         Member member = memberRepository.findById(memberUuid).orElseThrow(() -> new EntityNotFoundException("X"));
 
 
@@ -59,20 +57,15 @@ public class ReviewService {
                 .content(dto.getContent())
                 .rating(dto.getRating())
                 .build();
-
-
-
-        log.info(review.toString());
         reviewRepository.save(review);
 
 
         // 리뷰 출력
-        ReviewResponseDTO responseDTO = ReviewResponseDTO.builder()
+        return ReviewResponseDTO.builder()
                 .memberName(review.getMember().getNickname())
                 .content(review.getContent())
                 .rating(review.getRating())
                 .build();
-
-        return responseDTO;
     }
 }
+
