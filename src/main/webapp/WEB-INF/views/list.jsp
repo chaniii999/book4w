@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +16,6 @@
             flex-direction: column;
             background-color: #f9f9f9;
         }
-
         .container {
             flex: 1;
             display: flex;
@@ -25,21 +23,18 @@
             justify-content: space-between;
             padding: 20px;
         }
-
         h2 {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .card-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: space-around; /* 중앙 정렬 + 균등 배치 */
             gap: 30px;
             padding: 20px;
         }
-
         .card {
             background-color: white;
             border: 1px solid #ddd;
@@ -52,29 +47,25 @@
             transition: transform 0.2s;
             cursor: pointer;
             min-width: 250px; /* 최소 너비 설정 */
+            max-width: 300px; /* 최대 너비 설정 */
         }
-
         .card:hover {
             transform: translateY(-5px);
         }
-
         .card h3 {
             font-size: 1.2em;
             margin: 10px 0;
         }
-
         .card p {
             margin: 5px 0;
             color: #555;
         }
-
         .pagination {
             display: flex;
             justify-content: center;
             margin-top: 20px;
             padding: 20px 0;
         }
-
         .pagination a {
             margin: 0 5px;
             padding: 8px 16px;
@@ -83,27 +74,22 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
-
         .pagination a:hover {
             background-color: #ddd;
         }
-
         .pagination .active {
             background-color: #4CAF50;
             color: white;
         }
-
         .sort-container {
             margin-left: auto;
         }
-
         .search-container {
             margin-right: 20px;
         }
     </style>
 </head>
 <body>
-
 <div class="container">
     <h2>
         <a href="${pageContext.request.contextPath}/board/list" style="text-decoration: none; color: black;">도서 목록</a>
@@ -121,7 +107,6 @@
             </form>
         </div>
     </h2>
-
     <div class="card-container">
         <c:if test="${not empty bList}">
             <c:forEach var="book" items="${bList}">
@@ -138,30 +123,24 @@
                 </a>
             </c:forEach>
         </c:if>
-
         <c:if test="${empty bList}">
             <p>검색 결과가 없습니다.</p>
         </c:if>
     </div>
-
     <!-- 페이지네이션 -->
     <div class="pagination">
         <c:if test="${maker.hasPrevious()}">
             <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
         </c:if>
-
         <c:if test="${maker.totalPages > 0}">
             <c:forEach var="i" begin="0" end="${maker.totalPages - 1}">
                 <a href="?sort=${param.sort}&query=${param.query}&page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
             </c:forEach>
         </c:if>
-
         <c:if test="${maker.hasNext()}">
             <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number + 1}" class="next">다음 &raquo;</a>
         </c:if>
     </div>
-
 </div>
-
 </body>
 </html>
