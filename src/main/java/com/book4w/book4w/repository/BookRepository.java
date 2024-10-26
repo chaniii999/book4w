@@ -36,4 +36,5 @@ public interface BookRepository extends JpaRepository<Book, String> {
     Page<Book> findAllByNameContainingOrderByReviewCountDesc(String query, Pageable page);
     // 검색 + 평점순
     Page<Book> findAllByNameContainingOrderByRatingDesc(String query, Pageable page);
+
 }
