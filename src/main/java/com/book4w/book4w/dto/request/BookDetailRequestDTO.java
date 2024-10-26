@@ -15,6 +15,7 @@ public class BookDetailRequestDTO {
     private double rating;
     private int reviewCount;
     private int likeCount;
+    private boolean isLiked;
 
 
 }

@@ -1,9 +1,14 @@
 package com.book4w.book4w.service;
 
+import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.dto.response.LikedBooksResponseDTO;
 import com.book4w.book4w.dto.response.MyReviewResponseDTO;
 import com.book4w.book4w.dto.response.ProfileMemberResponseDTO;
+import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.entity.BookLike;
 import com.book4w.book4w.entity.Member;
+import com.book4w.book4w.repository.BookLikeRepository;
+import com.book4w.book4w.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +20,8 @@ import java.util.List;
 public class ProfileService {
 
     private final MemberService memberService;
+    private final BookRepository bookRepository;
+    private final BookLikeRepository bookLikeRepository;
 
     public List<LikedBooksResponseDTO> getLikedBooksForMember(String email) {
         Member member = memberService.findByEmail(email);
@@ -64,4 +71,15 @@ public class ProfileService {
         }
         return null;
     }
+
+    public void changeNickname(String email, String newNickname) {
+        Member member = memberService.findByEmail(email);
+        if (member != null) {
+            member.setNickname(newNickname);
+            memberService.update(member); // 회원 정보를 업데이트하는 메서드 호출
+        }
+    }
+
+
+
 }

@@ -44,17 +44,56 @@
             text-align: center;
             color: #777;
         }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .nickname-change {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .nickname-change input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
     </style>
+    <script>
+        function toggleNicknameChange() {
+            const nicknameChangeDiv = document.querySelector('.nickname-change');
+            nicknameChangeDiv.style.display = (nicknameChangeDiv.style.display === 'none' || nicknameChangeDiv.style.display === '') ? 'flex' : 'none';
+        }
+
+        function submitNicknameChange() {
+            document.getElementById('nicknameForm').submit();
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>내 프로필 정보</h1>
-
         <c:if test="${not empty member}">
             <table>
                 <tbody>
                     <tr>
-                        <th>이름</th>
+                        <th>닉네임</th>
                         <td>${member.nickname}</td>
                     </tr>
                     <tr>
@@ -68,10 +107,19 @@
                 </tbody>
             </table>
         </c:if>
-
         <c:if test="${empty member}">
             <p class="no-info">회원 정보가 없습니다.</p>
         </c:if>
+        <div class="btn-container">
+            <a href="javascript:toggleNicknameChange()" class="btn">닉네임 변경</a>
+            <a href="/profile/change-password" class="btn">비밀번호 변경</a>
+        </div>
+        <div class="nickname-change">
+            <form id="nicknameForm" action="/profile/change-nickname" method="post">
+                <input type="text" id="new-nickname" name="newNickname" placeholder="새 닉네임 입력">
+                <button type="button" onclick="submitNicknameChange()" class="btn">변경</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

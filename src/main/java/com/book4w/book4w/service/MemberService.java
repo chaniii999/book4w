@@ -5,6 +5,7 @@ import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,13 @@ public class MemberService {
 
     public Member findBySessionId(String id) {
         return memberRepository.findBySessionId(id);
+    }
+
+    public void update(Member member) {
+        memberRepository.save(member);
+    }
+
+    public Optional<Member> findById(String memberUuid) {
+        return memberRepository.findById(memberUuid);
     }
 }

@@ -15,34 +15,28 @@
             align-items: flex-start;
             padding: 20px;
         }
-
         .book-cover {
             width: 400px;
             height: 600px;
             margin-right: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
         .book-cover img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .book-info {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-
         .book-info h2 {
             margin-bottom: 20px;
         }
-
         .book-meta {
             margin-top: 20px;
         }
-
         .review-list {
             margin-top: 40px;
             padding: 20px;
@@ -50,13 +44,11 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         .review-list h3 {
             text-align: center;
             margin-bottom: 20px;
             color: #333;
         }
-
         .review-item {
             padding: 15px;
             border: 1px solid #ddd;
@@ -64,43 +56,65 @@
             margin-bottom: 10px;
             transition: background 0.3s;
         }
-
         .review-item:hover {
             background: #f1f1f1;
         }
-
         .review-meta {
             color: #555;
         }
-
         .pagination {
             text-align: center;
             margin-top: 20px;
         }
-
         .pagination a {
             margin: 0 10px;
             text-decoration: none;
             color: #007bff;
             font-weight: bold;
         }
-
         .pagination a:hover {
             text-decoration: underline;
         }
-
         footer {
             text-align: center;
             margin-top: 40px;
             color: #777;
         }
+        .like-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        .like-button.liked {
+            color: red;
+        }
     </style>
+    <script>
+        function toggleLike(bookId) {
+            fetch(`/board/detail/${bookId}/toggle-like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const likeButton = document.getElementById('like-button');
+                    likeButton.classList.toggle('liked', data.isLiked);
+                    document.getElementById('like-count').innerText = data.likeCount;
+                    likeButton.innerHTML = data.isLiked ? '❤️' : '🤍';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </head>
 <body>
 <header>
     <h1>책 상세 정보</h1>
 </header>
-
 <div class="book-detail-container">
     <!-- 책 표지 -->
     <div class="book-cover">
@@ -113,23 +127,23 @@
             </c:otherwise>
         </c:choose>
     </div>
-
     <!-- 책 기본 정보 -->
     <div class="book-info">
         <h2>${book.name}</h2>
         <p><strong>작가:</strong> ${book.writer}</p>
         <p><strong>출판사:</strong> ${book.pub}</p>
         <p><strong>출판년도:</strong> ${book.year}</p>
-
         <!-- 책 평점, 좋아요 및 리뷰 정보 -->
         <div class="book-meta">
             <p><strong>평점:</strong> ${book.rating} / 5.0</p>
-            <p><strong>좋아요 수:</strong> ${book.likeCount}</p>
+            <p><strong>좋아요 수:</strong> <span id="like-count">${book.likeCount}</span></p>
+            <button id="like-button" class="like-button" onclick="toggleLike('${book.id}')">
+                🤍
+            </button>
             <p><strong>리뷰 수:</strong> ${book.reviewCount}</p>
         </div>
     </div>
 </div>
-
 <!-- 리뷰 리스트 -->
 <div class="review-list">
     <h3>리뷰 목록</h3>
@@ -140,7 +154,6 @@
             </div>
         </div>
     </c:forEach>
-
     <!-- 페이징 처리 -->
     <div class="pagination">
         <c:if test="${reviewList.hasPrevious()}">
@@ -151,7 +164,6 @@
         </c:if>
     </div>
 </div>
-
 <footer>
     <p>&copy; 2024 Book4W. All rights reserved.</p>
 </footer>
