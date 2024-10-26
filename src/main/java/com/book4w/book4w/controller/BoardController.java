@@ -3,6 +3,7 @@ package com.book4w.book4w.controller;
 import com.book4w.book4w.dto.request.ReviewPostRequestDTO;
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
+import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.repository.ReviewRepository;
@@ -10,6 +11,7 @@ import com.book4w.book4w.service.BoardService;
 import com.book4w.book4w.service.BookService;
 import com.book4w.book4w.service.DetailService;
 import com.book4w.book4w.service.ReviewService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.book4w.book4w.utils.LoginUtils.LOGIN_KEY;
 
