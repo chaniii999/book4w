@@ -110,7 +110,7 @@
                 <a href="${pageContext.request.contextPath}/domain/logout" class="login-button">Log-out</a> <!-- 로그아웃 버튼 -->
             </c:when>
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}/domain/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼 -->
+                <a href="${pageContext.request.contextPath}/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼 -->
             </c:otherwise>
         </c:choose>
     </div>
