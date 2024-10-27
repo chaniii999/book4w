@@ -42,14 +42,18 @@ public class ReviewService {
 
 
     /* 리뷰 DB저장 후 화면에 출력 */
-    public ReviewResponseDTO registerReview(String bookId, ReviewPostRequestDTO dto) {
+    /* 리뷰 저장 기능 */
+    public void saveReview(String bookId, ReviewPostRequestDTO dto) {
+        // 책 정보 조회
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("책을 찾을 수 없습니다."));
 
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("X"));
+        // 회원 정보 조회
         String memberUuid = dto.getMemberUuid();
-        Member member = memberRepository.findById(memberUuid).orElseThrow(() -> new EntityNotFoundException("X"));
+        Member member = memberRepository.findById(memberUuid)
+                .orElseThrow(() -> new EntityNotFoundException("회원 정보를 찾을 수 없습니다."));
 
-
-        // 리뷰 작성하면 DB 저장
+        // 리뷰 생성 및 저장
         Review review = Review.builder()
                 .id(UUID.randomUUID().toString())
                 .member(member)
@@ -57,15 +61,9 @@ public class ReviewService {
                 .content(dto.getContent())
                 .rating(dto.getRating())
                 .build();
+
         reviewRepository.save(review);
-
-
-        // 리뷰 출력
-        return ReviewResponseDTO.builder()
-                .memberName(review.getMember().getNickname())
-                .content(review.getContent())
-                .rating(review.getRating())
-                .build();
     }
+
 }
 

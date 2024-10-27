@@ -89,14 +89,27 @@
 
 <div class="review-list">
     <h3>리뷰 목록</h3>
-    <!-- 기존 리뷰 목록 -->
-    <c:forEach var="review" items="${reviewList.content}">
-        <div class="review-item">
-            <p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} |
-                <strong>평점:</strong> ${review.rating} / 5.0</p>
-        </div>
-    </c:forEach>
+    <c:if test="${not empty reviewList}">
+        <c:forEach var="review" items="${reviewList}">
+            <div class="review-item">
+                <p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} |
+                    <strong>평점:</strong> ${review.rating} / 5.0</p>
+            </div>
+        </c:forEach>
+    </c:if>
+
 </div>
+
+<div class="pagination">
+    <c:if test="${page.hasPrevious()}">
+        <a href="?page=${page.number - 1}">이전</a>
+    </c:if>
+    <span>페이지 ${page.number + 1} / ${page.totalPages}</span>
+    <c:if test="${page.hasNext()}">
+        <a href="?page=${page.number + 1}">다음</a>
+    </c:if>
+</div>
+
 
 <!-- 리뷰 작성 폼 -->
 <form id="reviewForm" class="review-form" onsubmit="submitReview(event)">
@@ -112,62 +125,55 @@
     <button type="submit">리뷰 작성</button>
 </form>
 
-<!-- AJAX를 통해 리뷰 작성 요청 -->
+<!-- AJAX를 통해 리뷰 작성 요청 및 새로고침 처리 -->
 <script>
     // JavaScript에서 사용할 book 객체 전달
     const book = {
         id: "${book.id}"
     };
 
-    const reviewList = document.querySelector(".review-list");
-    console.log("reviewList 요소:", reviewList);
-
-    // 전역 변수 선언
-    let latestReview;
-
     function submitReview(event) {
-        event.preventDefault();  // 기본 제출 동작 방지
+        event.preventDefault();
 
         const content = document.getElementById("reviewContent").value;
         const rating = document.getElementById("reviewRating").value;
+        const memberName = "사용자"; // 실제 로그인된 사용자 이름을 사용해야 함
 
+        // 화면에 리뷰를 즉시 추가 (DB 저장 전)
+        const reviewList = document.querySelector(".review-list");
+        const reviewItem = document.createElement("div");
+        reviewItem.classList.add("review-item");
+        reviewItem.innerHTML = `
+            <p><strong>작성자:</strong> ${memberName} | <strong>내용:</strong> ${content} |
+            <strong>평점:</strong> ${rating} / 5.0</p>`;
+        reviewList.appendChild(reviewItem);
+
+        // 서버에 데이터를 비동기 전송 (DB에 저장)
         fetch(`/board/detail/${book.id}`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ content, rating })
+            body: JSON.stringify({content, rating})
         })
-            .then(response => {
-                console.log("응답 상태 코드:", response.status);  // 응답 상태 코드 확인
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log("서버 응답 데이터:", data);  // 서버 응답 데이터 확인
-                latestReview = data;
-
-                if (latestReview) {
-                    addReviewToPage();
-                    document.getElementById("reviewContent").value = "";
-                    document.getElementById("reviewRating").value = "1";
+                if (data.success) {
+                    console.log("리뷰가 성공적으로 저장되었습니다.");
                 } else {
-                    alert("리뷰 작성에 실패했습니다.");
+                    alert("리뷰 저장에 실패했습니다.");
                 }
+                // 서버 응답 후 페이지 새로고침
+                location.reload();
             })
-            .catch(error => console.error("리뷰 작성 중 오류 발생:", error));
-    }
+            .catch(error => {
+                console.error("리뷰 저장 중 오류 발생:", error);
+                alert("리뷰 저장에 실패했습니다.");
+                // 오류 발생 후 페이지 새로고침
+                location.reload();
+            });
 
-    function addReviewToPage() {
-        const review = latestReview;
-        console.log("addReviewToPage에서 review 데이터 확인:", review);
-
-        if (!review) {
-            console.error("리뷰 데이터가 없습니다.");
-            return;
-        }
-
-        const reviewItem = document.createElement("div");
-        reviewItem.classList.add("review-item");
-        reviewItem.textContent = `작성자: ${review.memberName} | 내용: ${review.content} | 평점: ${review.rating} / 5.0`;
-        reviewList.appendChild(reviewItem);
+        // 입력 필드 초기화
+        document.getElementById("reviewContent").value = "";
+        document.getElementById("reviewRating").value = "1";
     }
 </script>
 
