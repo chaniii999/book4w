@@ -7,6 +7,7 @@ import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.entity.Review;
 import com.book4w.book4w.repository.ReviewRepository;
 import com.book4w.book4w.service.BoardService;
 import com.book4w.book4w.service.BookService;
@@ -16,9 +17,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -113,47 +117,37 @@ public class BoardController {
         model.addAttribute("book", bookDetail);
         model.addAttribute("reviewList", reviewPage.getContent());
         model.addAttribute("page", reviewPage);
+        model.addAttribute("user", user);  // 추가된 부분
 
         return "detail";
     }
 
     @PostMapping("/detail/{bookId}")
-    @ResponseBody
-    public Map<String, Object> addReview(@Validated @RequestBody ReviewPostRequestDTO dto,
-                                         BindingResult result, @PathVariable String bookId, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> createReview(@Validated @RequestBody ReviewPostRequestDTO dto,
+                                                            BindingResult result,
+                                                            @PathVariable String bookId) {
         Map<String, Object> response = new HashMap<>();
 
-        // 입력값 검증
         if (result.hasErrors()) {
             response.put("success", false);
-            response.put("message", "리뷰 입력값이 유효하지 않습니다.");
-            return response;
+            response.put("message", result.toString());
+            return ResponseEntity.badRequest().body(response);
         }
 
-        // 로그인 여부 확인
-        LoginUserResponseDTO loginUser = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
-        if (loginUser == null) {
-            response.put("success", false);
-            response.put("message", "로그인이 필요합니다.");
-            return response;
-        }
+        Review review = reviewService.register(bookId, dto); // 등록된 리뷰 객체 반환
 
-        // 사용자 정보 설정
-        dto.setMemberUuid(loginUser.getUuid());
+        response.put("success", true);
+        response.put("message", "리뷰가 성공적으로 작성되었습니다.");
+        response.put("reviewId", review.getId());
+        response.put("nickName", review.getMember().getNickname());
+        response.put("content", review.getContent());
+        response.put("rating", review.getRating());
 
-        try {
-            // 리뷰 저장 처리
-            reviewService.saveReview(bookId, dto);
-            response.put("success", true);
-            response.put("message", "리뷰가 성공적으로 저장되었습니다.");
-        } catch (Exception e) {
-            log.error("리뷰 저장 중 오류 발생: {}", e.getMessage());
-            response.put("success", false);
-            response.put("message", "리뷰 저장 중 오류가 발생했습니다.");
-        }
-
-        return response;
+        return ResponseEntity.ok(response);
     }
+
+
+
 
     @GetMapping("/detail/{bookId}/reviews")
     @ResponseBody
@@ -179,22 +173,20 @@ public class BoardController {
 
     @PostMapping("/detail/{bookId}/review/{reviewId}/edit")
     @ResponseBody
-    public Map<String, Object> editReview(@PathVariable String reviewId,
-                                          @RequestBody ReviewUpdateRequestDTO dto) {
+    public ResponseEntity<Map<String, Object>> editReview(@PathVariable String reviewId,
+                                                          @RequestBody ReviewUpdateRequestDTO dto) {
         Map<String, Object> response = new HashMap<>();
         try {
             reviewService.updateReview(reviewId, dto.getContent());
             response.put("success", true);
             response.put("message", "리뷰가 성공적으로 수정되었습니다.");
+            return ResponseEntity.ok(response); // HTTP 상태 200 반환
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "리뷰 수정 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response); // HTTP 상태 500 반환
         }
-        return response;
     }
-
-
-
 
 
     @PostMapping("/detail/{id}/toggle-like")
