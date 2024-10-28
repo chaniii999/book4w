@@ -140,6 +140,24 @@
 
     <div class="pagination">
         <!-- Your existing pagination code here -->
+
+        <c:if test="${maker.hasPrevious()}">
+                <c:set var="prevStartPage" value="${(maker.number - 10) < 0 ? 0 : (maker.number - 10)}" />
+                <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage.intValue()}" class="prev">&laquo; 이전</a>
+            </c:if>
+            <c:if test="${maker.totalPages > 0}">
+                <c:set var="startPage" value="${(maker.number / 10) * 10}" />
+                <c:set var="endPage" value="${(startPage + 9) < maker.totalPages ? (startPage + 9) : (maker.totalPages - 1)}" />
+                <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                    <a href="?sort=${param.sort}&query=${param.query}&page=${i.intValue()}" class="${i == maker.number ? 'active' : ''}">
+                        ${i + 1}
+                    </a>
+                </c:forEach>
+            </c:if>
+            <c:if test="${endPage < (maker.totalPages - 1)}">
+                <c:set var="nextStartPage" value="${endPage + 1}" />
+                <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage.intValue()}" class="next">다음 &raquo;</a>
+            </c:if>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
