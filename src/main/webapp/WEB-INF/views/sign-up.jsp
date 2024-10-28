@@ -227,6 +227,14 @@
 
         <div class="email-auth-btn active" onClick="openEmailAuthWindow()">이메일 인증</div>
 
+        <!-- 인증 코드 입력란 추가 -->
+        <label for="auth-code">인증 코드:</label>
+        <input type="text" id="auth-code" name="auth-code" placeholder="인증 코드 입력" disabled>
+        <div id="auth-code-feedback" style="margin-top: 5px;"></div> <!-- 인증 코드 유효성 검사 결과 표시 영역 -->
+
+        <!-- 인증 코드 확인 버튼 추가 -->
+        <button type="button" id="verify-code-btn" disabled>인증 코드 확인</button>
+
         <label for="nickname">닉네임:</label>
         <input type="text" id="nickname" name="nickname" placeholder="닉네임 입력" value="${not empty nickname ? nickname : ''}">
         <div id="nickname-feedback" style="margin-top: 5px;"></div> <!-- 닉네임 유효성 검사 결과 표시 영역 -->
