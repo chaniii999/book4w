@@ -1,6 +1,5 @@
 package com.book4w.book4w.controller;
 
-import com.book4w.book4w.dto.request.LoginRequestDTO;
 import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.service.LoginResult;
@@ -31,8 +30,8 @@ public class MemberController {
     @PostMapping("/sign-in")
     public String signIn(@RequestParam String email,
                          @RequestParam String password,
-                         HttpServletRequest request,
-                         HttpServletResponse response) {
+                         HttpServletRequest request
+                         ) {
 
         Member member =  memberService.findByEmail(email); // 계정 찾아서
         LoginResult result = memberService.authenticate(email,password); // 계정,비번 맞니?
@@ -62,8 +61,8 @@ public class MemberController {
     @PostMapping("/sign-up")
     public String signUp(@RequestParam String email,
                          @RequestParam String nickname,
-                         @RequestParam String password,
-                         Model model) {
+                         @RequestParam String password
+                         ) {
        Member findMember = memberService.findByEmail(email);
 
         if (findMember == null) {

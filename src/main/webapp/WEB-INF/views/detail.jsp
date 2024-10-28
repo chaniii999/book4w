@@ -122,7 +122,7 @@
                 ❤️ 좋아요 취소
             </c:when>
             <c:otherwise>
-                ❤️ 좋아요
+                ❤ 좋아요
             </c:otherwise>
         </c:choose>
     </button>
@@ -256,7 +256,7 @@
                     isLiked = !isLiked; // 상태 반전
                     document.getElementById("likeCount").innerText = data.likeCount; // 좋아요 수 업데이트
                     const likeButton = document.getElementById("likeButton");
-                    likeButton.innerText = isLiked ? "❤️ 좋아요 취소" : "❤️ 좋아요"; // 버튼 텍스트 업데이트
+                    likeButton.innerText = isLiked ? "❤️ 좋아요 취소" : "❤ 좋아요"; // 버튼 텍스트 업데이트
                 } else {
                     alert(data.message || "로그인이 필요합니다.");
                 }
