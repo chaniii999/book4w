@@ -233,5 +233,5 @@
         switchSection(1);
     }, 10000); // Automatically switch sections every 5 seconds
 </script>
-</body>..........
+</body>
 </html>
