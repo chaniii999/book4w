@@ -1,6 +1,7 @@
 package com.book4w.book4w.controller;
 
 import com.book4w.book4w.dto.request.ReviewPostRequestDTO;
+import com.book4w.book4w.dto.request.ReviewUpdateRequestDTO;
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.dto.response.LoginUserResponseDTO;
@@ -94,21 +95,23 @@ public class BoardController {
     }
     @GetMapping("/detail/{id}")
     public String detailPage(@PathVariable String id,
-                             Model model, HttpServletRequest request,
+                             Model model,
+                             HttpServletRequest request,
                              @PageableDefault(page = 0, size = 10) Pageable page) {
         log.info("Fetching detail for book id: {}", id);
+
         HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
         String userId = user != null ? user.getUuid() : null;
-        DetailPageResponseDTO bookDetail = detailService.getBookDetail(id, userId);
 
+        DetailPageResponseDTO bookDetail = detailService.getBookDetail(id, userId);
         Page<ReviewResponseDTO> reviewPage = reviewService.getReviewList(id, page);
 
-        model.addAttribute("book", bookDetail);
-//        model.addAttribute("reviewList", reviewService.getReviewList(id, page));
-        model.addAttribute("reviewList", reviewPage.getContent() != null ? reviewPage.getContent() : List.of());
+        // 책 정보가 제대로 전달되는지 로그로 확인
+        log.info("Book detail: {}", bookDetail);
 
-        // 페이지 정보 전달
+        model.addAttribute("book", bookDetail);
+        model.addAttribute("reviewList", reviewPage.getContent());
         model.addAttribute("page", reviewPage);
 
         return "detail";
@@ -149,6 +152,44 @@ public class BoardController {
             response.put("message", "리뷰 저장 중 오류가 발생했습니다.");
         }
 
+        return response;
+    }
+
+    @GetMapping("/detail/{bookId}/reviews")
+    @ResponseBody
+    public Map<String, Object> getReviews(
+            @PathVariable String bookId,
+            @PageableDefault(size = 10) Pageable pageable) {
+
+        // 특정 책의 페이징된 리뷰 목록 가져오기
+        Page<ReviewResponseDTO> reviewPage = reviewService.getReviewList(bookId, pageable);
+
+        // 응답 데이터 구성
+        Map<String, Object> response = new HashMap<>();
+        response.put("reviewList", reviewPage.getContent());
+        response.put("page", Map.of(
+                "number", reviewPage.getNumber(),
+                "totalPages", reviewPage.getTotalPages(),
+                "hasPrevious", reviewPage.hasPrevious(),
+                "hasNext", reviewPage.hasNext()
+        ));
+
+        return response;
+    }
+
+    @PostMapping("/detail/{bookId}/review/{reviewId}/edit")
+    @ResponseBody
+    public Map<String, Object> editReview(@PathVariable String reviewId,
+                                          @RequestBody ReviewUpdateRequestDTO dto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            reviewService.updateReview(reviewId, dto.getContent());
+            response.put("success", true);
+            response.put("message", "리뷰가 성공적으로 수정되었습니다.");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "리뷰 수정 중 오류가 발생했습니다.");
+        }
         return response;
     }
 

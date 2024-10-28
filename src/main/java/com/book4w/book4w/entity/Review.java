@@ -3,13 +3,14 @@ package com.book4w.book4w.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
+@Getter @Setter
 @ToString(exclude = {"member", "book"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "reviews")
+
 public class Review {
 
     @Id

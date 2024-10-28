@@ -1,6 +1,7 @@
 package com.book4w.book4w.service;
 
 import com.book4w.book4w.dto.request.ReviewPostRequestDTO;
+import com.book4w.book4w.dto.request.ReviewUpdateRequestDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.entity.Member;
@@ -65,5 +66,15 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    public void updateReview(String reviewId, String newContent) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
+
+        // 리뷰의 내용 업데이트
+        review.setContent(newContent);
+
+        // 업데이트된 리뷰 저장
+        reviewRepository.save(review);
+    }
 }
 
