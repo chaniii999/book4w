@@ -7,19 +7,16 @@ import com.book4w.book4w.dto.response.ProfileMemberResponseDTO;
 import com.book4w.book4w.service.ProfileService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.book4w.book4w.utils.LoginUtils.LOGIN_KEY;
 
@@ -45,15 +42,19 @@ public class ProfileController {
     }
 
     @GetMapping("/liked-books")
-    public String likedBooks(HttpServletRequest request,
-        Model model) {
+    public String likedBooks(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
 
         if (user != null) {
             List<LikedBooksResponseDTO> likedBooks = profileService.getLikedBooksForMember(
                 user.getEmail());
+            if (likedBooks != null) {
+                System.out.println("likedBooks = " + likedBooks);
+            }
             model.addAttribute("likedBooks", likedBooks);
+        } else {
+            return "redirect:/";
         }
 
         return "liked-books";

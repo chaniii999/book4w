@@ -46,7 +46,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/log-out")
     public String logout(HttpSession session) {
         // 현재 세션 무효화
         session.invalidate();

@@ -6,13 +6,7 @@ import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
-import com.book4w.book4w.entity.Book;
-import com.book4w.book4w.entity.Member;
-import com.book4w.book4w.repository.ReviewRepository;
-import com.book4w.book4w.service.BoardService;
-import com.book4w.book4w.service.BookService;
-import com.book4w.book4w.service.DetailService;
-import com.book4w.book4w.service.ReviewService;
+import com.book4w.book4w.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +23,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.book4w.book4w.utils.LoginUtils.LOGIN_KEY;
@@ -43,6 +36,7 @@ public class BoardController {
     private final BoardService boardService;
     private final DetailService detailService;
     private final ReviewService reviewService;
+
 
     @GetMapping("/list")
     public String list(Model model,
@@ -214,9 +208,9 @@ public class BoardController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable String bookId, HttpServletRequest request) {
         log.info("/toggle-like: POST, {}", bookId);
-        HttpSession session = request.getSession();
 
         // 세션에서 로그인 사용자 정보 가져오기
+        HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
 
         // 사용자 UUID 출력
@@ -236,21 +230,15 @@ public class BoardController {
         }
         System.out.println("null이 아니랑꼐요");
 
+        // Issue 여기서 부터 시작.
         // 좋아요 토글 및 카운트 업데이트
         boolean isLiked = detailService.toggleLike(bookId, user.getUuid());
-        int likeCount = detailService.getBookDetail(bookId, user.getUuid()).getLikeCount(); // 좋아요 수 업데이트
 
+        int likeCount = detailService.getBookDetail(bookId, user.getUuid()).getLikeCount(); // 좋아요 수 업데이트
         response.put("success", true);
         response.put("isLiked", isLiked);
         response.put("likeCount", likeCount); // 좋아요 수를 응답에 포함
 
         return ResponseEntity.ok(response); // 성공 시 OK 상태 코드와 함께 반환
     }
-
-
-
-
-
-
-
 }

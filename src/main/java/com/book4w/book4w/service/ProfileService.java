@@ -1,14 +1,12 @@
 package com.book4w.book4w.service;
 
-import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.dto.response.LikedBooksResponseDTO;
 import com.book4w.book4w.dto.response.MyReviewResponseDTO;
 import com.book4w.book4w.dto.response.ProfileMemberResponseDTO;
-import com.book4w.book4w.entity.Book;
-import com.book4w.book4w.entity.BookLike;
 import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +18,9 @@ import java.util.List;
 public class ProfileService {
 
     private final MemberService memberService;
-    private final BookRepository bookRepository;
-    private final BookLikeRepository bookLikeRepository;
 
+
+    @Transactional
     public List<LikedBooksResponseDTO> getLikedBooksForMember(String email) {
         Member member = memberService.findByEmail(email);
         if (member != null) {
@@ -40,9 +38,6 @@ public class ProfileService {
                     .toList();
         }
         return Collections.emptyList();
-
-
-
     }
 
     public List<MyReviewResponseDTO> getmyReviewsForMember(String email) {

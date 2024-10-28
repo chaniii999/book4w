@@ -31,6 +31,10 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    public void save(Member member) {
+        memberRepository.save(member);
+    }
+
     public LoginResult authenticate(String email,
                                     String pw) {
 
@@ -131,4 +135,9 @@ public class MemberService {
     public Optional<Member> findById(String memberUuid) {
         return memberRepository.findById(memberUuid);
     }
+
+    public Member findByUuid(String memberUuid) {
+        return memberRepository.findById(memberUuid).orElse(null);
+    }
+
 }

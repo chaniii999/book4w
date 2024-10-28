@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter @Getter
 public class BookLike {
 
     @Id
@@ -24,4 +25,5 @@ public class BookLike {
     @ManyToOne
     @JoinColumn(name = "member_uuid")
     private Member member;
+
 }

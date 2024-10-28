@@ -263,7 +263,6 @@
             })
             .catch(error => console.error("좋아요 토글 중 오류 발생:", error));
     }
-</script>
 
 
 
