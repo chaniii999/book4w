@@ -27,8 +27,13 @@ public class ReviewService {
     private final BookRepository bookRepository;
 
 
-    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
-        return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
+//    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
+//        return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
+//    }
+
+    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable pageable) {
+        return reviewRepository.findByBookIdOrderByCreatedDateDesc(bookId, pageable)
+                .map(ReviewResponseDTO::new);
     }
 
 
