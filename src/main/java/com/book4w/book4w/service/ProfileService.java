@@ -1,11 +1,8 @@
 package com.book4w.book4w.service;
 
-import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.dto.response.LikedBooksResponseDTO;
 import com.book4w.book4w.dto.response.MyReviewResponseDTO;
 import com.book4w.book4w.dto.response.ProfileMemberResponseDTO;
-import com.book4w.book4w.entity.Book;
-import com.book4w.book4w.entity.BookLike;
 import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
