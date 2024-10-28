@@ -31,7 +31,7 @@
         .card-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: space-around; /* 중앙 정렬 + 균등 배치 */
             gap: 30px;
             padding: 20px;
         }
@@ -41,12 +41,13 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 16px;
-            flex: 1 1 calc(33.333% - 40px);
+            flex: 1 1 calc(33.333% - 40px); /* flex-grow, flex-shrink, flex-basis 조정 */
             box-sizing: border-box;
             text-align: center;
             transition: transform 0.2s;
             cursor: pointer;
-            min-width: 250px;
+            min-width: 250px; /* 최소 너비 설정 */
+            max-width: 300px; /* 최대 너비 설정 */
         }
         .card:hover {
             transform: translateY(-5px);
@@ -80,44 +81,11 @@
             background-color: #4CAF50;
             color: white;
         }
-        .search-container {
-            margin-right: 20px;
-        }
         .sort-container {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            font-size: 14px;
             margin-left: auto;
         }
-        .sort-container label {
-            margin-right: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-        .sort-container select {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            background-color: #f9f9f9;
-            color: #333;
-            transition: border-color 0.2s;
-        }
-        .sort-container select:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-        .sort-container select:hover {
-            background-color: #f1f1f1;
-        }
-        .sort-container select option {
-            padding: 10px;
-            color: #000;
+        .search-container {
+            margin-right: 20px;
         }
     </style>
 </head>
@@ -159,23 +127,18 @@
             <p>검색 결과가 없습니다.</p>
         </c:if>
     </div>
+    <!-- 페이지네이션 -->
     <div class="pagination">
         <c:if test="${maker.hasPrevious()}">
-            <c:set var="prevStartPage" value="${(maker.number - 10) < 0 ? 0 : (maker.number - 10)}" />
-            <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage.intValue()}" class="prev">&laquo; 이전</a>
+            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
         </c:if>
         <c:if test="${maker.totalPages > 0}">
-            <c:set var="startPage" value="${(maker.number / 10) * 10}" />
-            <c:set var="endPage" value="${(startPage + 9) < maker.totalPages ? (startPage + 9) : (maker.totalPages - 1)}" />
-            <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                <a href="?sort=${param.sort}&query=${param.query}&page=${i.intValue()}" class="${i == maker.number ? 'active' : ''}">
-                    ${i + 1}
-                </a>
+            <c:forEach var="i" begin="0" end="${maker.totalPages - 1}">
+                <a href="?sort=${param.sort}&query=${param.query}&page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
             </c:forEach>
         </c:if>
-        <c:if test="${endPage < (maker.totalPages - 1)}">
-            <c:set var="nextStartPage" value="${endPage + 1}" />
-            <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage.intValue()}" class="next">다음 &raquo;</a>
+        <c:if test="${maker.hasNext()}">
+            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number + 1}" class="next">다음 &raquo;</a>
         </c:if>
     </div>
 </div>

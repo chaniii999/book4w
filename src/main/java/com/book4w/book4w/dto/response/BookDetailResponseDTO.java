@@ -1,10 +1,16 @@
 package com.book4w.book4w.dto.response;
 
 import com.book4w.book4w.entity.Book;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Getter
+@Getter @Setter
+@AllArgsConstructor
+@Builder
 public class BookDetailResponseDTO {
     private String id;
     private String name;
@@ -15,6 +21,7 @@ public class BookDetailResponseDTO {
     private double rating;
     private int reviewCount;
     private int likeCount;
+    private boolean isLiked;
 
     // 생성자
     public BookDetailResponseDTO(Book book) {
@@ -27,5 +34,6 @@ public class BookDetailResponseDTO {
         this.rating = book.getRating();
         this.reviewCount = book.getReviewCount();
         this.likeCount = book.getLikeCount();
+        this.isLiked = false;
     }
 }

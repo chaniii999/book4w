@@ -88,7 +88,7 @@
 
 <div class="container">
   <h2>로그인</h2>
-  <form action="${pageContext.request.contextPath}/domain/sign-in" method="post">
+  <form action="${pageContext.request.contextPath}/sign-in" method="post">
     <label for="email">이메일:</label>
     <input type="email" id="email" name="email" placeholder="이메일 입력" required>
 
@@ -97,7 +97,7 @@
 
     <button type="submit">로그인</button>
   </form>
-  <a href="${pageContext.request.contextPath}/domain/sign-up" class="signup-button">회원가입</a> <!-- 회원가입 버튼 추가 -->
+  <a href="${pageContext.request.contextPath}/sign-up" class="signup-button">회원가입</a> <!-- 회원가입 버튼 추가 -->
 </div>
 
 </body>

@@ -3,6 +3,9 @@ package com.book4w.book4w.service;
 
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.entity.BookLike;
+import com.book4w.book4w.entity.Member;
+import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BoardService {
     private final BookRepository bookRepository;
+    private final BookLikeRepository bookLikeRepository;
+    private final MemberService memberService;
 
     // 전체 조회
     public Page<BookDetailResponseDTO> getBookList(Pageable page) {

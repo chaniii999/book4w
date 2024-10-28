@@ -4,27 +4,25 @@ import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.service.LoginResult;
 import com.book4w.book4w.service.MemberService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.print.MultiDoc;
-import java.util.Optional;
-import java.util.UUID;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/domain")
 public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/sign-in")
     public String signIn() {
-        return "domain/sign-in";
+        return "sign-in";
     }
 
     @PostMapping("/sign-in")
@@ -41,31 +39,20 @@ public class MemberController {
             memberService.maintainLoginState(session,email); // 로그인상태 유지!
             return "redirect:/"; // 로그인 성공 후 리다이렉트
         } else {
-            return "redirect:/domain/sign-in"; // 로그인 실패 시 리다이렉트
+            return "redirect:/sign-in"; // 로그인 실패 시 리다이렉트
         }
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public String logout(HttpSession session) {
         // 현재 세션 무효화
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-
-        // 현재 사용자 세션 ID 삭제
-        Member member = memberService.findBySessionId(session.getId());
-        if (member != null) {
-            member.setSessionId(null); // 세션 ID 초기화
-            memberService.updateMemberSessionId(member); // 업데이트
-        }
-
-        return "redirect:/domain/sign-in"; // 로그아웃 후 리다이렉트
+        session.invalidate();
+        return "redirect:/sign-in"; // 로그아웃 후 리다이렉트
     }
 
     @GetMapping("/sign-up")
     public String signUp() {
-        return "domain/sign-up";
+        return "sign-up";
     }
 
     @PostMapping("/sign-up")
@@ -77,10 +64,17 @@ public class MemberController {
 
         if (findMember == null) {
             memberService.save(new MemberRequestDTO(email, nickname, password));
-            return "redirect:/domain/sign-in";
+            return "redirect:/sign-in";
 
         } else {
-            return "domain/sign-up";
+            return "sign-up";
         }
+    }
+
+    @GetMapping("/email-auth")
+    public String emailAuth(@RequestParam("email") String email, Model model) throws MessagingException {
+        String authCode = memberService.sendAuthCode(email);  // 인증 코드 발송
+        model.addAttribute("authCode", authCode);  // 인증 코드를 모델에 추가
+        return "emailAuth";  // emailAuth.jsp 페이지로 이동
     }
 }

@@ -23,9 +23,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1400px; /* 전체 너비를 늘림 */
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 30px; /* 좌우 여백 조정 */
         }
         .logo {
             font-size: 28px;
@@ -38,15 +38,16 @@
             align-items: center;
         }
         .nav-links a {
-            margin-left: 20px;
+            margin-left: 15px; /* 여백 조정 */
             text-decoration: none;
             color: #333;
+            font-size: 18px; /* 폰트 크기 조정 */
         }
         .nav-links a:hover {
             color: #007bff;
         }
         .login-button {
-            margin-left: 20px;
+            margin-left: 15px; /* 여백 조정 */
             background-color: #007bff;
             color: white;
             border: none;
@@ -55,6 +56,7 @@
             cursor: pointer;
             text-decoration: none; /* 링크에서 밑줄 제거 */
             display: inline-block; /* 블록으로 변경 */
+            font-size: 18px; /* 폰트 크기 조정 */
         }
         .login-button:hover {
             background-color: #0056b3;
@@ -68,7 +70,7 @@
             border: 1px solid #ced4da;
             border-radius: 5px;
             margin-right: 5px;
-            width: 200px;
+            width: 250px; /* 검색 입력창 너비 늘림 */
         }
         .search-container input[type="submit"] {
             background-color: #007bff;
@@ -91,9 +93,9 @@
             BookForW
         </a>
         <nav class="nav-links">
-            <a href="#">내 리뷰 관리</a>
-            <a href="#">내 좋아요 목록</a>
-            <a href="#">내 프로필</a>
+            <a href="${pageContext.request.contextPath}/profile/my-reviews">내 리뷰 관리</a>
+            <a href="${pageContext.request.contextPath}/profile/liked-books">내 좋아요 목록</a>
+            <a href="${pageContext.request.contextPath}/profile/info">내 프로필</a>
             <a href="${pageContext.request.contextPath}/board/list">도서 목록</a>
         </nav>
         <div class="search-container">
@@ -105,23 +107,20 @@
                 <input type="submit" value="검색" />
             </form>
         </div>
-
         <!-- 세션 체크 후 버튼 변경 -->
         <c:choose>
             <c:when test="${not empty sessionScope.login}"> <!-- 세션에 로그인 정보가 있는지 확인 -->
                 <a href="${pageContext.request.contextPath}/domain/logout" class="login-button">Log-out</a> <!-- 로그아웃 버튼 -->
             </c:when>
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}/domain/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼 -->
+                <a href="${pageContext.request.contextPath}/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼 -->
             </c:otherwise>
         </c:choose>
     </div>
 </header>
-
 <main>
     <!-- 페이지 주요 내용이 들어갈 부분 -->
 </main>
-
 <!-- Bootstrap JS 및 jQuery 포함 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

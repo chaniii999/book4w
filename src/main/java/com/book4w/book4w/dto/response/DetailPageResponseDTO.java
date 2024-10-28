@@ -6,6 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class DetailPageResponseDTO {
 
     private String id;
@@ -17,5 +18,6 @@ public class DetailPageResponseDTO {
     private double rating;
     private int reviewCount;
     private int likeCount;
+    private boolean isLiked;
 
 }
