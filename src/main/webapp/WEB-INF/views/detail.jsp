@@ -55,6 +55,33 @@
             border-bottom: 1px solid #ccc;
             padding: 10px 0;
         }
+
+        .edit-form {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .pagination a.active {
+            text-decoration: underline;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .pagination a.disabled {
+            color: #ccc;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -89,17 +116,52 @@
 
 <div class="review-list">
     <h3>리뷰 목록</h3>
-    <!-- 기존 리뷰 목록 -->
-    <c:forEach var="review" items="${reviewList.content}">
-        <div class="review-item">
-            <p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} |
-                <strong>평점:</strong> ${review.rating} / 5.0</p>
+    <c:forEach var="review" items="${reviewList}">
+    <div class="review-item" data-id="${review.id}">
+        <p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} |
+            <strong>평점:</strong> ${review.rating} / 5.0</p>
+        <button onclick="showEditForm('${review.id}')">수정</button>
+        <button onclick="deleteReview('${review.id}')">삭제</button>
+
+        <!-- 리뷰 수정 폼 -->
+        <div id="editForm-${review.id}" class="edit-form" style="display: none;">
+            <textarea id="editContent-${review.id}">${review.content}</textarea>
+            <button onclick="submitEdit('${review.id}')">저장</button>
+            <button onclick="cancelEdit('${review.id}')">취소</button>
         </div>
+    </div>
+</c:forEach>
+
+</div>
+
+<!-- 페이지 네비게이션 영역 -->
+<div class="pagination">
+    <!-- 이전 버튼 -->
+    <c:if test="${page.hasPrevious()}">
+        <a href="?page=${page.number - 1}">이전</a>
+    </c:if>
+    <c:if test="${!page.hasPrevious()}">
+        <a class="disabled">이전</a>
+    </c:if>
+
+    <!-- 페이지 번호 링크 -->
+    <c:forEach var="i" begin="0" end="${page.totalPages - 1}">
+        <a href="?page=${i}" class="${page.number == i ? 'active' : ''}">
+            ${i + 1}
+        </a>
     </c:forEach>
+
+    <!-- 다음 버튼 -->
+    <c:if test="${page.hasNext()}">
+        <a href="?page=${page.number + 1}">다음</a>
+    </c:if>
+    <c:if test="${!page.hasNext()}">
+        <a class="disabled">다음</a>
+    </c:if>
 </div>
 
 <!-- 리뷰 작성 폼 -->
-<form id="reviewForm" class="review-form" onsubmit="submitReview(event)">
+<form id="reviewForm" class="review-form">
     <h4>리뷰 작성</h4>
     <textarea id="reviewContent" rows="3" cols="50" placeholder="리뷰 내용을 입력하세요"></textarea>
     <br>
@@ -112,62 +174,110 @@
     <button type="submit">리뷰 작성</button>
 </form>
 
-<!-- AJAX를 통해 리뷰 작성 요청 -->
+<!-- AJAX를 사용하여 리뷰 작성 및 수정 요청 -->
 <script>
-    // JavaScript에서 사용할 book 객체 전달
-    const book = {
-        id: "${book.id}"
-    };
+    document.addEventListener("DOMContentLoaded", () => {
+        const reviewForm = document.getElementById("reviewForm");
 
-    const reviewList = document.querySelector(".review-list");
-    console.log("reviewList 요소:", reviewList);
+        reviewForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const content = document.getElementById("reviewContent").value;
+            const rating = document.getElementById("reviewRating").value;
+            const reviewData = {
+                content: content,
+                rating: rating
+            };
 
-    // 전역 변수 선언
-    let latestReview;
-
-    function submitReview(event) {
-        event.preventDefault();  // 기본 제출 동작 방지
-
-        const content = document.getElementById("reviewContent").value;
-        const rating = document.getElementById("reviewRating").value;
-
-        fetch(`/board/detail/${book.id}`, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ content, rating })
-        })
-            .then(response => {
-                console.log("응답 상태 코드:", response.status);  // 응답 상태 코드 확인
-                return response.json();
+            fetch(`/board/detail/${book.id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(reviewData)
             })
+            .then(response => response.json())
             .then(data => {
-                console.log("서버 응답 데이터:", data);  // 서버 응답 데이터 확인
-                latestReview = data;
-
-                if (latestReview) {
-                    addReviewToPage();
-                    document.getElementById("reviewContent").value = "";
-                    document.getElementById("reviewRating").value = "1";
-                } else {
-                    alert("리뷰 작성에 실패했습니다.");
+                if (data.success) {
+                    location.reload();
                 }
             })
-            .catch(error => console.error("리뷰 작성 중 오류 발생:", error));
-    }
+            .catch(error => console.error("리뷰 저장 중 오류 발생:", error));
+        });
+    });
 
-    function addReviewToPage() {
-        const review = latestReview;
-        console.log("addReviewToPage에서 review 데이터 확인:", review);
-
-        if (!review) {
-            console.error("리뷰 데이터가 없습니다.");
+    function showEditForm(reviewId) {
+        console.log('Function showEditForm called with reviewId:', reviewId);
+        if (!reviewId) {
+            console.error('Review ID is empty or undefined!');
             return;
         }
 
-        const reviewItem = document.createElement("div");
-        reviewItem.classList.add("review-item");
-        reviewItem.textContent = `작성자: ${review.memberName} | 내용: ${review.content} | 평점: ${review.rating} / 5.0`;
-        reviewList.appendChild(reviewItem);
+        // 추가된 디버깅 코드: 실제로 찾으려는 ID를 출력하고, 해당 ID의 요소를 찾았는지 확인합니다.
+        console.log(`Looking for element with ID: editForm-${reviewId}`);
+        const editForm = document.getElementById(`editForm-${reviewId}`);
+
+        if (editForm) {
+            console.log('Edit form found:', editForm);
+            editForm.style.display = 'block';
+        } else {
+            console.error(`Edit form not found for review ID: ${reviewId}`);
+        }
+    }
+
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("Page loaded and ready for interaction.");
+    });
+
+    function cancelEdit(reviewId) {
+        const editForm = document.getElementById(`editForm-${reviewId}`);
+        if (editForm) {
+            editForm.style.display = 'none';
+        }
+    }
+
+    function submitEdit(reviewId) {
+        const content = document.getElementById(`editContent-${reviewId}`).value;
+
+        const reviewData = {
+            content: content
+        };
+
+        fetch(`/board/detail/${book.id}/review/${reviewId}/edit`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(reviewData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // 페이지 새로고침으로 리뷰 목록 업데이트
+            } else {
+                console.error(data.message);
+            }
+        })
+        .catch(error => console.error("리뷰 수정 중 오류 발생:", error));
+    }
+
+    function deleteReview(reviewId) {
+        if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
+            fetch(`/board/detail/${book.id}/review/${reviewId}`, {
+                method: "DELETE"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error(data.message);
+                }
+            })
+            .catch(error => console.error("리뷰 삭제 중 오류 발생:", error));
+        }
     }
 </script>
 
