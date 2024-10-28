@@ -3,17 +3,16 @@ package com.book4w.book4w.service;
 import com.book4w.book4w.dto.response.HomeRecommendedResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.repository.BookRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class HomeService {
     private final BookRepository bookRepository;
 
-    public HomeService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
 
     // 평점 순으로 3개의 책 추천
     public List<HomeRecommendedResponseDTO> recommendedListByRating() {

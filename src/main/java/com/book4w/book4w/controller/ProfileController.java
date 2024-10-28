@@ -51,6 +51,7 @@ public class ProfileController {
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
 
         if (user != null) {
+            System.out.println("앙기모띠 null입니다요");
             List<LikedBooksResponseDTO> likedBooks = profileService.getLikedBooksForMember(
                 user.getEmail());
             model.addAttribute("likedBooks", likedBooks);

@@ -9,6 +9,7 @@ import com.book4w.book4w.entity.BookLike;
 import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class ProfileService {
     private final BookRepository bookRepository;
     private final BookLikeRepository bookLikeRepository;
 
+    @Transactional
     public List<LikedBooksResponseDTO> getLikedBooksForMember(String email) {
         Member member = memberService.findByEmail(email);
         if (member != null) {

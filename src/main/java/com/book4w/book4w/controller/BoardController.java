@@ -214,9 +214,9 @@ public class BoardController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable String bookId, HttpServletRequest request) {
         log.info("/toggle-like: POST, {}", bookId);
-        HttpSession session = request.getSession();
 
         // 세션에서 로그인 사용자 정보 가져오기
+        HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
 
         // 사용자 UUID 출력
