@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, String> {
 
-    Page<Review> findByBookId(String bookId, Pageable page);
+//    Page<Review> findByBookId(String bookId, Pageable page);
+
+    Page<Review> findByBookIdOrderByCreatedDateDesc(String bookId, Pageable pageable);
 }
