@@ -16,7 +16,7 @@
         <p>로그인이 필요합니다.</p>
     </c:if>
 
-    <c:if test="${not empty likedBooks}">
+    <c:if test="${not empty user.likedBooks}">
         <ul>
             <c:forEach var="book" items="${likedBooks}">
                 <li>${book.name} - ${book.writer}</li> <!-- 책 제목과 저자 출력 -->
