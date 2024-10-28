@@ -59,8 +59,16 @@ public class ReviewController {
 
         try {
             reviewService.updateReview(reviewId, dto.getContent());
+
+            Review updatedReview = reviewService.findById(reviewId);
+
             response.put("success", true);
             response.put("message", "리뷰가 성공적으로 수정되었습니다.");
+            response.put("reviewId", updatedReview.getId());
+            response.put("nickname", updatedReview.getMember().getNickname());
+            response.put("content", updatedReview.getContent());
+            response.put("rating", updatedReview.getRating());
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("success", false);

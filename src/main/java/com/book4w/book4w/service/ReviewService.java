@@ -59,29 +59,6 @@ public class ReviewService {
         return review;
     }
 
-    /* 리뷰 DB저장 후 화면에 출력 */
-    /* 리뷰 저장 기능 */
-    public void saveReview(String bookId, ReviewPostRequestDTO dto) {
-        // 책 정보 조회
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new EntityNotFoundException("책을 찾을 수 없습니다."));
-
-        // 회원 정보 조회
-        String memberUuid = dto.getMemberUuid();
-        Member member = memberRepository.findById(memberUuid)
-                .orElseThrow(() -> new EntityNotFoundException("회원 정보를 찾을 수 없습니다."));
-
-        // 리뷰 생성 및 저장
-        Review review = Review.builder()
-                .id(UUID.randomUUID().toString())
-                .member(member)
-                .book(book)
-                .content(dto.getContent())
-                .rating(dto.getRating())
-                .build();
-
-        reviewRepository.save(review);
-    }
 
     public void updateReview(String reviewId, String newContent) {
         Review review = reviewRepository.findById(reviewId)
@@ -92,6 +69,12 @@ public class ReviewService {
 
         // 업데이트된 리뷰 저장
         reviewRepository.save(review);
+    }
+
+    // 특정 리뷰를 ID로 조회하는 메서드 추가
+    public Review findById(String reviewId) {
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
     }
 
 

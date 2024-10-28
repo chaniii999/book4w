@@ -114,8 +114,8 @@
     </div>
 </div>
 
-<div class="review-list">
     <h3>리뷰 목록</h3>
+<div class="review-list">
     <c:forEach var="review" items="${reviewList}">
         <div class="review-item" data-id="${review.id}">
             <p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} |
@@ -168,7 +168,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        console.log("JavaScript 코드가 로드되었습니다.");
 
         const reviewForm = document.getElementById("reviewForm");
 
@@ -217,19 +216,20 @@
     });
 
     function addReviewToPage(content, rating, reviewId, nickname) {
+        console.log('params: ', content, rating, reviewId, nickname);
         const reviewList = document.querySelector(".review-list");
         const newReview = document.createElement("div");
         newReview.classList.add("review-item");
         newReview.dataset.id = reviewId;
         newReview.innerHTML = `
-            <p><strong>작성자:</strong> ${nickname} | <strong>내용:</strong> ${content} |
-            <strong>평점:</strong> ${rating} / 5.0</p>
-            <button onclick="showEditForm('${reviewId}')">수정</button>
-            <button onclick="deleteReview('${reviewId}')">삭제</button>
-            <div id="editForm-${reviewId}" class="edit-form" style="display: none;">
-                <textarea id="editContent-${reviewId}">${content}</textarea>
-                <button onclick="submitEdit('${reviewId}')">저장</button>
-                <button onclick="cancelEdit('${reviewId}')">취소</button>
+            <p><strong>작성자:</strong> \${nickname} | <strong>내용:</strong> \${content} |
+            <strong>평점:</strong> \${rating} / 5.0</p>
+            <button onclick="showEditForm('\${reviewId}')">수정</button>
+            <button onclick="deleteReview('\${reviewId}')">삭제</button>
+            <div id="editForm-\${reviewId}" class="edit-form" style="display: none;">
+                <textarea id="editContent-\${reviewId}">\${content}</textarea>
+                <button onclick="submitEdit('\${reviewId}')">저장</button>
+                <button onclick="cancelEdit('\${reviewId}')">취소</button>
             </div>
         `;
         reviewList.prepend(newReview);
@@ -237,40 +237,62 @@
 
     function showEditForm(reviewId) {
         console.log('Function showEditForm called with reviewId:', reviewId);
-        const editForm = document.getElementById(`editForm-${reviewId}`);
+        const editForm = document.getElementById(`editForm-\${reviewId}`);
         if (editForm) {
             editForm.style.display = 'block';
         } else {
-            console.error(`Edit form not found for review ID: ${reviewId}`);
+            console.error(`Edit form not found for review ID: \${reviewId}`);
         }
     }
 
     function submitEdit(reviewId) {
-        const content = document.getElementById(`editContent-${reviewId}`).value;
-        const reviewData = { content: content };
+        const content = document.getElementById(`editContent-\${reviewId}`).value;
 
-        fetch(`/reviews/${reviewId}`, {
+        const reviewData = {
+            content: content
+        };
+
+        fetch(`/reviews/\${reviewId}`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-type": "application/json"
             },
             body: JSON.stringify(reviewData)
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload(); // 수정된 내용을 반영하기 위해 페이지 새로고침
-            } else {
-                console.error(data.message);
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error("리뷰 수정 중 오류 발생:", error));
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || '서버 응답 오류');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // 수정된 리뷰 내용을 화면에 반영
+                    document.querySelector(`.review-item[data-id="\${reviewId}"] p`).innerHTML = `
+                <strong>작성자:</strong> \${data.nickname} |
+                <strong>내용:</strong> \${data.content} |
+                <strong>평점:</strong> \${data.rating} / 5.0
+            `;
+
+                    // 수정 폼 닫기
+                    cancelEdit(reviewId);
+                } else {
+                    console.error("Error:", data.message);
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error("리뷰 수정 중 오류 발생:", error);
+                alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+            });
     }
+
 
     function deleteReview(reviewId) {
         if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
-            fetch(`/reviews/${reviewId}`, {
+            fetch(`/reviews/\${reviewId}`, {
                 method: "DELETE"
             })
             .then(response => response.json())
@@ -287,7 +309,7 @@
     }
 
     function cancelEdit(reviewId) {
-        const editForm = document.getElementById(`editForm-${reviewId}`);
+        const editForm = document.getElementById(`editForm-\${reviewId}`);
         if (editForm) {
             editForm.style.display = 'none';
         }
