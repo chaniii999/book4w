@@ -114,6 +114,21 @@
     </div>
 </div>
 
+<div class="book-meta">
+    <p><strong>좋아요 수:</strong> <span id="likeCount">${book.likeCount}</span></p>
+    <button id="likeButton" onclick="toggleLike()" style="color: red; font-size: 20px; cursor: pointer;">
+        <c:choose>
+            <c:when test="${isLiked}">
+                ❤️ 좋아요 취소
+            </c:when>
+            <c:otherwise>
+                ❤️ 좋아요
+            </c:otherwise>
+        </c:choose>
+    </button>
+</div>
+
+
 <div class="review-list">
     <h3>리뷰 목록</h3>
     <c:forEach var="review" items="${reviewList}">
@@ -145,7 +160,7 @@
     </c:if>
 
     <!-- 페이지 번호 링크 -->
-    <c:forEach var="i" begin="0" end="${page.totalPages - 1}">
+    <c:forEach var="i" begin="0" end="${page.totalPages > 0 ? page.totalPages - 1 : 0}">
         <a href="?page=${i}" class="${page.number == i ? 'active' : ''}">
             ${i + 1}
         </a>
@@ -223,6 +238,36 @@
             console.error(`Edit form not found for review ID: ${reviewId}`);
         }
     }
+
+
+    let isLiked = ${isLiked}; // JSP에서 전달받은 초기 좋아요 상태
+
+    function toggleLike() {
+        fetch(`/board/detail/${book.id}/toggle-like`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 좋아요 상태 변경
+                    isLiked = !isLiked; // 상태 반전
+                    document.getElementById("likeCount").innerText = data.likeCount; // 좋아요 수 업데이트
+                    const likeButton = document.getElementById("likeButton");
+                    likeButton.innerText = isLiked ? "❤️ 좋아요 취소" : "❤️ 좋아요"; // 버튼 텍스트 업데이트
+                } else {
+                    alert(data.message || "로그인이 필요합니다.");
+                }
+            })
+            .catch(error => console.error("좋아요 토글 중 오류 발생:", error));
+    }
+</script>
+
+
+
+
 
 
 

@@ -7,6 +7,7 @@ import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
+import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.repository.ReviewRepository;
 import com.book4w.book4w.service.BoardService;
 import com.book4w.book4w.service.BookService;
@@ -19,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -104,23 +107,33 @@ public class BoardController {
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
         String userId = user != null ? user.getUuid() : null;
 
+        // 책 정보와 함께 좋아요 상태 및 좋아요 수 가져오기
         DetailPageResponseDTO bookDetail = detailService.getBookDetail(id, userId);
+        boolean isLiked = bookDetail.isLiked(); // 사용자의 좋아요 상태
+        int likeCount = bookDetail.getLikeCount(); // 좋아요 수
         Page<ReviewResponseDTO> reviewPage = reviewService.getReviewList(id, page);
 
         // 책 정보가 제대로 전달되는지 로그로 확인
         log.info("Book detail: {}", bookDetail);
 
+        // 모델에 필요한 정보 추가
         model.addAttribute("book", bookDetail);
+        model.addAttribute("isLiked", isLiked); // 좋아요 상태 추가
+        model.addAttribute("likeCount", likeCount); // 좋아요 수 추가
         model.addAttribute("reviewList", reviewPage.getContent());
         model.addAttribute("page", reviewPage);
 
-        return "detail";
+        return "detail"; // JSP 페이지로 이동
     }
+
 
     @PostMapping("/detail/{bookId}")
     @ResponseBody
     public Map<String, Object> addReview(@Validated @RequestBody ReviewPostRequestDTO dto,
-                                         BindingResult result, @PathVariable String bookId, HttpSession session) {
+                                         BindingResult result,
+                                         @PathVariable String bookId,
+                                         HttpSession session
+                                         ) {
         Map<String, Object> response = new HashMap<>();
 
         // 입력값 검증
@@ -197,23 +210,46 @@ public class BoardController {
 
 
 
-    @PostMapping("/detail/{id}/toggle-like")
+    @PostMapping("/detail/{bookId}/toggle-like")
     @ResponseBody
-    public Map<String, Object> toggleLike(@PathVariable String id, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> toggleLike(@PathVariable String bookId, HttpServletRequest request) {
+        log.info("/toggle-like: POST, {}", bookId);
         HttpSession session = request.getSession();
+
+        // 세션에서 로그인 사용자 정보 가져오기
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
-        Map<String, Object> response = new HashMap<>();
+
+        // 사용자 UUID 출력
         if (user != null) {
-            boolean isLiked = detailService.toggleLike(id, user.getUuid());
-            int likeCount = detailService.getBookDetail(id, user.getUuid()).getLikeCount(); // 좋아요 수 업데이트
-            response.put("success", true);
-            response.put("isLiked", isLiked);
-            response.put("likeCount", likeCount); // 좋아요 수를 응답에 포함
-        } else {
-            response.put("success", false);
+            System.out.println("로그인 사용자 UUID: " + user.getUuid());
         }
-        return response;
+
+        Map<String, Object> response = new HashMap<>();
+
+        // 로그인 상태 확인
+        if (user == null) {
+            response.put("success", false);
+            response.put("message", "로그인이 필요하당께.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); // 비로그인 시 UNAUTHORIZED 상태 코드 반환
+        } else {
+            log.info("로그인된 사용자 요청 - UUID: {}", user.getUuid());
+        }
+        System.out.println("null이 아니랑꼐요");
+
+        // 좋아요 토글 및 카운트 업데이트
+        boolean isLiked = detailService.toggleLike(bookId, user.getUuid());
+        int likeCount = detailService.getBookDetail(bookId, user.getUuid()).getLikeCount(); // 좋아요 수 업데이트
+
+        response.put("success", true);
+        response.put("isLiked", isLiked);
+        response.put("likeCount", likeCount); // 좋아요 수를 응답에 포함
+
+        return ResponseEntity.ok(response); // 성공 시 OK 상태 코드와 함께 반환
     }
+
+
+
+
 
 
 

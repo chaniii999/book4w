@@ -1,5 +1,6 @@
 package com.book4w.book4w.controller;
 
+import com.book4w.book4w.dto.request.LoginRequestDTO;
 import com.book4w.book4w.dto.request.MemberRequestDTO;
 import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.service.LoginResult;
@@ -14,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import static com.book4w.book4w.utils.LoginUtils.LOGIN_KEY;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,10 +34,11 @@ public class MemberController {
                          HttpServletRequest request,
                          HttpServletResponse response) {
 
-        Member member = memberService.findByEmail(email); // 계정 찾아서
+        Member member =  memberService.findByEmail(email); // 계정 찾아서
         LoginResult result = memberService.authenticate(email,password); // 계정,비번 맞니?
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession();
         if (result == LoginResult.SUCCESS) { // 맞으면
+            session.setAttribute(LOGIN_KEY,member);
 
             memberService.maintainLoginState(session,email); // 로그인상태 유지!
             return "redirect:/"; // 로그인 성공 후 리다이렉트
