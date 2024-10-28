@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  <!-- fmt 태그 추가 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!-- fmt 태그 추가 -->
 
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <!DOCTYPE html>
@@ -13,32 +14,39 @@
         body {
             background-color: #f4f4f4;
         }
+
         h1 {
             color: #333;
         }
+
         h2 {
             color: #007bff;
         }
+
         .slider {
             position: relative;
             overflow: hidden;
             display: flex;
             justify-content: center;
         }
+
         .slider-wrapper {
             display: flex;
             transition: transform 0.75s ease-in-out; /* Changed transition duration */
             align-items: center;
         }
+
         .card {
             max-width: 250px;
             margin: 0 10px;
             transition: transform 0.2s;
             cursor: pointer;
         }
+
         .card:hover {
             transform: scale(1.05);
         }
+
         .card-img {
             height: 300px;
             width: 200px;
@@ -46,6 +54,7 @@
             display: block;
             margin: auto;
         }
+
         .control-button {
             position: absolute;
             top: 50%;
@@ -55,23 +64,48 @@
             cursor: pointer;
             z-index: 1;
         }
+
         .prev-button {
             left: 10px;
         }
+
         .next-button {
             right: 10px;
         }
+
         .section {
             display: none;
             opacity: 0;
             transform: translateX(100%);
             transition: opacity 0.75s ease-in-out, transform 0.75s ease-in-out; /* Changed transition duration */
         }
+
         .active-section {
             display: block;
             opacity: 1;
             transform: translateX(0);
         }
+
+        <
+        style >
+        .stars-outer {
+            display: inline-block;
+            position: relative;
+            font-family: FontAwesome;
+            font-size: 1em;
+            color: #d3d3d3;
+        }
+
+        .stars-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #f8ce0b;
+        }
+    </style>
+
     </style>
 </head>
 <body>
@@ -90,9 +124,11 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
-<%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
+                                    <%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1" maxFractionDigits="1"/></p>
+                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number"
+                                                                           minFractionDigits="1"
+                                                                           maxFractionDigits="1"/></p>
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>
@@ -117,9 +153,17 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
-<%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
+                                    <%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1" maxFractionDigits="1"/></p>
+                                <p class="card-text">
+                                    평점:
+                                    <span class="stars-outer">
+        <span class="stars-inner" style="width: <c:out value='${book.bookRating / 5.0 * 100}'/>%;"></span>
+    </span>
+                                    <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1"
+                                                      maxFractionDigits="1"/>
+                                </p>
+
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>
@@ -144,9 +188,11 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
-<%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
+                                    <%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1" maxFractionDigits="1"/></p>
+                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number"
+                                                                           minFractionDigits="1"
+                                                                           maxFractionDigits="1"/></p>
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>
