@@ -29,6 +29,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    // 리뷰 작성
     @PostMapping("/{bookId}")
     public ResponseEntity<Map<String, Object>> createReview(
             @PathVariable String bookId,
@@ -59,6 +60,7 @@ public class ReviewController {
         }
     }
 
+    // 리뷰 수정
     @PutMapping("/{reviewId}")
     public ResponseEntity<Map<String, Object>> updateReview(
             @PathVariable String reviewId,
@@ -99,10 +101,12 @@ public class ReviewController {
         }
     }
 
+    // 리뷰 삭제
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Map<String, Object>> deleteReview(
             @PathVariable String reviewId,
             HttpSession session) {
+        log.info("Received request to delete review with ID: {}", reviewId);
         Map<String, Object> response = new HashMap<>();
 
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LoginUtils.LOGIN_KEY);
@@ -131,6 +135,7 @@ public class ReviewController {
         }
     }
 
+    // 리뷰 불러오기
     @GetMapping("/book/{bookId}")
     public ResponseEntity<Page<ReviewResponseDTO>> getReviewsByBook(
             @PathVariable String bookId,

@@ -47,6 +47,10 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(review);
+
+        book.setReviewCount(book.getReviewCount() + 1);
+        bookRepository.save(book);
+
         return review;
     }
 
@@ -72,7 +76,11 @@ public class ReviewService {
             throw new SecurityException("본인의 리뷰만 삭제할 수 있습니다.");
         }
 
+        Book book = review.getBook();
         reviewRepository.deleteById(reviewId);
+
+        book.setReviewCount(book.getReviewCount() - 1);
+        bookRepository.save(book);
     }
 
     public Review findById(String reviewId) {

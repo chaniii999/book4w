@@ -9,12 +9,16 @@ import lombok.*;
 @EqualsAndHashCode
 @AllArgsConstructor
 @Builder
+@Setter
+
 public class ReviewResponseDTO {
     private final String id;
     private int rating;
     private final String content;
     private final String memberName;
     private String memberUuid;
+
+    private int reviewCount;
 
 
 
@@ -25,6 +29,7 @@ public class ReviewResponseDTO {
         this.content = review.getContent();
         this.memberName = review.getMember().getNickname();
         this.memberUuid = review.getMember().getUuid();
+        this.reviewCount = review.getBook().getReviewCount();
     }
 }
 
