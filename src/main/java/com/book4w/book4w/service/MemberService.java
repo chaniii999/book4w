@@ -75,10 +75,10 @@ public class MemberService {
 
         String setFrom = "book4wtest@gmail.com"; // 발신용 이메일 주소(properties랑 똑같아야 함!)
         String toMail = email; // 수신받을 이메일 (가입하고자 하는 사람의 이메일)
-        String title = "Spring MVC 회원 가입 인증 이메일 입니다."; // 실제 이메일 제목
+        String title = "Book4W 회원가입 인증 이메일입니다."; // 실제 이메일 제목
         String content = "홈페이지 가입을 신청해 주셔서 감사합니다." +
                 "<br><br>" +
-                "인증 번호는 <strong>" + authCode + "</strong> 입니다. <br>" +
+                "인증 번호는 <strong>" + authCode + "</strong>입니다. <br>" +
                 "해당 인증 번호를 인증번호 확인란에 기입해 주세요."; // 이메일에 삽입할 내용 (더 꾸며보세요)
 
         sendMail(setFrom, toMail, title, content);
