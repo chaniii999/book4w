@@ -2,6 +2,10 @@ package com.book4w.book4w.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter @Setter
 @ToString(exclude = {"member", "book"})
@@ -9,6 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "reviews")
 
 public class Review {
@@ -31,4 +36,10 @@ public class Review {
 
     @Column(nullable = false)
     private int rating; // 평점
+
+    @CreatedDate
+    @Column(name = "created_date", updatable = false)
+    private LocalDateTime createdDate;
+
+
 }

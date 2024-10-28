@@ -1,7 +1,6 @@
 package com.book4w.book4w.service;
 
 import com.book4w.book4w.dto.request.ReviewPostRequestDTO;
-import com.book4w.book4w.dto.request.ReviewUpdateRequestDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.entity.Member;
@@ -10,21 +9,12 @@ import com.book4w.book4w.repository.BookRepository;
 import com.book4w.book4w.repository.MemberRepository;
 import com.book4w.book4w.repository.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreInvocationAuthorizationAdviceVoter;
 import org.springframework.stereotype.Service;
 
-import java.io.Console;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -37,14 +27,17 @@ public class ReviewService {
     private final BookRepository bookRepository;
 
 
-    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
-        return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
+//    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
+//        return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
+//    }
+
+    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable pageable) {
+        return reviewRepository.findByBookIdOrderByCreatedDateDesc(bookId, pageable)
+                .map(ReviewResponseDTO::new);
     }
 
 
-    /* 리뷰 DB저장 후 화면에 출력 */
-    /* 리뷰 저장 기능 */
-    public void saveReview(String bookId, ReviewPostRequestDTO dto) {
+    public Review register(String bookId, ReviewPostRequestDTO dto) {
         // 책 정보 조회
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("책을 찾을 수 없습니다."));
@@ -54,7 +47,6 @@ public class ReviewService {
         Member member = memberRepository.findById(memberUuid)
                 .orElseThrow(() -> new EntityNotFoundException("회원 정보를 찾을 수 없습니다."));
 
-        // 리뷰 생성 및 저장
         Review review = Review.builder()
                 .id(UUID.randomUUID().toString())
                 .member(member)
@@ -64,7 +56,9 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(review);
+        return review;
     }
+
 
     public void updateReview(String reviewId, String newContent) {
         Review review = reviewRepository.findById(reviewId)
@@ -75,6 +69,17 @@ public class ReviewService {
 
         // 업데이트된 리뷰 저장
         reviewRepository.save(review);
+    }
+
+    // 특정 리뷰를 ID로 조회하는 메서드 추가
+    public Review findById(String reviewId) {
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
+    }
+
+
+    public void deleteReview(String reviewId) {
+        reviewRepository.deleteById(reviewId);
     }
 }
 
