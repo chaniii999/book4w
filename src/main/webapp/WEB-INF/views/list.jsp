@@ -31,7 +31,7 @@
         .card-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            justify-content: center;
             gap: 30px;
             padding: 20px;
         }
@@ -59,9 +59,17 @@
             margin: 5px 0;
             color: #555;
         }
+        .card img {
+            width: 150px;
+            height: auto;
+            border-radius: 4px;
+            margin: 0 auto 10px;
+            display: block;
+        }
         .pagination {
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Center the pagination links */
+            align-items: center; /* Center align items vertically */
             margin-top: 20px;
             padding: 20px 0;
         }
@@ -69,15 +77,17 @@
             margin: 0 5px;
             padding: 8px 16px;
             text-decoration: none;
-            color: #000;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            color: #0078D7;
+            border: 1px solid #0078D7;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
         }
         .pagination a:hover {
-            background-color: #ddd;
+            background-color: #E1E1E1;
+            color: white;
         }
         .pagination .active {
-            background-color: #4CAF50;
+            background-color: #0078D7;
             color: white;
         }
         .search-container {
@@ -144,6 +154,7 @@
             <c:forEach var="book" items="${bList}">
                 <a href="${pageContext.request.contextPath}/board/detail/${book.id}" class="card-link" style="text-decoration: none; color: inherit;">
                     <div class="card">
+                    <img src="/images/Cover4.jpg" class="card-img-top card-img" alt="Book 3 이미지">
                         <h3>${book.name}</h3>
                         <p><strong>저자:</strong> ${book.writer}</p>
                         <p><strong>출판사:</strong> ${book.pub}</p>
