@@ -6,9 +6,7 @@ import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.dto.response.LoginUserResponseDTO;
 import com.book4w.book4w.dto.response.ReviewResponseDTO;
-import com.book4w.book4w.service.BoardService;
-import com.book4w.book4w.service.DetailService;
-import com.book4w.book4w.service.ReviewService;
+import com.book4w.book4w.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +36,7 @@ public class BoardController {
     private final BoardService boardService;
     private final DetailService detailService;
     private final ReviewService reviewService;
+
 
     @GetMapping("/list")
     public String list(Model model,
@@ -231,21 +230,15 @@ public class BoardController {
         }
         System.out.println("null이 아니랑꼐요");
 
+        // Issue 여기서 부터 시작.
         // 좋아요 토글 및 카운트 업데이트
         boolean isLiked = detailService.toggleLike(bookId, user.getUuid());
-        int likeCount = detailService.getBookDetail(bookId, user.getUuid()).getLikeCount(); // 좋아요 수 업데이트
 
+        int likeCount = detailService.getBookDetail(bookId, user.getUuid()).getLikeCount(); // 좋아요 수 업데이트
         response.put("success", true);
         response.put("isLiked", isLiked);
         response.put("likeCount", likeCount); // 좋아요 수를 응답에 포함
 
         return ResponseEntity.ok(response); // 성공 시 OK 상태 코드와 함께 반환
     }
-
-
-
-
-
-
-
 }

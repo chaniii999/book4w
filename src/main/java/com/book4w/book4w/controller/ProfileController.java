@@ -42,16 +42,19 @@ public class ProfileController {
     }
 
     @GetMapping("/liked-books")
-    public String likedBooks(HttpServletRequest request,
-        Model model) {
+    public String likedBooks(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
 
         if (user != null) {
-            System.out.println("앙기모띠 null입니다요");
             List<LikedBooksResponseDTO> likedBooks = profileService.getLikedBooksForMember(
                 user.getEmail());
+            if (likedBooks != null) {
+                System.out.println("likedBooks = " + likedBooks);
+            }
             model.addAttribute("likedBooks", likedBooks);
+        } else {
+            return "redirect:/";
         }
 
         return "liked-books";

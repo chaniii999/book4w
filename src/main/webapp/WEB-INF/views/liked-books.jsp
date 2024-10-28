@@ -26,35 +26,35 @@
     </style>
 </head>
 <body>
-    <h1>내 좋아요 목록</h1>
+<h1>내 좋아요 목록</h1>
 
-    <c:set var="user" value="${sessionScope['login']}" />
-    <c:if test="${empty user}">
-        <p>로그인이 필요합니다.</p>
-    </c:if>
+<c:set var="user" value="${sessionScope['login']}" />
+<c:if test="${empty user}">
+    <p>로그인이 필요합니다.</p>
+</c:if>
 
-    <c:if test="${not empty user}">
-        <c:if test="${not empty likedBooks}">
-            <div>
-                <c:forEach var="book" items="${likedBooks}">
-                    <div class="card">
-                        <div class="card-header">
+<c:if test="${not empty user}">
+    <c:if test="${not empty likedBooks}">
+        <div>
+            <c:forEach var="book" items="${likedBooks}">
+                <div class="card">
+                    <div class="card-header">
                             ${book.name} - ${book.writer}
-                        </div>
-                        <div class="card-rating">
-                            평점: ${book.rating} ★
-                        </div>
-                        <div class="card-content">
-                            좋아요 수: ${book.likeCount}
-                        </div>
                     </div>
-                </c:forEach>
-            </div>
-        </c:if>
-
-        <c:if test="${empty likedBooks}">
-            <p>좋아요 목록이 없습니다.</p>
-        </c:if>
+                    <div class="card-rating">
+                        평점: ${book.rating} ★
+                    </div>
+                    <div class="card-content">
+                        좋아요 수: ${book.likeCount}
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
     </c:if>
+
+    <c:if test="${empty likedBooks}">
+        <p>좋아요 목록이 없습니다.</p>
+    </c:if>
+</c:if>
 </body>
 </html>

@@ -18,8 +18,7 @@ import java.util.List;
 public class ProfileService {
 
     private final MemberService memberService;
-    private final BookRepository bookRepository;
-    private final BookLikeRepository bookLikeRepository;
+
 
     @Transactional
     public List<LikedBooksResponseDTO> getLikedBooksForMember(String email) {
@@ -39,9 +38,6 @@ public class ProfileService {
                     .toList();
         }
         return Collections.emptyList();
-
-
-
     }
 
     public List<MyReviewResponseDTO> getmyReviewsForMember(String email) {

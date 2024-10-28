@@ -4,6 +4,8 @@ package com.book4w.book4w.service;
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.entity.Book;
 
+import com.book4w.book4w.entity.BookLike;
+import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -63,4 +67,27 @@ public class BoardService {
         return bookPage.map(BookDetailResponseDTO::new);
     }
 
+    public void addLikedBook(String bookId, String uuid) {
+        Book book = bookRepository.findById(bookId)
+               .orElseThrow(() -> new RuntimeException("���을 ��을 수 없습니다."));
+        Optional<Member> user = memberService.findById(uuid);
+        Member member = user.get();
+        bookRepository.save(book);
+
+        bookLikeRepository.save(BookLike.builder()
+                .book(book)
+                .member(member)
+                .build());
+    }
+
+    public void removeLikedBook(String bookId, String uuid) {
+        Book book = bookRepository.findById(bookId)
+               .orElseThrow(() -> new RuntimeException("책 데이터를 읽을 수 없습니다."));
+        Member member = memberService.findByUuid(uuid);
+
+        BookLike bookLike = bookLikeRepository.findByBookAndMember(book, member);
+        if (bookLike!= null) {
+            bookLikeRepository.delete(bookLike);
+        }
+    }
 }
