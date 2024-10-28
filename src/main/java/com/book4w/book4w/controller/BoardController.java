@@ -38,6 +38,10 @@ public class BoardController {
     private final ReviewService reviewService;
 
 
+    /*
+    도서 목록 페이지
+    @Param 모델, 요청 페이지 번호
+     */
     @GetMapping("/list")
     public String list(Model model,
         @PageableDefault(size = 9) Pageable page,
