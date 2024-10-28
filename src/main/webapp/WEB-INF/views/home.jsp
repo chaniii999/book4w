@@ -25,7 +25,7 @@
         }
         .slider-wrapper {
             display: flex;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.75s ease-in-out; /* Changed transition duration */
             align-items: center;
         }
         .card {
@@ -61,9 +61,14 @@
         }
         .section {
             display: none;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.75s ease-in-out, transform 0.75s ease-in-out; /* Changed transition duration */
         }
         .active-section {
             display: block;
+            opacity: 1;
+            transform: translateX(0);
         }
     </style>
 </head>
@@ -158,10 +163,27 @@
     const sections = document.querySelectorAll('.section');
 
     function switchSection(direction) {
-        sections[currentSection].classList.remove('active-section');
+        const current = sections[currentSection];
         currentSection = (currentSection + direction + sections.length) % sections.length;
-        sections[currentSection].classList.add('active-section');
+        const next = sections[currentSection];
+
+        current.classList.remove('active-section');
+        next.classList.remove('active-section');
+
+        current.style.transform = direction > 0 ? 'translateX(-100%)' : 'translateX(100%)';
+        next.style.display = 'block';
+        next.style.transform = direction > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+
+        setTimeout(() => {
+            current.style.display = 'none';
+            next.style.transform = 'translateX(0)';
+            next.classList.add('active-section');
+        }, 750); // Adjusted to 750ms for slower, smoother animation
     }
+
+    setInterval(() => {
+        switchSection(1);
+    }, 5000); // Automatically switch sections every 5 seconds
 </script>
 </body>
 </html>
