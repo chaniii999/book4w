@@ -31,7 +31,7 @@
         .card-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around; /* 중앙 정렬 + 균등 배치 */
+            justify-content: center;
             gap: 30px;
             padding: 20px;
         }
@@ -41,13 +41,12 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 16px;
-            flex: 1 1 calc(33.333% - 40px); /* flex-grow, flex-shrink, flex-basis 조정 */
+            flex: 1 1 calc(33.333% - 40px);
             box-sizing: border-box;
             text-align: center;
             transition: transform 0.2s;
             cursor: pointer;
-            min-width: 250px; /* 최소 너비 설정 */
-            max-width: 300px; /* 최대 너비 설정 */
+            min-width: 250px;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -60,9 +59,17 @@
             margin: 5px 0;
             color: #555;
         }
+        .card img {
+            width: 150px;
+            height: auto;
+            border-radius: 4px;
+            margin: 0 auto 10px;
+            display: block;
+        }
         .pagination {
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Center the pagination links */
+            align-items: center; /* Center align items vertically */
             margin-top: 20px;
             padding: 20px 0;
         }
@@ -70,22 +77,57 @@
             margin: 0 5px;
             padding: 8px 16px;
             text-decoration: none;
-            color: #000;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            color: #0078D7;
+            border: 1px solid #0078D7;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
         }
         .pagination a:hover {
-            background-color: #ddd;
-        }
-        .pagination .active {
-            background-color: #4CAF50;
+            background-color: #E1E1E1;
             color: white;
         }
-        .sort-container {
-            margin-left: auto;
+        .pagination .active {
+            background-color: #0078D7;
+            color: white;
         }
         .search-container {
             margin-right: 20px;
+        }
+        .sort-container {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            margin-left: auto;
+        }
+        .sort-container label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        .sort-container select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: border-color 0.2s;
+        }
+        .sort-container select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        .sort-container select:hover {
+            background-color: #f1f1f1;
+        }
+        .sort-container select option {
+            padding: 10px;
+            color: #000;
         }
     </style>
 </head>
@@ -112,6 +154,7 @@
             <c:forEach var="book" items="${bList}">
                 <a href="${pageContext.request.contextPath}/board/detail/${book.id}" class="card-link" style="text-decoration: none; color: inherit;">
                     <div class="card">
+                    <img src="/images/Cover4.jpg" class="card-img-top card-img" alt="Book 3 이미지">
                         <h3>${book.name}</h3>
                         <p><strong>저자:</strong> ${book.writer}</p>
                         <p><strong>출판사:</strong> ${book.pub}</p>
@@ -127,18 +170,23 @@
             <p>검색 결과가 없습니다.</p>
         </c:if>
     </div>
-    <!-- 페이지네이션 -->
     <div class="pagination">
         <c:if test="${maker.hasPrevious()}">
-            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number - 1}" class="prev">&laquo; 이전</a>
+            <c:set var="prevStartPage" value="${(maker.number - 10) < 0 ? 0 : (maker.number - 10)}" />
+            <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage.intValue()}" class="prev">&laquo; 이전</a>
         </c:if>
         <c:if test="${maker.totalPages > 0}">
-            <c:forEach var="i" begin="0" end="${maker.totalPages - 1}">
-                <a href="?sort=${param.sort}&query=${param.query}&page=${i}" class="${i == maker.number ? 'active' : ''}">${i + 1}</a>
+            <c:set var="startPage" value="${(maker.number / 10) * 10}" />
+            <c:set var="endPage" value="${(startPage + 9) < maker.totalPages ? (startPage + 9) : (maker.totalPages - 1)}" />
+            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                <a href="?sort=${param.sort}&query=${param.query}&page=${i.intValue()}" class="${i == maker.number ? 'active' : ''}">
+                    ${i + 1}
+                </a>
             </c:forEach>
         </c:if>
-        <c:if test="${maker.hasNext()}">
-            <a href="?sort=${param.sort}&query=${param.query}&page=${maker.number + 1}" class="next">다음 &raquo;</a>
+        <c:if test="${endPage < (maker.totalPages - 1)}">
+            <c:set var="nextStartPage" value="${endPage + 1}" />
+            <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage.intValue()}" class="next">다음 &raquo;</a>
         </c:if>
     </div>
 </div>
