@@ -46,6 +46,15 @@ dependencies {
 
     // 입력값 검증 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //스프링 시큐리티 모듈
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // spring-boot-starter-mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // 자바 언어를 통해 smtp 통신을 할 수 있게 하는 라이브러리
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
 }
 
 tasks.named('test') {

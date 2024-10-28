@@ -16,8 +16,15 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: book4wtest@gmail.com
+    password: ddhtkrwxrcjmkxte
+    properties:
+      smtp:
+        auth: true
+        starttls.enable: true
 
 # log level setting
 logging:

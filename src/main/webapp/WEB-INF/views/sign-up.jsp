@@ -220,12 +220,12 @@
 <div class="container">
     <h2>회원가입</h2>
 
-    <form action="${pageContext.request.contextPath}/domain/sign-up" method="post">
+    <form action="${pageContext.request.contextPath}/sign-up" method="post">
         <label for="email">이메일:</label>
         <input type="email" id="email" name="email" placeholder="이메일 입력" value="${not empty email ? email : ''}">
         <div id="email-feedback" style="margin-top: 5px;"></div> <!-- 이메일 중복 체크 결과 표시 영역 -->
 
-        <div class="email-auth-btn">이메일 인증</div>
+        <div class="email-auth-btn active" onClick="openEmailAuthWindow()">이메일 인증</div>
 
         <label for="nickname">닉네임:</label>
         <input type="text" id="nickname" name="nickname" placeholder="닉네임 입력" value="${not empty nickname ? nickname : ''}">
@@ -242,5 +242,16 @@
     </form>
 </div>
 
+<script>
+    function openEmailAuthWindow() {
+        const email = $('#email').val(); // jQuery를 사용하여 이메일 값을 가져옵니다.
+
+        window.open(
+            '${pageContext.request.contextPath}/email-auth?email=' + encodeURIComponent(email),
+            'EmailAuthWindow',
+            'width=400, height=500, resizeable=yes, scrollbar=yes'
+        );
+    }
+</script>
 </body>
 </html>
