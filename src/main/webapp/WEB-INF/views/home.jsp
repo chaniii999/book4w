@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  <!-- fmt 태그 추가 -->
+
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -88,9 +90,9 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">작가: ${book.bookWriter}</p>
+<%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: ${book.bookRating}</p>
+                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1" maxFractionDigits="1"/></p>
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>
@@ -115,9 +117,9 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">작가: ${book.bookWriter}</p>
+<%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: ${book.bookRating}</p>
+                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1" maxFractionDigits="1"/></p>
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>
@@ -142,9 +144,9 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">작가: ${book.bookWriter}</p>
+<%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: ${book.bookRating}</p>
+                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1" maxFractionDigits="1"/></p>
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>
@@ -183,7 +185,7 @@
 
     setInterval(() => {
         switchSection(1);
-    }, 5000); // Automatically switch sections every 5 seconds
+    }, 10000); // Automatically switch sections every 5 seconds
 </script>
 </body>
 </html>
