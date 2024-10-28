@@ -19,9 +19,9 @@ public class InterceptorConfig  implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry
                 .addInterceptor(afterLoginInterceptor)
-                .addPathPatterns("/domain/sign-in", "/domain/sign-up");
+                .addPathPatterns("/sign-in", "/sign-up");
         registry
                 .addInterceptor(beforeLoginInterceptor)
-                .addPathPatterns("member-info","liked-books","my-reviews");
+                .addPathPatterns("/profile/info","/profile/liked-books","/profile/my-reviews");
     }
 }

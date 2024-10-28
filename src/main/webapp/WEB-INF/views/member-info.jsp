@@ -112,7 +112,6 @@
         </c:if>
         <div class="btn-container">
             <a href="javascript:toggleNicknameChange()" class="btn">닉네임 변경</a>
-            <a href="/profile/change-password" class="btn">비밀번호 변경</a>
         </div>
         <div class="nickname-change">
             <form id="nicknameForm" action="/profile/change-nickname" method="post">

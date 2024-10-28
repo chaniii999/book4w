@@ -7,6 +7,7 @@ import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
 import com.book4w.book4w.dto.response.DetailPageResponseDTO;
 import com.book4w.book4w.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,8 @@ public class DetailService {
 
 
 
+
+    @Transactional
     public boolean toggleLike(String bookId, String memberUuid) {
         Book book = bookRepository.findById(bookId).orElseThrow();
         boolean isLiked = bookLikeRepository.existsByBookIdAndMemberUuid(bookId, memberUuid);

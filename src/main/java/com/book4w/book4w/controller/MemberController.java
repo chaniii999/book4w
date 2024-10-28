@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static com.book4w.book4w.utils.LoginUtils.LOGIN_KEY;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -28,13 +30,14 @@ public class MemberController {
     @PostMapping("/sign-in")
     public String signIn(@RequestParam String email,
                          @RequestParam String password,
-                         HttpServletRequest request,
-                         HttpServletResponse response) {
+                         HttpServletRequest request
+                         ) {
 
-        Member member = memberService.findByEmail(email); // 계정 찾아서
+        Member member =  memberService.findByEmail(email); // 계정 찾아서
         LoginResult result = memberService.authenticate(email,password); // 계정,비번 맞니?
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession();
         if (result == LoginResult.SUCCESS) { // 맞으면
+            session.setAttribute(LOGIN_KEY,member);
 
             memberService.maintainLoginState(session,email); // 로그인상태 유지!
             return "redirect:/"; // 로그인 성공 후 리다이렉트
@@ -58,8 +61,8 @@ public class MemberController {
     @PostMapping("/sign-up")
     public String signUp(@RequestParam String email,
                          @RequestParam String nickname,
-                         @RequestParam String password,
-                         Model model) {
+                         @RequestParam String password
+                         ) {
        Member findMember = memberService.findByEmail(email);
 
         if (findMember == null) {
