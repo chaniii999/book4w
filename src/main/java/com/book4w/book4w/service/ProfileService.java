@@ -8,6 +8,7 @@ import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ProfileService {
 
     private final MemberService memberService;
@@ -42,15 +44,20 @@ public class ProfileService {
 
     public List<MyReviewResponseDTO> getmyReviewsForMember(String email) {
         Member member = memberService.findByEmail(email);
+        log.info("member: {}", member);
+
         if (member != null) {
             return member.getReviews().stream()
-                    .map(review -> MyReviewResponseDTO.builder()
-                            .bookName(review.getBook().getName())
-                            .writer(review.getBook().getWriter())
-                            .content(review.getContent())
-                            .rating(review.getRating())
-                            .build())
+                    .map(MyReviewResponseDTO::fromReview)
                     .toList();
+//                    .map(review -> MyReviewResponseDTO.builder()
+//                            .bookId(review.getBook().getId())
+//                            .bookName(review.getBook().getName())
+//                            .writer(review.getBook().getWriter())
+//                            .content(review.getContent())
+//                            .rating(review.getRating())
+//                            .build())
+//                    .toList();
         }
         return Collections.emptyList();
     }
