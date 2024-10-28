@@ -14,6 +14,7 @@ public class ReviewResponseDTO {
     private int rating;
     private final String content;
     private final String memberName;
+    private String memberUuid;
 
 
 
@@ -23,6 +24,7 @@ public class ReviewResponseDTO {
         this.rating = review.getRating();
         this.content = review.getContent();
         this.memberName = review.getMember().getNickname();
+        this.memberUuid = review.getMember().getUuid();
     }
 }
 
