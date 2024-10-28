@@ -78,5 +78,8 @@ public class ReviewService {
     }
 
 
+    public void deleteReview(String reviewId) {
+        reviewRepository.deleteById(reviewId);
+    }
 }
 

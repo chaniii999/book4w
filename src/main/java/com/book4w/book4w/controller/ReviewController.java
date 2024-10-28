@@ -78,23 +78,23 @@ public class ReviewController {
         }
     }
 
-//    // 리뷰 삭제
-//    @DeleteMapping("/{reviewId}")
-//    public ResponseEntity<Map<String, Object>> deleteReview(@PathVariable String reviewId) {
-//        Map<String, Object> response = new HashMap<>();
-//
-//        try {
-//            reviewService.deleteReview(reviewId);
-//            response.put("success", true);
-//            response.put("message", "리뷰가 성공적으로 삭제되었습니다.");
-//            return ResponseEntity.ok(response);
-//        } catch (Exception e) {
-//            response.put("success", false);
-//            response.put("message", "리뷰 삭제 중 오류가 발생했습니다.");
-//            log.error("Error deleting review", e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-//        }
-//    }
+    // 리뷰 삭제
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<Map<String, Object>> deleteReview(@PathVariable String reviewId) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            reviewService.deleteReview(reviewId);
+            response.put("success", true);
+            response.put("message", "리뷰가 성공적으로 삭제되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "리뷰 삭제 중 오류가 발생했습니다.");
+            log.error("Error deleting review", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 
     // 특정 책의 리뷰 목록 조회 (페이징 포함)
     @GetMapping("/book/{bookId}")
