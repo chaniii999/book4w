@@ -22,11 +22,4 @@ public class ReviewPostRequestDTO {
     private final String content;
     private int rating;
 
-
-    public ReviewPostRequestDTO(Review review) {
-        this.content = review.getContent();
-        this.rating = review.getRating();
-        this.memberUuid = review.getMember().getUuid();
-        this.nickName = review.getMember().getNickname();
-    }
 }
