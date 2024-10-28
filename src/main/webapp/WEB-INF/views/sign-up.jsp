@@ -120,6 +120,55 @@
             let isEmailValid = false;
             let isNicknameValid = false;
             let isPasswordValid = false;
+            let isAuthCodeValid = false;
+
+            // 이메일 인증 전송 함수
+            $('#send-auth-code').on('click', function() {
+                const email = $('#email').val(); // 이메일 값 가져오기
+
+                if (isValidEmail(email)) {
+                    $.ajax({
+                        url: '/send-auth-code', // 이메일 인증 코드 요청 URL
+                        type: 'POST',
+                        data: { email: email }, // 이메일 데이터 전송
+                        success: function(data) {
+                            // 인증 코드 전송 성공 시
+                            $('#auth-code').prop('disabled', false); // 인증 코드 입력란 활성화
+                            $('#verify-code-btn').prop('disabled', false); // 확인 버튼 활성화
+                            $('#auth-code-feedback').html('<span class="success-message">인증 코드가 이메일로 전송되었습니다.</span>');
+                        },
+                        error: function() {
+                            $('#auth-code-feedback').html('<span class="error-message">이메일 전송에 실패했습니다.</span>');
+                        }
+                    });
+                } else {
+                    $('#auth-code-feedback').html('<span class="error-message">올바른 이메일 형식이 아닙니다.</span>');
+                }
+            });
+
+            // 인증 코드 확인 함수
+            $('#verify-code-btn').on('click', function() {
+                const enteredCode = $('#auth-code').val(); // 입력된 인증 코드 가져오기
+
+                $.ajax({
+                    url: '/verify-auth-code', // 인증 코드 검증 URL
+                    type: 'POST',
+                    data: { authCode: enteredCode }, // 입력된 코드 전송
+                    success: function(data) {
+                        if (data.isValid) {
+                            $('#auth-code-feedback').html('<span class="success-message">인증 코드가 확인되었습니다.</span>');
+                            isAuthCodeValid = true; // 인증 코드 유효성 변수
+                        } else {
+                            $('#auth-code-feedback').html('<span class="error-message">인증 코드가 올바르지 않습니다.</span>');
+                            isAuthCodeValid = false; // 코드 무효
+                        }
+                        toggleSubmitButton(); // 버튼 상태 업데이트
+                    },
+                    error: function() {
+                        $('#auth-code-feedback').html('<span class="error-message">서버 오류가 발생했습니다.</span>');
+                    }
+                });
+            });
 
             // 이메일 형식 검사 함수
             function isValidEmail(email) {
@@ -202,8 +251,8 @@
             // 버튼 상태 업데이트 함수
             function toggleSubmitButton() {
                 const submitButton = $('.signup-btn');
-                // 이메일, 닉네임, 비밀번호가 모두 유효한 경우에만 활성화
-                if (isEmailValid && isNicknameValid && isPasswordValid) {
+                // 이메일, 닉네임, 비밀번호, 인증 코드 모두 유효한 경우에만 활성화
+                if (isEmailValid && isNicknameValid && isPasswordValid && isAuthCodeValid) {
                     submitButton.prop('disabled', false); // 버튼 활성화
                 } else {
                     submitButton.prop('disabled', true); // 버튼 비활성화
@@ -225,7 +274,7 @@
         <input type="email" id="email" name="email" placeholder="이메일 입력" value="${not empty email ? email : ''}">
         <div id="email-feedback" style="margin-top: 5px;"></div> <!-- 이메일 중복 체크 결과 표시 영역 -->
 
-        <div class="email-auth-btn active" onClick="openEmailAuthWindow()">이메일 인증</div>
+        <div class="email-auth-btn active" id="send-auth-code">이메일 인증</div> <!-- 버튼 ID 추가 -->
 
         <!-- 인증 코드 입력란 추가 -->
         <label for="auth-code">인증 코드:</label>
@@ -250,16 +299,5 @@
     </form>
 </div>
 
-<script>
-    function openEmailAuthWindow() {
-        const email = $('#email').val(); // jQuery를 사용하여 이메일 값을 가져옵니다.
-
-        window.open(
-            '${pageContext.request.contextPath}/email-auth?email=' + encodeURIComponent(email),
-            'EmailAuthWindow',
-            'width=400, height=500, resizeable=yes, scrollbar=yes'
-        );
-    }
-</script>
 </body>
 </html>

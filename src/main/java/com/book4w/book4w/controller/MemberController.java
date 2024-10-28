@@ -9,11 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.book4w.book4w.utils.LoginUtils.LOGIN_KEY;
 
@@ -74,10 +78,21 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/email-auth")
-    public String emailAuth(@RequestParam("email") String email, Model model) throws MessagingException {
-        String authCode = memberService.sendAuthCode(email);  // 인증 코드 발송
-        model.addAttribute("authCode", authCode);  // 인증 코드를 모델에 추가
-        return "emailAuth";  // emailAuth.jsp 페이지로 이동
+    // 이메일 인증 코드 전송 처리
+    @PostMapping("/send-auth-code")
+    public ResponseEntity<Void> sendAuthCode(@RequestParam String email, HttpSession session) throws MessagingException {
+        String authCode = memberService.sendAuthCode(email); // 인증 코드 발송
+        session.setAttribute("sentAuthCode", authCode); // 세션에 인증 코드 저장
+        return ResponseEntity.ok().build(); // 성공 응답 반환
+    }
+
+    // 인증 코드 확인 처리
+    @PostMapping("/verify-auth-code")
+    public ResponseEntity<Map<String, Object>> verifyAuthCode(@RequestParam String authCode, HttpSession session) {
+        String sentAuthCode = (String) session.getAttribute("sentAuthCode");
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("isValid", sentAuthCode != null && sentAuthCode.equals(authCode)); // 입력된 코드와 비교
+        return ResponseEntity.ok(response); // 응답 반환
     }
 }
