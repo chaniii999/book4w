@@ -179,5 +179,5 @@
         slider.style.transform = `translateX(${newTransform}px)`; // Apply the transform
     }
 </script>
-</body>
+</body>..........
 </html>
