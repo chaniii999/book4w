@@ -15,6 +15,12 @@
             margin: 10px 0;
             border-radius: 5px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .card:hover {
+            background-color: #f9f9f9;
         }
         .card-header {
             font-weight: bold;
@@ -37,9 +43,9 @@
     <c:if test="${not empty likedBooks}">
         <div>
             <c:forEach var="book" items="${likedBooks}">
-                <div class="card">
+                <a href="/board/detail/${book.id}" class="card">
                     <div class="card-header">
-                            ${book.name} - ${book.writer}
+                        ${book.name} - ${book.writer}
                     </div>
                     <div class="card-rating">
                         평점: ${book.rating} ★
@@ -47,7 +53,7 @@
                     <div class="card-content">
                         좋아요 수: ${book.likeCount}
                     </div>
-                </div>
+                </a>
             </c:forEach>
         </div>
     </c:if>
