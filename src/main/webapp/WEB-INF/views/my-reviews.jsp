@@ -106,7 +106,7 @@
                             ${review.bookName} - ${review.writer}
                         </div>
                         <div class="card-rating">
-                            평점: <fmt:formatNumber value="${book.rating/book.reviewCount}" maxFractionDigits="1" /> ★
+                            평점: ★ <fmt:formatNumber value="${review.rating}" maxFractionDigits="1" />
                         </div>
                         <div class="card-content">
                             ${review.content}
