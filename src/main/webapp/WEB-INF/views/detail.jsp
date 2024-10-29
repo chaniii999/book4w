@@ -8,12 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${book.name} - 상세 정보</title>
     <link rel="stylesheet" href="/css/style.css">
+
     <style>
+        /* 전체 페이지 가운데 정렬 */
         .book-detail-container {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding: 20px;
+            max-width: 1200px; /* 전체 페이지에서 중앙에 맞추기 위한 최대 너비 */
+            margin: 0 auto; /* 페이지 중앙 정렬 */
         }
 
         .book-cover {
@@ -33,29 +37,44 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            width: 400px; /* 책 정보의 고정 너비 */
         }
 
         .book-info h2 {
             margin-bottom: 20px;
         }
 
-        .book-meta,
-        .review-list,
-        .review-form {
+        .book-meta {
             display: flex;
             flex-direction: column;
-            align-items: center; /* 가운데 정렬 */
-            text-align: center; /* 텍스트 가운데 정렬 */
+            align-items: flex-start;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .book-meta p,
+        .book-meta button {
+            margin: 5px 0;
+        }
+
+        /* 리뷰 리스트 가운데 정렬 및 책 정보보다 넓게 설정 */
+        .review-list {
+            width: 100%; /* 전체 너비를 사용하여 페이지 중앙 정렬 유지 */
+            max-width: 1000px; /* 최대 너비를 책 정보보다 넓게 설정 */
+            margin: 20px auto; /* 중앙 정렬 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .review-item {
             padding: 10px 0;
             border-bottom: 1px solid #ccc;
-            width: 100%; /* 전체 너비 */
-            max-width: 600px;
+            width: 90%; /* 개별 리뷰의 너비를 설정 */
+            display: flex;
+            flex-direction: column;
         }
 
-        /* 작성자 닉네임과 별점을 한 줄에 배치 */
         .review-header {
             display: flex;
             justify-content: space-between;
@@ -66,43 +85,38 @@
             font-size: 1.1em;
         }
 
-        /* 평점 박스 */
         .review-header .rating-box {
             display: flex;
             align-items: center;
             padding: 5px 10px;
-            background-color: #f0f0f0; /* 박스 배경색 */
+            background-color: #f0f0f0;
             border-radius: 5px;
         }
 
         .rating-box .star {
             font-size: 1em;
             margin-right: 5px;
-            color: #FFD700; /* 별 색상 */
+            color: #FFD700;
         }
 
-
-        /* 리뷰 내용 */
         .review-content {
             margin-top: 5px;
             text-align: left;
-            font-size: 25px;
-            word-break: break-word; /* 긴 내용 줄바꿈 처리 */
+            word-break: break-word;
         }
 
-        /* 수정 및 삭제 버튼 */
         .review-buttons {
-            margin-top: auto; /* 아래쪽으로 밀어 배치 */
-            text-align: right; /* 우측 정렬 */
+            margin-top: auto;
+            text-align: right;
         }
 
         .review-buttons button {
-            margin-right: 5px;
+            margin-left: 5px;
         }
 
         .pagination {
             display: flex;
-            justify-content: center; /* 버튼을 가로로 가운데 정렬 */
+            justify-content: center;
             margin-top: 20px;
         }
 
@@ -175,7 +189,7 @@
             <div class="review-header">
                 <span class="nickname">[${review.memberName}]</span>
                 <span class="rating-box">
-                    <span class="star">⭐</span> ${review.rating} / 5
+                    <span class="star">⭐</span> ${review.rating}
                 </span>
             </div>
 
@@ -198,7 +212,6 @@
             <button onclick="cancelEdit('${review.id}')">취소</button>
         </div>
     </c:forEach>
-</div>
 </div>
 
 <div class="pagination">
