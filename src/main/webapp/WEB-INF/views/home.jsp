@@ -40,72 +40,44 @@
             align-items: center;
         }
 
-
         .card {
-            max-width: 364px; /* 기존 260px에서 약 1.4배 증가 */
-            margin: 0 25px; /* 양옆 간격을 기존 15px에서 25px로 조정 */
+            max-width: 364px;
+            margin: 0 25px;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
             border: none;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
         }
+
         .card:hover {
             transform: scale(1.08);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .card-img {
-            height: 448px; /* 기존 320px에서 약 1.4배 증가 */
+            height: 448px;
             width: 100%;
             object-fit: cover;
             display: block;
         }
 
-        /* 고정된 위치의 버튼 스타일 */
-        .control-button {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 10; /* Ensure buttons are above all other elements */
+        .card-body {
+            padding: 15px;
         }
 
-        .control-button:hover {
-            background-color: #0056b3;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 10px 0;
         }
 
-        .prev-button {
-            left: calc(20px + 3cm); /* 왼쪽 버튼을 카드에서 3cm 떨어지게 조정 */
-        }
-
-        .next-button {
-            right: calc(20px + 3cm); /* 오른쪽 버튼을 카드에서 3cm 떨어지게 조정 */
-        }
-
-
-
-        /* Section transition styles */
-        .section {
-            display: none;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: opacity 0.75s ease-in-out, transform 0.75s ease-in-out;
-        }
-
-        .active-section {
-            display: block;
-            opacity: 1;
-            transform: translateX(0);
+        .card-text {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 8px;
         }
 
         .stars-outer {
@@ -124,7 +96,49 @@
             overflow: hidden;
             color: #f8ce0b;
         }
+
+        .control-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .control-button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .prev-button {
+            left: calc(20px + 5cm);
+        }
+
+        .next-button {
+            right: calc(20px + 5cm);
+        }
+
+        .section {
+            display: none;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.75s ease-in-out, transform 0.75s ease-in-out;
+        }
+
+        .active-section {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
     </style>
+
 </head>
 <body>
 <div class="container my-5 text-center">
@@ -143,11 +157,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number"
-                                                                           minFractionDigits="1"
-                                                                           maxFractionDigits="1"/></p>
-                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>
-                                <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                                <p class="card-text">⭐: <fmt:formatNumber value="${book.bookRating}" type="number"
+                                                                          minFractionDigits="1"
+                                                                          maxFractionDigits="1"/></p>
+                                <p class="card-text">❤️: ${book.likeCount}</p>
+<%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
                             </div>
                         </a>
                     </div>
@@ -170,14 +184,16 @@
                                 <h5 class="card-title">${book.bookName}</h5>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
                                 <p class="card-text">
-                                    평점:
+                                    ⭐:
                                     <span class="stars-outer">
-                                        <span class="stars-inner" style="width: <c:out value='${book.bookRating / 5.0 * 100}'/>%;"></span>
+                                        <span class="stars-inner"
+                                              style="width: <c:out value='${book.bookRating / 5.0 * 100}'/>%;"></span>
                                     </span>
-                                    <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1" maxFractionDigits="1"/>
+                                    <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1"
+                                                      maxFractionDigits="1"/>
                                 </p>
-                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>
-                                <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                                <p class="card-text">❤️: ${book.likeCount}</p>
+<%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
                             </div>
                         </a>
                     </div>
@@ -199,11 +215,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">${book.bookName}</h5>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number"
-                                                                           minFractionDigits="1"
-                                                                           maxFractionDigits="1"/></p>
-                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>
-                                <p class="card-text">좋아요 수: ${book.likeCount}</p>
+                                <p class="card-text">⭐: <fmt:formatNumber value="${book.bookRating}" type="number"
+                                                                          minFractionDigits="1"
+                                                                          maxFractionDigits="1"/></p>
+                                <p class="card-text">❤️: ${book.likeCount}</p>
+<%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
                             </div>
                         </a>
                     </div>
@@ -242,7 +258,7 @@
 
     setInterval(() => {
         switchSection(1);
-    }, 10000);
+    }, 5000);
 </script>
 </body>
 </html>
