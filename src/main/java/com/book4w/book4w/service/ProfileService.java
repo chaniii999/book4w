@@ -9,10 +9,14 @@ import com.book4w.book4w.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -23,10 +27,10 @@ public class ProfileService {
 
 
     @Transactional
-    public List<LikedBooksResponseDTO> getLikedBooksForMember(String email) {
+    public Page<LikedBooksResponseDTO> getLikedBooksForMember(String email, Pageable page) {
         Member member = memberService.findByEmail(email);
         if (member != null) {
-            return member.getLikedBooks().stream()
+            List<LikedBooksResponseDTO> likedBooksList = member.getLikedBooks().stream()
                     .map(book -> LikedBooksResponseDTO.builder()
                             .id(book.getId())
                             .name(book.getName())
@@ -37,10 +41,23 @@ public class ProfileService {
                             .reviewCount(book.getReviewCount())
                             .likeCount(book.getLikeCount())
                             .build())
-                    .toList();
+                    .collect(Collectors.toList());
+
+            // 역순으로 정렬
+            Collections.reverse(likedBooksList);
+
+            // 실제 페이지에 맞게 서브리스트로 제한
+            int start = Math.toIntExact(page.getOffset());
+            int end = Math.min(start + page.getPageSize(), likedBooksList.size());
+            List<LikedBooksResponseDTO> pagedList = likedBooksList.subList(start, end);
+
+            return new PageImpl<>(pagedList, page, likedBooksList.size());
         }
-        return Collections.emptyList();
+        return new PageImpl<>(Collections.emptyList(), page, 0);
     }
+
+
+
 
     public List<MyReviewResponseDTO> getmyReviewsForMember(String email) {
         Member member = memberService.findByEmail(email);
