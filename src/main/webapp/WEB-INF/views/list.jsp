@@ -9,25 +9,28 @@
     <title>도서 목록</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 고급스러운 폰트로 변경 */
             margin: 0;
             padding: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-color: #f9f9f9;
+            background-color: #f4f4f4; /* 배경 색상 변경 */
         }
         .container {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 20px;
+            padding: 30px; /* 여백 증가 */
         }
         h2 {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 2em; /* 제목 크기 증가 */
+            color: #333; /* 제목 색상 변경 */
+            margin-bottom: 20px; /* 아래쪽 여백 증가 */
         }
         .card-container {
             display: flex;
@@ -36,52 +39,58 @@
             gap: 30px;
             padding: 20px;
         }
+        .card-container > a:first-child {
+            margin-left: 1.25rem;
+        }
         .card {
             background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 16px;
+            border: 1px solid #e0e0e0; /* 경계선 색상 변경 */
+            border-radius: 12px; /* 둥근 모서리 증가 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 증가 */
+            padding: 20px; /* 패딩 증가 */
             flex: 1 1 calc(33.333% - 40px);
             box-sizing: border-box;
-            text-align: center;
-            transition: transform 0.2s;
-            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 추가 */
             min-width: 250px;
-            max-width: 300px; /* 카드 최대 너비 설정 */
+            max-width: 300px;
         }
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 증가 */
         }
         .card img {
             width: 100%; /* 이미지 너비를 카드에 맞춤 */
             height: auto;
-            border-radius: 4px;
-            margin-bottom: 10px;
+            border-radius: 8px; /* 둥근 모서리 증가 */
+            margin-bottom: 15px; /* 아래쪽 여백 증가 */
         }
         .card h3 {
-            font-size: 1.2em;
+            font-size: 1.5em; /* 제목 크기 증가 */
             margin: 10px 0;
+            color: #0078D7; /* 제목 색상 변경 */
         }
         .card p {
             margin: 5px 0;
-            color: #555;
+            color: #666; /* 설명 텍스트 색상 변경 */
         }
         .card-info {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* 세로 방향으로 나열 */
             justify-content: center; /* 수직 중앙 정렬 */
             text-align: left; /* 텍스트 왼쪽 정렬 */
         }
         .card-info .author-pub {
             font-size: 0.9em;
             margin: 5px 0;
+            color: #999; /* 저자 및 출판사 색상 변경 */
         }
         .card-info .like-rating {
-            font-size: 0.9em;
+            font-size: 1.1em; /* 글자 크기 조정 */
             margin: 5px 0;
             display: flex;
-            justify-content: space-between; /* 좋아요 수와 평점 간격 */
+            justify-content: flex-start; /* 왼쪽 정렬로 변경 */
+            align-items: center; /* 수직 정렬 추가 */
+            color: #333; /* 좋아요 및 평점 텍스트 색상 변경 */
         }
         .pagination {
             display: flex;
@@ -92,16 +101,16 @@
         }
         .pagination a {
             margin: 0 5px;
-            padding: 8px 16px;
+            padding: 10px 20px; /* 패딩 증가 */
             text-decoration: none;
             color: #0078D7;
             border: 1px solid #0078D7;
             border-radius: 5px;
-            transition: background-color 0.2s, color 0.2s;
+            transition: background-color 0.3s, color 0.3s;
         }
         .pagination a:hover {
-            background-color: #E1E1E1;
-            color: white;
+            background-color: #0078D7; /* 호버 시 배경 색상 변경 */
+            color: white; /* 호버 시 텍스트 색상 변경 */
         }
         .pagination .active {
             background-color: #0078D7;
@@ -112,7 +121,7 @@
             align-items: center;
             background-color: #fff;
             border: 1px solid #ddd;
-            padding: 10px 20px;
+            padding: 12px 20px; /* 패딩 증가 */
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             font-size: 14px;
@@ -130,7 +139,7 @@
             font-size: 14px;
             background-color: #f9f9f9;
             color: #333;
-            transition: border-color 0.2s;
+            transition: border-color 0.3s, background-color 0.3s;
         }
         .sort-container select:focus {
             border-color: #4CAF50;
@@ -140,6 +149,8 @@
             background-color: #f1f1f1;
         }
     </style>
+
+
 </head>
 <body>
 <div class="container">
@@ -202,3 +213,4 @@
 </div>
 </body>
 </html>
+6
