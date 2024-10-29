@@ -130,7 +130,7 @@
             font-weight: bold;
         }
 
-        .review-header select{
+        .review-header select {
             width: 20%;
             padding: 8px;
             border: 1px solid #ccc;
@@ -192,6 +192,12 @@
             height: 80px;
         }
 
+        .edit-form textarea {
+            width: 100%;
+            box-sizing: border-box; /* 패딩과 경계를 포함해 전체 너비를 맞추기 위해 사용 */
+        }
+
+
         .review-buttons {
             margin-top: auto;
             text-align: right;
@@ -211,6 +217,59 @@
         .review-buttons button:hover {
             background-color: #f0f0f0;
         }
+
+        #likeButton {
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666; /* 기본 상태 텍스트 색상 */
+            background-color: #fff;
+            border: 1px solid #ddd; /* 얇은 외곽선 */
+            border-radius: 8px; /* 둥근 모서리 */
+            display: flex;
+            align-items: center;
+            gap: 8px; /* 아이콘과 텍스트 사이 여백 */
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #likeButton:hover {
+            background-color: #f9f9f9; /* 호버 시 약간 밝은 배경색 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 살짝 떠 있는 느낌 */
+        }
+
+        #likeButton.liked {
+            color: #e63946; /* 좋아요 활성화 시 색상 */
+            border-color: #e63946; /* 활성화된 외곽선 색상 */
+            background-color: #ffe6e6; /* 활성화 시 연한 배경색 */
+        }
+
+        .rating-box {
+            display: flex;
+            flex-direction: row-reverse; /* 오른쪽부터 채워지도록 설정 */
+            width: 150px; /* 별이 다섯 개가 들어갈 고정된 너비 */
+            justify-content: space-between; /* 별이 고정된 폭 내에서 정렬되도록 설정 */
+            overflow: hidden; /* 별이 배경 영역을 넘어가지 않도록 설정 */
+        }
+
+        .star-background, .star-filled {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .star.empty {
+            color: #E0E0E0; /* 빈 별 색상 */
+        }
+
+        .star.filled {
+            color: #FFD700; /* 채워진 별 색상 */
+        }
+
+
     </style>
 </head>
 <body>
@@ -242,7 +301,7 @@
                         0
                     </c:when>
                     <c:otherwise>
-                        <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1" />
+                        <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1"/>
                     </c:otherwise>
                 </c:choose>
             </p>
@@ -286,10 +345,15 @@
             <div class="review-header">
                 <span class="nickname">[${review.memberName}]</span>
                 <span class="rating-box">
-                    <span class="star">⭐</span> ${review.rating}
+                    <!-- 평점에 따른 채워진 별 (오른쪽 정렬) -->
+                    <c:forEach var="i" begin="1" end="${5 - review.rating}">
+                        <span class="star empty">☆</span>
+                    </c:forEach>
+                    <c:forEach var="i" begin="1" end="${review.rating}">
+                        <span class="star filled">⭐</span>
+                    </c:forEach>
                 </span>
             </div>
-
             <div class="review-content">${review.content}</div>
 
             <c:if test="${user != null && user.uuid == review.memberUuid}">
@@ -308,7 +372,10 @@
     </c:forEach>
 </div>
 
+
+
 <script>
+
     let isLiked = ${isLiked};
 
     function toggleLike() {
@@ -318,18 +385,18 @@
                 "Content-Type": "application/json"
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                isLiked = !isLiked;
-                document.getElementById("likeCount").innerText = data.likeCount;
-                const likeButton = document.getElementById("likeButton");
-                likeButton.innerText = isLiked ? "❤️ 좋아요 취소" : "❤ 좋아요";
-            } else {
-                alert(data.message || "로그인이 필요합니다.");
-            }
-        })
-        .catch(error => console.error("좋아요 토글 중 오류 발생:", error));
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    isLiked = !isLiked;
+                    document.getElementById("likeCount").innerText = data.likeCount;
+                    const likeButton = document.getElementById("likeButton");
+                    likeButton.innerText = isLiked ? "❤️ 좋아요 취소" : "❤ 좋아요";
+                } else {
+                    alert(data.message || "로그인이 필요합니다.");
+                }
+            })
+            .catch(error => console.error("좋아요 토글 중 오류 발생:", error));
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -352,21 +419,21 @@
                 },
                 body: JSON.stringify(reviewData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    addReviewToPage(data.content, data.rating, data.reviewId, data.nickname);
-                    document.getElementById("reviewContent").value = '';
-                    document.getElementById("reviewRating").value = '1';
-                    location.reload(); // 페이지 새로고침
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error("리뷰 작성 중 오류 발생:", error);
-                alert("리뷰 작성 중 오류가 발생했습니다. 다시 시도해주세요.");
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addReviewToPage(data.content, data.rating, data.reviewId, data.nickname);
+                        document.getElementById("reviewContent").value = '';
+                        document.getElementById("reviewRating").value = '1';
+                        location.reload(); // 페이지 새로고침
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("리뷰 작성 중 오류 발생:", error);
+                    alert("리뷰 작성 중 오류가 발생했습니다. 다시 시도해주세요.");
+                });
         });
     });
 
@@ -375,11 +442,15 @@
         const newReview = document.createElement("div");
         newReview.classList.add("review-item");
         newReview.dataset.id = reviewId;
+
+        // ⭐ 갯수를 rating 값에 맞게 생성
+        const stars = '⭐'.repeat(rating);
+
         newReview.innerHTML = `
             <div class="review-header">
                 <span class="nickname">[\${nickname}]</span>
                 <span class="rating-box">
-                    <span class="star">⭐</span> \${rating}
+                     \${stars} <!-- ⭐ 갯수로 표시 -->
                 </span>
             </div>
             <div class="review-content">\${content}</div>
@@ -433,7 +504,7 @@
 
     function submitEdit(reviewId) {
         const content = document.getElementById(`editContent-\${reviewId}`).value;
-        const reviewData = { content: content };
+        const reviewData = {content: content};
 
         fetch(`/reviews/\${reviewId}`, {
             method: "PUT",
@@ -470,6 +541,7 @@
                 alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
             });
     }
+
     function deleteReview(reviewId) {
         if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
             fetch(`/reviews/\${reviewId}`, {
@@ -479,18 +551,18 @@
                     "Content-Type": "application/json"
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.querySelector(`.review-item[data-id="\${reviewId}"]`).remove();
-                    alert("리뷰가 성공적으로 삭제되었습니다.");
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                alert("리뷰 삭제 중 오류가 발생했습니다.");
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector(`.review-item[data-id="\${reviewId}"]`).remove();
+                        alert("리뷰가 성공적으로 삭제되었습니다.");
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    alert("리뷰 삭제 중 오류가 발생했습니다.");
+                });
         }
     }
 </script>
