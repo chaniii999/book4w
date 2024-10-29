@@ -40,9 +40,10 @@
             align-items: center;
         }
 
+
         .card {
-            max-width: 260px;
-            margin: 0 15px;
+            max-width: 364px; /* 기존 260px에서 약 1.4배 증가 */
+            margin: 0 25px; /* 양옆 간격을 기존 15px에서 25px로 조정 */
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
             border: none;
@@ -50,14 +51,13 @@
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
         .card:hover {
             transform: scale(1.08);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         .card-img {
-            height: 320px;
+            height: 448px; /* 기존 320px에서 약 1.4배 증가 */
             width: 100%;
             object-fit: cover;
             display: block;
@@ -85,12 +85,14 @@
         }
 
         .prev-button {
-            left: 15px;
+            left: calc(20px + 3cm); /* 왼쪽 버튼을 카드에서 3cm 떨어지게 조정 */
         }
 
         .next-button {
-            right: 15px;
+            right: calc(20px + 3cm); /* 오른쪽 버튼을 카드에서 3cm 떨어지게 조정 */
         }
+
+
 
         /* Section transition styles */
         .section {
