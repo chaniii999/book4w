@@ -12,55 +12,55 @@
         /* 전체 테마 색상과 글꼴 조정 */
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #1a1a2e;
-            color: #e3e3e3;
+            background-color: #f5efe6; /* 톤 다운된 베이지 배경 */
+            color: #4a3f35; /* 딥 브라운 텍스트 */
             margin: 0;
             padding: 0;
         }
         h1 {
             text-align: center;
-            font-size: 2.8rem;
-            color: #e94560;
+            font-size: 2.5rem;
+            color: #b57d52; /* 따뜻한 브라운 */
             margin: 20px 0;
         }
         .card {
-            background-color: #16213e;
-            border-radius: 16px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            background-color: #eae4da; /* 카드에 밝은 베이지톤 배경 */
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             margin: 20px auto;
             padding: 24px;
             width: 90%;
             max-width: 700px;
-            color: #ffffff;
+            color: #4a3f35;
             transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
             display: block;
         }
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
-            background-color: #0f3460;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background-color: #dcd4c5; /* 카드 hover 시 살짝 진한 베이지 */
         }
         .card-header {
-            font-size: 1.7rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: #e94560;
-            margin-bottom: 12px;
+            color: #b57d52; /* 따뜻한 브라운 */
+            margin-bottom: 10px;
         }
         .card-rating {
             font-size: 1.2rem;
-            color: #ffcc00;
+            color: #d4a373; /* 따뜻한 옐로우 브라운 */
             margin-bottom: 12px;
         }
         .card-content {
             font-size: 1.1rem;
-            color: #dcdde1;
+            color: #4a3f35;
             line-height: 1.6;
         }
         .no-reviews {
             text-align: center;
             margin-top: 40px;
-            color: #888;
+            color: #7e7366;
             font-size: 1.4rem;
         }
         .pagination {
@@ -72,19 +72,19 @@
             margin: 0 6px;
             padding: 12px 18px;
             text-decoration: none;
-            color: #0f3460;
-            border: 1px solid #e94560;
+            color: #7e7366; /* 차분한 브라운 */
+            border: 1px solid #b57d52;
             border-radius: 50%;
             transition: background-color 0.3s, color 0.3s;
             font-weight: bold;
         }
         .pagination a:hover {
-            background-color: #e94560;
-            color: white;
+            background-color: #b57d52;
+            color: #ffffff;
         }
         .pagination .active {
-            background-color: #e94560;
-            color: white;
+            background-color: #b57d52;
+            color: #ffffff;
             border: none;
         }
     </style>
@@ -122,7 +122,7 @@
                 <c:forEach var="i" begin="0" end="${myReviews.totalPages - 1}">
                     <c:choose>
                         <c:when test="${i == myReviews.number}">
-                            <span class="active">${i + 1}</span> <!-- Active class applied here -->
+                            <span class="active">${i + 1}</span>
                         </c:when>
                         <c:otherwise>
                             <a href="?page=${i}">${i + 1}</a>

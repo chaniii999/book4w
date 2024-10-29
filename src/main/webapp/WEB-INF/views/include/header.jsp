@@ -12,32 +12,35 @@
         /* 전체 배경과 기본 글꼴 스타일 */
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #121212; /* 어두운 배경 */
-            color: #e0e0e0;
+            background-color: #f4efe9; /* 베이지톤 배경 */
+            color: #4a3f35; /* 딥 브라운 텍스트 */
             margin: 0;
             padding: 0;
         }
         /* 헤더 스타일 */
         header {
-            background-color: #747474;
-            border-bottom: 1px solid #333;
+            background-color: #8c7a6b; /* 차분한 브라운 */
+            border-bottom: 1px solid #6b5d4d;
             padding: 15px 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 20px;
         }
         /* 로고 스타일 */
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: bold;
-            color: #ff6b6b;
+            color: #e7d9c7; /* 밝은 베이지 */
             text-decoration: none;
+        }
+        .logo:hover {
+            color: #ffffff;
         }
         /* 네비게이션 링크 스타일 */
         .nav-links {
@@ -47,22 +50,22 @@
         .nav-links a {
             margin-left: 20px;
             text-decoration: none;
-            color: #e0e0e0;
+            color: #e7d9c7; /* 부드러운 베이지 */
             font-size: 1rem;
             font-weight: 500;
             transition: color 0.3s;
         }
         .nav-links a:hover {
-            color: #ff6b6b;
+            color: #ffffff;
         }
         /* 로그인 버튼 */
         .login-button {
             margin-left: 15px;
-            background-color: #ff6b6b;
-            color: #fff;
+            background-color: #bfa58a; /* 브라운 톤의 버튼 */
+            color: #ffffff;
             border: none;
             padding: 8px 14px;
-            border-radius: 20px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 0.95rem;
             font-weight: 600;
@@ -70,37 +73,38 @@
             transition: background-color 0.3s;
         }
         .login-button:hover {
-            background-color: #d55b5b;
+            background-color: #9e8a73;
         }
         /* 검색 바 스타일 */
         .search-container {
             display: flex;
             align-items: center;
-            background-color: #2a2a2a;
+            background-color: #ffffff;
             padding: 5px 10px;
-            border-radius: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .search-container input[type="text"] {
             background: transparent;
             border: none;
             outline: none;
-            color: #e0e0e0;
+            color: #4a3f35;
             padding: 5px 10px;
             font-size: 1rem;
-            width: 220px;
+            width: 200px;
         }
         .search-container input[type="submit"] {
-            background-color: #ff6b6b;
-            color: #fff;
+            background-color: #bfa58a;
+            color: #ffffff;
             border: none;
             padding: 6px 12px;
-            border-radius: 15px;
+            border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
             font-size: 0.9rem;
         }
         .search-container input[type="submit"]:hover {
-            background-color: #d55b5b;
+            background-color: #9e8a73;
         }
     </style>
 </head>
