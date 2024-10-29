@@ -10,84 +10,78 @@
     <title>My Reviews</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: #333;
+            margin: 20px 0;
         }
-
         .card {
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin: 10px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
             padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s;
-            text-decoration: none;
-            color: inherit;
         }
-
         .card:hover {
-            transform: scale(1.02);
-            background-color: #fafafa;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
-
         .card-header {
-            font-size: 1.2em;
+            font-size: 1.5rem;
             font-weight: bold;
+            margin-bottom: 10px;
         }
-
         .card-rating {
             color: #ffcc00; /* Star color */
+            margin-bottom: 10px;
         }
-
         .card-content {
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #555;
+            font-size: 1rem;
+            color: #666;
         }
-
         .no-reviews {
             text-align: center;
             margin-top: 20px;
             color: #888;
+            font-size: 1.2rem;
         }
-
         .pagination {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
-
         .pagination a, .pagination span {
             margin: 0 5px;
-            padding: 8px 12px;
+            padding: 10px 15px;
             text-decoration: none;
             color: #007bff;
             border: 1px solid #007bff;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
         }
-
         .pagination a:hover {
             background-color: #007bff;
             color: white;
         }
-
         .pagination .active {
             background-color: #007bff;
             color: white;
-            border: none; /* Remove border for the active page */
+            border: none;
         }
     </style>
+
 </head>
 <body>
     <h1>내 리뷰 관리</h1>
