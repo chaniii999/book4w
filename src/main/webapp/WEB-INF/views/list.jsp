@@ -191,27 +191,33 @@
         <c:if test="${empty bList}">
             <p>검색 결과가 없습니다.</p>
         </c:if>
-    </div>
-    <div class="pagination">
-        <c:if test="${maker.hasPrevious()}">
-            <c:set var="prevStartPage" value="${(maker.number - 10) < 0 ? 0 : (maker.number - 10)}" />
-            <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage.intValue()}" class="prev">&laquo; 이전</a>
+<div class="pagination">
+    <c:if test="${maker.hasPrevious()}">
+        <c:set var="prevStartPage" value="${maker.number - 1}" />
+        <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage}" class="prev">&laquo; 이전</a>
+    </c:if>
+
+    <c:if test="${maker.totalPages > 0}">
+        <c:set var="startPage" value="${maker.number - (maker.number % 10)}" />
+        <c:set var="endPage" value="${startPage + 9}" />
+        <c:set var="lastPage" value="${maker.totalPages - 1}" />
+
+        <c:if test="${endPage > lastPage}">
+            <c:set var="endPage" value="${lastPage}" />
         </c:if>
-        <c:if test="${maker.totalPages > 0}">
-            <c:set var="startPage" value="${(maker.number / 10) * 10}" />
-            <c:set var="endPage" value="${(startPage + 9) < maker.totalPages ? (startPage + 9) : (maker.totalPages - 1)}" />
-            <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                <a href="?sort=${param.sort}&query=${param.query}&page=${i.intValue()}" class="${i == maker.number ? 'active' : ''}">
-                    ${i + 1}
-                </a>
-            </c:forEach>
-        </c:if>
-        <c:if test="${endPage < (maker.totalPages - 1)}">
+
+        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+            <a href="?sort=${param.sort}&query=${param.query}&page=${i}" class="${i == maker.number ? 'active' : ''}">
+                ${i + 1}
+            </a>
+        </c:forEach>
+
+        <c:if test="${endPage < lastPage}">
             <c:set var="nextStartPage" value="${endPage + 1}" />
-            <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage.intValue()}" class="next">다음 &raquo;</a>
+            <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage}" class="next">다음 &raquo;</a>
         </c:if>
-    </div>
+    </c:if>
 </div>
+
 </body>
 </html>
-6
