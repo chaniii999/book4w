@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- fmt 태그 라이브러리 추가 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,9 +48,16 @@
             transition: transform 0.2s;
             cursor: pointer;
             min-width: 250px;
+            max-width: 300px; /* 카드 최대 너비 설정 */
         }
         .card:hover {
             transform: translateY(-5px);
+        }
+        .card img {
+            width: 100%; /* 이미지 너비를 카드에 맞춤 */
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
         .card h3 {
             font-size: 1.2em;
@@ -59,17 +67,26 @@
             margin: 5px 0;
             color: #555;
         }
-        .card img {
-            width: 150px;
-            height: auto;
-            border-radius: 4px;
-            margin: 0 auto 10px;
-            display: block;
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 수직 중앙 정렬 */
+            text-align: left; /* 텍스트 왼쪽 정렬 */
+        }
+        .card-info .author-pub {
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+        .card-info .like-rating {
+            font-size: 0.9em;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between; /* 좋아요 수와 평점 간격 */
         }
         .pagination {
             display: flex;
-            justify-content: center; /* Center the pagination links */
-            align-items: center; /* Center align items vertically */
+            justify-content: center;
+            align-items: center;
             margin-top: 20px;
             padding: 20px 0;
         }
@@ -89,9 +106,6 @@
         .pagination .active {
             background-color: #0078D7;
             color: white;
-        }
-        .search-container {
-            margin-right: 20px;
         }
         .sort-container {
             display: flex;
@@ -125,10 +139,6 @@
         .sort-container select:hover {
             background-color: #f1f1f1;
         }
-        .sort-container select option {
-            padding: 10px;
-            color: #000;
-        }
     </style>
 </head>
 <body>
@@ -154,14 +164,14 @@
             <c:forEach var="book" items="${bList}">
                 <a href="${pageContext.request.contextPath}/board/detail/${book.id}" class="card-link" style="text-decoration: none; color: inherit;">
                     <div class="card">
-                    <img src="/images/Cover4.jpg" class="card-img-top card-img" alt="Book 3 이미지">
-                        <h3>${book.name}</h3>
-                        <p><strong>저자:</strong> ${book.writer}</p>
-                        <p><strong>출판사:</strong> ${book.pub}</p>
-                        <p><strong>출판 연도:</strong> ${book.year}</p>
-                        <p><strong>평점:</strong> ${book.rating}</p>
-                        <p><strong>리뷰 수:</strong> ${book.reviewCount}</p>
-                        <p><strong>좋아요 수:</strong> ${book.likeCount}</p>
+                        <img src="/images/Cover4.jpg" class="card-img-top card-img" alt="${book.name} 이미지">
+                        <div class="card-info">
+                            <h3>${book.name}</h3>
+                            <p class="author-pub"> ${book.writer} | ${book.pub}</p>
+                            <div class="like-rating">
+                                <p><strong>❤️ </strong> ${book.likeCount} <strong>   ⭐ </strong> <fmt:formatNumber value="${book.rating}" maxFractionDigits="1" /></p>
+                            </div>
+                        </div>
                     </div>
                 </a>
             </c:forEach>
