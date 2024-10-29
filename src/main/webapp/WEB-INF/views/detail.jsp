@@ -129,7 +129,7 @@
 </div>
 
     <h3>리뷰 목록</h3>
-<div class="review-list">
+
 
 
 <div class="review-list">
