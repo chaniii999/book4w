@@ -11,6 +11,7 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     private CSVService csvService;
 
+
     @Override
     public void run(String... args) {
         csvService.saveCSVData();
