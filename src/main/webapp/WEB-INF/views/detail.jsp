@@ -162,7 +162,7 @@
         <p><strong>출판사:</strong> ${book.pub}</p>
         <p><strong>출판년도:</strong> ${book.year}</p>
         <div class="book-meta">
-            <p><strong>평점:</strong> ${book.rating} / 5.0</p>
+            <p><strong>평점:</strong> ${book.rating/book.reviewCount} / 5.0</p>
             <p><strong>좋아요 수:</strong> <span id="likeCount">${book.likeCount}</span></p>
             <button id="likeButton" onclick="toggleLike()" style="color: red; font-size: 20px; cursor: pointer;">
                 <c:choose>

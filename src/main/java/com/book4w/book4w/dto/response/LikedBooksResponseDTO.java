@@ -15,7 +15,7 @@ public class LikedBooksResponseDTO {
     private String writer;
     private String pub;
     private final String coverImage;
-    private double rating;
+    private int rating;
     private int reviewCount;
     private int likeCount;
 }

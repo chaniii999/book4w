@@ -15,7 +15,7 @@ public class HomeRecommendedResponseDTO {
     private String coverImage;
 
 
-    private double bookRating;
+    private int bookRating;
     private int reviewCount;
     private int likeCount;
 
