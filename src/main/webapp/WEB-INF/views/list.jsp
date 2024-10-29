@@ -190,6 +190,7 @@
             <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1" />
         </c:otherwise>
     </c:choose>
+    <strong>🗨️ </strong>${book.reviewCount}
 </p>
 
                             </div>
