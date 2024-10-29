@@ -143,90 +143,90 @@
 <body>
 <div class="container my-5 text-center">
     <h1 class="text-center">🔥HOT🔥 도서 목록</h1>
-    <!-- 평점 순 추천 도서 슬라이드 -->
-    <div class="section active-section" id="section1">
-        <h2 class="mt-5">평점이 높은 도서</h2>
-        <div class="slider">
-            <div class="slider-wrapper" id="ratingSlider">
-                <c:forEach var="book" items="${recommendedByRating}">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
-                            <div class="text-center">
-                                <img src="/images/Cover1.jpg" class="card-img-top card-img" alt="Book 1 이미지">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">⭐: <fmt:formatNumber value="${book.bookRating}" type="number"
-                                                                          minFractionDigits="1"
-                                                                          maxFractionDigits="1"/></p>
-                                <p class="card-text">❤️: ${book.likeCount}</p>
-<%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
+        <!-- 평점 순 추천 도서 슬라이드 -->
+        <div class="section active-section" id="section1">
+            <h2 class="mt-5">평점이 높은 도서</h2>
+            <div class="slider">
+                <div class="slider-wrapper" id="ratingSlider">
+                    <c:forEach var="book" items="${recommendedByRating}">
+                        <div class="card mb-4 shadow-sm">
+                            <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
+                                <div class="text-center">
+                                    <img src="/images/Cover1.jpg" class="card-img-top card-img" alt="Book 1 이미지">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">${book.bookName}</h5>
+                                    <p class="card-text">출판사: ${book.bookPub}</p>
+                                    <p class="card-text">⭐: <fmt:formatNumber value="${book.bookRating}" type="number"
+                                                                              minFractionDigits="1"
+                                                                              maxFractionDigits="1"/></p>
+                                    <p class="card-text">❤️: ${book.likeCount}</p>
+    <%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- 리뷰 수가 많은 도서 슬라이드 -->
-    <div class="section" id="section2">
-        <h2 class="mt-5">리뷰 수가 많은 도서</h2>
-        <div class="slider">
-            <div class="slider-wrapper" id="reviewSlider">
-                <c:forEach var="book" items="${recommendedByReviewCount}">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
-                            <div class="text-center">
-                                <img src="/images/Cover2.jpg" class="card-img-top card-img" alt="Book 2 이미지">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">
-                                    ⭐:
-                                    <span class="stars-outer">
-                                        <span class="stars-inner"
-                                              style="width: <c:out value='${book.bookRating / 5.0 * 100}'/>%;"></span>
-                                    </span>
-                                    <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1"
-                                                      maxFractionDigits="1"/>
-                                </p>
-                                <p class="card-text">❤️: ${book.likeCount}</p>
-<%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
+        <!-- 리뷰 수가 많은 도서 슬라이드 -->
+        <div class="section" id="section2">
+            <h2 class="mt-5">리뷰 수가 많은 도서</h2>
+            <div class="slider">
+                <div class="slider-wrapper" id="reviewSlider">
+                    <c:forEach var="book" items="${recommendedByReviewCount}">
+                        <div class="card mb-4 shadow-sm">
+                            <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
+                                <div class="text-center">
+                                    <img src="/images/Cover2.jpg" class="card-img-top card-img" alt="Book 2 이미지">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">${book.bookName}</h5>
+                                    <p class="card-text">출판사: ${book.bookPub}</p>
+                                    <p class="card-text">
+                                        ⭐:
+                                        <span class="stars-outer">
+                                            <span class="stars-inner"
+                                                  style="width: <c:out value='${book.bookRating / 5.0 * 100}'/>%;"></span>
+                                        </span>
+                                        <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1"
+                                                          maxFractionDigits="1"/>
+                                    </p>
+                                    <p class="card-text">❤️: ${book.likeCount}</p>
+    <%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- 좋아요 수가 많은 도서 슬라이드 -->
-    <div class="section" id="section3">
-        <h2 class="mt-5">좋아요 수가 많은 도서</h2>
-        <div class="slider">
-            <div class="slider-wrapper" id="likeSlider">
-                <c:forEach var="book" items="${recommendedByLikeCount}">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
-                            <div class="text-center">
-                                <img src="/images/Cover3.jpg" class="card-img-top card-img" alt="Book 3 이미지">
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">⭐: <fmt:formatNumber value="${book.bookRating}" type="number"
-                                                                          minFractionDigits="1"
-                                                                          maxFractionDigits="1"/></p>
-                                <p class="card-text">❤️: ${book.likeCount}</p>
-<%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
+        <!-- 좋아요 수가 많은 도서 슬라이드 -->
+        <div class="section" id="section3">
+            <h2 class="mt-5">좋아요 수가 많은 도서</h2>
+            <div class="slider">
+                <div class="slider-wrapper" id="likeSlider">
+                    <c:forEach var="book" items="${recommendedByLikeCount}">
+                        <div class="card mb-4 shadow-sm">
+                            <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
+                                <div class="text-center">
+                                    <img src="/images/Cover3.jpg" class="card-img-top card-img" alt="Book 3 이미지">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">${book.bookName}</h5>
+                                    <p class="card-text">출판사: ${book.bookPub}</p>
+                                    <p class="card-text">⭐: <fmt:formatNumber value="${book.bookRating}" type="number"
+                                                                              minFractionDigits="1"
+                                                                              maxFractionDigits="1"/></p>
+                                    <p class="card-text">❤️: ${book.likeCount}</p>
+    <%--                                <p class="card-text">리뷰 수: ${book.reviewCount}</p>--%>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
         </div>
-    </div>
 
     <!-- 고정된 위치의 전환 버튼 -->
     <button class="control-button prev-button" onclick="switchSection(-1)">&#9664;</button>
