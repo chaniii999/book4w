@@ -30,10 +30,13 @@
             flex-direction: column;
             justify-content: space-between;
             transition: transform 0.2s;
+            text-decoration: none;
+            color: inherit;
         }
 
         .card:hover {
             transform: scale(1.02);
+            background-color: #fafafa;
         }
 
         .card-header {
@@ -68,18 +71,18 @@
 
     <c:if test="${not empty myReviews}">
         <div>
-            <c:forEach var="reviews" items="${myReviews}">
-                <div class="card">
+            <c:forEach var="review" items="${myReviews}">
+                <a href="/board/detail/${review.bookId}" class="card">
                     <div class="card-header">
-                        ${reviews.bookName} - ${reviews.writer}
+                        ${review.bookName} - ${review.writer}
                     </div>
                     <div class="card-rating">
-                        평점: ${reviews.rating} ★
+                        평점: ${review.rating} ★
                     </div>
                     <div class="card-content">
-                        ${reviews.content}
+                        ${review.content}
                     </div>
-                </div>
+                </a>
             </c:forEach>
         </div>
     </c:if>
