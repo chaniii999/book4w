@@ -397,19 +397,38 @@
     }
 
     function showEditForm(reviewId) {
-        const editForm = document.getElementById(`editForm-\${reviewId}`);
-        if (editForm) {
-            editForm.style.display = 'block';
-        } else {
-            console.error(`Edit form not found for review ID: \${reviewId}`);
-        }
+        const reviewItem = document.querySelector(`.review-item[data-id="\${reviewId}"]`);
+        const reviewContent = reviewItem.querySelector(".review-content");
+        const reviewButtons = reviewItem.querySelector(".review-buttons");
+
+        // 기존 내용을 숨기고 수정 폼을 보여주기 위한 HTML 코드 추가
+        reviewContent.style.display = "none";
+        reviewButtons.style.display = "none";
+
+        const editForm = document.createElement("div");
+        editForm.classList.add("edit-form");
+        editForm.innerHTML = `
+        <textarea id="editContent-\${reviewId}" class="edit-textarea">\${reviewContent.innerText}</textarea>
+        <div class="edit-buttons">
+            <button onclick="submitEdit('\${reviewId}')">저장</button>
+            <button onclick="cancelEdit('\${reviewId}')">취소</button>
+        </div>
+    `;
+
+        // 수정 폼을 리뷰 항목에 추가
+        reviewItem.appendChild(editForm);
     }
 
     function cancelEdit(reviewId) {
-        const editForm = document.getElementById(`editForm-\${reviewId}`);
-        if (editForm) {
-            editForm.style.display = 'none';
-        }
+        const reviewItem = document.querySelector(`.review-item[data-id="\${reviewId}"]`);
+        const reviewContent = reviewItem.querySelector(".review-content");
+        const reviewButtons = reviewItem.querySelector(".review-buttons");
+        const editForm = reviewItem.querySelector(".edit-form");
+
+        // 수정 폼을 삭제하고 기존 내용을 다시 표시
+        reviewContent.style.display = "block";
+        reviewButtons.style.display = "block";
+        editForm.remove();
     }
 
     function submitEdit(reviewId) {
@@ -423,28 +442,34 @@
             },
             body: JSON.stringify(reviewData)
         })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || '서버 응답 오류');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                document.querySelector(`.review-item[data-id="\${reviewId}"] .review-content`).innerHTML = data.content;
-                cancelEdit(reviewId);
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => {
-            console.error("리뷰 수정 중 오류 발생:", error);
-            alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
-        });
-    }
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || '서버 응답 오류');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    const reviewItem = document.querySelector(`.review-item[data-id="\${reviewId}"]`);
+                    const reviewContent = reviewItem.querySelector(".review-content");
+                    const editForm = reviewItem.querySelector(".edit-form");
 
+                    // 수정된 내용을 업데이트하고 수정 폼을 숨김
+                    reviewContent.innerText = data.content;
+                    reviewContent.style.display = "block";
+                    reviewItem.querySelector(".review-buttons").style.display = "block";
+                    editForm.remove();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error("리뷰 수정 중 오류 발생:", error);
+                alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+            });
+    }
     function deleteReview(reviewId) {
         if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
             fetch(`/reviews/\${reviewId}`, {
