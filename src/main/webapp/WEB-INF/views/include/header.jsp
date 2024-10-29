@@ -52,7 +52,7 @@
             text-decoration: none;
             color: #e7d9c7; /* 부드러운 베이지 */
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 700;
             transition: color 0.3s;
         }
         .nav-links a:hover {

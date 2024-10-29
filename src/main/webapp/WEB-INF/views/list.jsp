@@ -29,11 +29,11 @@
             justify-content: space-between;
             align-items: center;
             font-size: 2em; /* 제목 크기 증가 */
-            color: #b57d52; /* 따뜻한 브라운으로 색상 변경 */
+            color: #e7d9c7; /* 부드러운 베이지 */
             margin-bottom: 20px; /* 아래쪽 여백 증가 */
         }
         h2 a {
-            color: #f5efe6; /* 따뜻한 브라운으로 색상 변경 */
+            color: #e7d9c7; /* 부드러운 베이지 */
             font-weight: 700;
         }
         .card-container {
