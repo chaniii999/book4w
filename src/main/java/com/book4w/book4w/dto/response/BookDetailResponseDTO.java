@@ -18,7 +18,7 @@ public class BookDetailResponseDTO {
     private String pub;
     private int year;
     private final String coverImage;
-    private int rating;
+    private double rating;
     private int reviewCount;
     private int likeCount;
     private boolean isLiked;

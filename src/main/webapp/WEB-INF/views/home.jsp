@@ -126,9 +126,19 @@
                                 <h5 class="card-title">${book.bookName}</h5>
                                     <%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number"
-                                                                           minFractionDigits="1"
-                                                                           maxFractionDigits="1"/></p>
+<p class="card-text">평점:
+    <c:choose>
+        <c:when test="${book.reviewCount == 0}">
+            0
+        </c:when>
+        <c:otherwise>
+            <fmt:formatNumber value="${book.bookRating / book.reviewCount}" type="number"
+                               minFractionDigits="1"
+                               maxFractionDigits="1"/>
+        </c:otherwise>
+    </c:choose>
+</p>
+
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>
@@ -160,8 +170,16 @@
                                     <span class="stars-outer">
         <span class="stars-inner" style="width: <c:out value='${book.bookRating / 5.0 * 100}'/>%;"></span>
     </span>
-                                    <fmt:formatNumber value="${book.bookRating}" type="number" minFractionDigits="1"
-                                                      maxFractionDigits="1"/>
+                                    <c:choose>
+        <c:when test="${book.reviewCount == 0}">
+            0
+        </c:when>
+        <c:otherwise>
+            <fmt:formatNumber value="${book.bookRating / book.reviewCount}" type="number"
+                               minFractionDigits="1"
+                               maxFractionDigits="1"/>
+        </c:otherwise>
+    </c:choose>
                                 </p>
 
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
@@ -190,9 +208,16 @@
                                 <h5 class="card-title">${book.bookName}</h5>
                                     <%--                                <p class="card-text">작가: ${book.bookWriter}</p>--%>
                                 <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">평점: <fmt:formatNumber value="${book.bookRating}" type="number"
-                                                                           minFractionDigits="1"
-                                                                           maxFractionDigits="1"/></p>
+                                <p class="card-text"><c:choose>
+        <c:when test="${book.reviewCount == 0}">
+            0
+        </c:when>
+        <c:otherwise>
+            <fmt:formatNumber value="${book.bookRating / book.reviewCount}" type="number"
+                               minFractionDigits="1"
+                               maxFractionDigits="1"/>
+        </c:otherwise>
+    </c:choose></p>
                                 <p class="card-text">리뷰 수: ${book.reviewCount}</p>
                                 <p class="card-text">좋아요 수: ${book.likeCount}</p>
                             </div>

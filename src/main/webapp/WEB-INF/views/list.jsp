@@ -181,7 +181,17 @@
                             <h3>${book.name}</h3>
                             <p class="author-pub"> ${book.writer} | ${book.pub}</p>
                             <div class="like-rating">
-                                <p><strong>❤️ </strong> ${book.likeCount} <strong>   ⭐ </strong> <fmt:formatNumber value="${book.rating}" maxFractionDigits="1" /></p>
+                                <p><strong>❤️ </strong> ${book.likeCount} <strong>   ⭐ </strong>
+    <c:choose>
+        <c:when test="${book.reviewCount == 0}">
+            0
+        </c:when>
+        <c:otherwise>
+            <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1" />
+        </c:otherwise>
+    </c:choose>
+</p>
+
                             </div>
                         </div>
                     </div>

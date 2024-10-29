@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -162,7 +163,17 @@
         <p><strong>출판사:</strong> ${book.pub}</p>
         <p><strong>출판년도:</strong> ${book.year}</p>
         <div class="book-meta">
-            <p><strong>평점:</strong> ${book.rating/book.reviewCount} / 5.0</p>
+            <p><strong>평점:</strong>
+    <c:choose>
+        <c:when test="${book.reviewCount == 0}">
+            0
+        </c:when>
+        <c:otherwise>
+            <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1" />
+        </c:otherwise>
+    </c:choose>
+</p>
+
             <p><strong>좋아요 수:</strong> <span id="likeCount">${book.likeCount}</span></p>
             <button id="likeButton" onclick="toggleLike()" style="color: red; font-size: 20px; cursor: pointer;">
                 <c:choose>

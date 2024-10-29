@@ -35,7 +35,7 @@ public class Book {
     private int year;
 
     @Column(name = "book_rating", nullable = false)
-    private int rating = 0;
+    private double rating = 0.0;
 
     @Column(name = "book_review_count", nullable = false)
     private int reviewCount = 0;

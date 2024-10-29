@@ -14,7 +14,7 @@ public class BoardListResponseDTO {
     private final String pub;
     private final int year;
     private final String coverImage;
-    private final int rating;
+    private final double rating;
     private final int reviewCount;
     private final int likeCount;
 

@@ -12,7 +12,7 @@ public class BookDetailRequestDTO {
     private String writer;
     private String pub;
     private int year;
-    private int rating;
+    private double rating;
     private int reviewCount;
     private int likeCount;
     private boolean isLiked;
