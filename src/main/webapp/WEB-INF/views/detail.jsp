@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -162,7 +163,17 @@
         <p><strong>출판사:</strong> ${book.pub}</p>
         <p><strong>출판년도:</strong> ${book.year}</p>
         <div class="book-meta">
-            <p><strong>평점:</strong> ${book.rating} / 5.0</p>
+            <p><strong>평점:</strong>
+    <c:choose>
+        <c:when test="${book.reviewCount == 0}">
+            0
+        </c:when>
+        <c:otherwise>
+            <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1" />
+        </c:otherwise>
+    </c:choose>
+</p>
+
             <p><strong>좋아요 수:</strong> <span id="likeCount">${book.likeCount}</span></p>
             <button id="likeButton" onclick="toggleLike()" style="color: red; font-size: 20px; cursor: pointer;">
                 <c:choose>
@@ -347,38 +358,38 @@
         }
     }
 
-    function submitEdit(reviewId) {
-        const content = document.getElementById(`editContent-\${reviewId}`).value;
-        const reviewData = { content: content };
+function submitEdit(reviewId) {
+    const content = document.getElementById(`editContent-\${reviewId}`).value;
+    const reviewData = { content: content };
 
-        fetch(`/reviews/\${reviewId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(reviewData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        throw new Error(errorData.message || '서버 응답 오류');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    document.querySelector(`.review-item[data-id="\${reviewId}"] .review-content`).innerHTML = data.content;
-                    cancelEdit(reviewId);
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error("리뷰 수정 중 오류 발생:", error);
-                alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+    fetch(`/reviews/\${reviewId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reviewData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                throw new Error(errorData.message || '서버 응답 오류');
             });
-    }
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            document.querySelector(`.review-item[data-id="\${reviewId}"] .review-content`).innerHTML = data.content;
+            cancelEdit(reviewId);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error("리뷰 수정 중 오류 발생:", error);
+        alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+    });
+}
 
 
     function deleteReview(reviewId) {

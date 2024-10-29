@@ -49,6 +49,7 @@ public class ReviewService {
         reviewRepository.save(review);
 
         book.setReviewCount(book.getReviewCount() + 1);
+        book.setRating(book.getRating() + dto.getRating());
         bookRepository.save(book);
 
         return review;
@@ -80,6 +81,7 @@ public class ReviewService {
         reviewRepository.deleteById(reviewId);
 
         book.setReviewCount(book.getReviewCount() - 1);
+        book.setRating(book.getRating() - review.getRating());
         bookRepository.save(book);
     }
 
