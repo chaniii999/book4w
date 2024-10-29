@@ -128,9 +128,10 @@
     </button>
 </div>
 
-
-<div class="review-list">
     <h3>리뷰 목록</h3>
+<div class="review-list">
+
+
 <div class="review-list">
     <c:forEach var="review" items="${reviewList}">
         <div class="review-item" data-id="${review.id}">
