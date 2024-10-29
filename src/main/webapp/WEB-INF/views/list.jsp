@@ -44,13 +44,13 @@
         }
         .card {
             background-color: white;
-            border: 1px solid #e0e0e0; /* 경계선 색상 변경 */
-            border-radius: 12px; /* 둥근 모서리 증가 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 증가 */
-            padding: 20px; /* 패딩 증가 */
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 0; /* 패딩을 0으로 설정하여 이미지가 카드와 밀착되게 함 */
             flex: 1 1 calc(33.333% - 40px);
             box-sizing: border-box;
-            transition: transform 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 추가 */
+            transition: transform 0.3s, box-shadow 0.3s;
             min-width: 250px;
             max-width: 300px;
         }
@@ -59,10 +59,10 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 증가 */
         }
         .card img {
-            width: 100%; /* 이미지 너비를 카드에 맞춤 */
-            height: auto;
+            width: 100%; /* 카드의 너비에 맞게 조정 */
+            height: auto; /* 비율을 유지하며 높이 자동 조정 */
             border-radius: 8px; /* 둥근 모서리 증가 */
-            margin-bottom: 15px; /* 아래쪽 여백 증가 */
+            margin-bottom: 0; /* 아래쪽 여백 제거 */
         }
         .card h3 {
             font-size: 1.5em; /* 제목 크기 증가 */
@@ -78,6 +78,7 @@
             flex-direction: column; /* 세로 방향으로 나열 */
             justify-content: center; /* 수직 중앙 정렬 */
             text-align: left; /* 텍스트 왼쪽 정렬 */
+            padding-left: 15px; /* 왼쪽 여백 추가 */
         }
         .card-info .author-pub {
             font-size: 0.9em;
