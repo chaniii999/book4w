@@ -98,44 +98,50 @@
     </c:if>
 
     <c:if test="${not empty myReviews}">
-        <div>
-            <c:forEach var="review" items="${myReviews.content}">
-                <a href="/board/detail/${review.bookId}" class="card">
-                    <div class="card-header">
-                        ${review.bookName} - ${review.writer}
-                    </div>
-                    <div class="card-rating">
-                        평점: ${review.rating} ★
-                    </div>
-                    <div class="card-content">
-                        ${review.content}
-                    </div>
-                </a>
-            </c:forEach>
-        </div>
+        <c:if test="${not empty myReviews.content}">
+            <div>
+                <c:forEach var="review" items="${myReviews.content}">
+                    <a href="/board/detail/${review.bookId}" class="card">
+                        <div class="card-header">
+                            ${review.bookName} - ${review.writer}
+                        </div>
+                        <div class="card-rating">
+                            평점: ${review.rating} ★
+                        </div>
+                        <div class="card-content">
+                            ${review.content}
+                        </div>
+                    </a>
+                </c:forEach>
+            </div>
 
-        <div class="pagination">
-            <c:if test="${myReviews.hasPrevious()}">
-                <a href="?page=${myReviews.number - 1}" aria-label="Previous">&laquo; 이전</a>
-            </c:if>
-            <c:forEach var="i" begin="0" end="${myReviews.totalPages - 1}">
-                <c:choose>
-                    <c:when test="${i == myReviews.number}">
-                        <span class="active">${i + 1}</span> <!-- Active class applied here -->
-                    </c:when>
-                    <c:otherwise>
-                        <a href="?page=${i}">${i + 1}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <c:if test="${myReviews.hasNext()}">
-                <a href="?page=${myReviews.number + 1}" aria-label="Next">다음 &raquo;</a>
-            </c:if>
-        </div>
+            <div class="pagination">
+                <c:if test="${myReviews.hasPrevious()}">
+                    <a href="?page=${myReviews.number - 1}" aria-label="Previous">&laquo; 이전</a>
+                </c:if>
+                <c:forEach var="i" begin="0" end="${myReviews.totalPages - 1}">
+                    <c:choose>
+                        <c:when test="${i == myReviews.number}">
+                            <span class="active">${i + 1}</span> <!-- Active class applied here -->
+                        </c:when>
+                        <c:otherwise>
+                            <a href="?page=${i}">${i + 1}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <c:if test="${myReviews.hasNext()}">
+                    <a href="?page=${myReviews.number + 1}" aria-label="Next">다음 &raquo;</a>
+                </c:if>
+            </div>
+        </c:if>
+
+        <c:if test="${empty myReviews.content}">
+            <p class="no-reviews">리뷰 목록이 없습니다. 리뷰를 작성해보세요!</p>
+        </c:if>
     </c:if>
 
-    <c:if test="${empty myReviews and not empty user}">
-        <p class="no-reviews">리뷰 목록이 없습니다.</p>
+    <c:if test="${empty myReviews}">
+        <p class="no-reviews">리뷰 목록이 없습니다. 리뷰를 작성해보세요!</p>
     </c:if>
 </body>
 </html>

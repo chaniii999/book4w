@@ -94,7 +94,7 @@
 
 <c:choose>
     <c:when test="${empty likedBooks.content}">
-        <p>좋아요 목록이 없습니다.</p>
+            <p class="no-reviews">좋아요 목록이 없습니다. 첫 좋아요를 눌러보세요!</p>
     </c:when>
     <c:otherwise>
         <div>
@@ -124,16 +124,18 @@
             </c:if>
 
             <!-- 페이지 번호 -->
-            <c:forEach var="i" begin="0" end="${likedBooks.totalPages - 1}">
-                <c:choose>
-                    <c:when test="${likedBooks.number == i}">
-                        <span class="active">${i + 1}</span> <!-- Active class applied here -->
-                    </c:when>
-                    <c:otherwise>
-                        <a href="?page=${i}">${i + 1}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
+            <c:if test="${likedBooks.totalPages > 0}"> <!-- totalPages가 0보다 큰지 확인 -->
+                <c:forEach var="i" begin="0" end="${likedBooks.totalPages - 1}">
+                    <c:choose>
+                        <c:when test="${likedBooks.number == i}">
+                            <span class="active">${i + 1}</span> <!-- Active class applied here -->
+                        </c:when>
+                        <c:otherwise>
+                            <a href="?page=${i}">${i + 1}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </c:if>
 
             <!-- 다음 페이지 버튼 -->
             <c:if test="${likedBooks.hasNext()}">
@@ -145,6 +147,7 @@
         </div>
     </c:otherwise>
 </c:choose>
+
 
 </body>
 </html>
