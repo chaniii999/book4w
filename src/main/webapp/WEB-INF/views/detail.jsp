@@ -347,38 +347,38 @@
         }
     }
 
-    function submitEdit(reviewId) {
-        const content = document.getElementById(`editContent-\${reviewId}`).value;
-        const reviewData = { content: content };
+function submitEdit(reviewId) {
+    const content = document.getElementById(`editContent-\${reviewId}`).value;
+    const reviewData = { content: content };
 
-        fetch(`/reviews/\${reviewId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(reviewData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        throw new Error(errorData.message || '서버 응답 오류');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    document.querySelector(`.review-item[data-id="\${reviewId}"] .review-content`).innerHTML = data.content;
-                    cancelEdit(reviewId);
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error("리뷰 수정 중 오류 발생:", error);
-                alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+    fetch(`/reviews/\${reviewId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reviewData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                throw new Error(errorData.message || '서버 응답 오류');
             });
-    }
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            document.querySelector(`.review-item[data-id="\${reviewId}"] .review-content`).innerHTML = data.content;
+            cancelEdit(reviewId);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error("리뷰 수정 중 오류 발생:", error);
+        alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+    });
+}
 
 
     function deleteReview(reviewId) {
