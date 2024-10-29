@@ -9,79 +9,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Reviews</title>
     <style>
+        /* 전체 테마 색상과 글꼴 조정 */
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #1a1a2e;
+            color: #e3e3e3;
             margin: 0;
             padding: 0;
         }
         h1 {
             text-align: center;
-            font-size: 2.5rem;
-            color: #333;
+            font-size: 2.8rem;
+            color: #e94560;
             margin: 20px 0;
         }
         .card {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            padding: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background-color: #16213e;
+            border-radius: 16px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            margin: 20px auto;
+            padding: 24px;
+            width: 90%;
+            max-width: 700px;
+            color: #ffffff;
+            transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            display: block;
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+            background-color: #0f3460;
         }
         .card-header {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            color: #e94560;
+            margin-bottom: 12px;
         }
         .card-rating {
-            color: #ffcc00; /* Star color */
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #ffcc00;
+            margin-bottom: 12px;
         }
         .card-content {
-            font-size: 1rem;
-            color: #666;
+            font-size: 1.1rem;
+            color: #dcdde1;
+            line-height: 1.6;
         }
         .no-reviews {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 40px;
             color: #888;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
         }
         .pagination {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         .pagination a, .pagination span {
-            margin: 0 5px;
-            padding: 10px 15px;
+            margin: 0 6px;
+            padding: 12px 18px;
             text-decoration: none;
-            color: #007bff;
-            border: 1px solid #007bff;
+            color: #0f3460;
+            border: 1px solid #e94560;
             border-radius: 50%;
             transition: background-color 0.3s, color 0.3s;
+            font-weight: bold;
         }
         .pagination a:hover {
-            background-color: #007bff;
+            background-color: #e94560;
             color: white;
         }
         .pagination .active {
-            background-color: #007bff;
+            background-color: #e94560;
             color: white;
             border: none;
         }
     </style>
-
 </head>
 <body>
     <h1>내 리뷰 관리</h1>
