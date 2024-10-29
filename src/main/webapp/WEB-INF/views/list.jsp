@@ -1,56 +1,97 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- Include this line for the fmt tag -->
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- fmt 태그 라이브러리 추가 -->
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>도서 목록</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #e9ecef;
-            color: #333;
-        }
-
-        h2 {
-            color: #007bff;
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            height: 300px; /* 카드의 전체 높이를 설정 */
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            border: none;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-img {
-            height: 100%; /* 카드 높이에 맞춰서 늘리기 */
-            width: 100%; /* 카드의 전체 너비를 차지 */
-            object-fit: cover; /* 비율을 유지하며 영역을 채우도록 설정 */
-        }
-
-        .card-body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 고급스러운 폰트로 변경 */
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column; /* Set to column to stack elements vertically */
-            justify-content: center; /* Center the content vertically */
-            align-items: center; /* Center the content horizontally */
-            height: 100%; /* Set height to fill the card */
-            text-align: center; /* Center text within the card body */
+            flex-direction: column;
+            background-color: #f4f4f4; /* 배경 색상 변경 */
         }
-
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px; /* 여백 증가 */
+        }
+        h2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 2em; /* 제목 크기 증가 */
+            color: #333; /* 제목 색상 변경 */
+            margin-bottom: 20px; /* 아래쪽 여백 증가 */
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+        }
+        .card-container > a:first-child {
+            margin-left: 1.25rem;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #e0e0e0; /* 경계선 색상 변경 */
+            border-radius: 12px; /* 둥근 모서리 증가 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 증가 */
+            padding: 20px; /* 패딩 증가 */
+            flex: 1 1 calc(33.333% - 40px);
+            box-sizing: border-box;
+            transition: transform 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 추가 */
+            min-width: 250px;
+            max-width: 300px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 증가 */
+        }
+        .card img {
+            width: 100%; /* 이미지 너비를 카드에 맞춤 */
+            height: auto;
+            border-radius: 8px; /* 둥근 모서리 증가 */
+            margin-bottom: 15px; /* 아래쪽 여백 증가 */
+        }
+        .card h3 {
+            font-size: 1.5em; /* 제목 크기 증가 */
+            margin: 10px 0;
+            color: #0078D7; /* 제목 색상 변경 */
+        }
+        .card p {
+            margin: 5px 0;
+            color: #666; /* 설명 텍스트 색상 변경 */
+        }
+        .card-info {
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 나열 */
+            justify-content: center; /* 수직 중앙 정렬 */
+            text-align: left; /* 텍스트 왼쪽 정렬 */
+        }
+        .card-info .author-pub {
+            font-size: 0.9em;
+            margin: 5px 0;
+            color: #999; /* 저자 및 출판사 색상 변경 */
+        }
+        .card-info .like-rating {
+            font-size: 1.1em; /* 글자 크기 조정 */
+            margin: 5px 0;
+            display: flex;
+            justify-content: flex-start; /* 왼쪽 정렬로 변경 */
+            align-items: center; /* 수직 정렬 추가 */
+            color: #333; /* 좋아요 및 평점 텍스트 색상 변경 */
+        }
         .pagination {
             display: flex;
             justify-content: center;
@@ -58,108 +99,118 @@
             margin-top: 20px;
             padding: 20px 0;
         }
-
         .pagination a {
             margin: 0 5px;
-            padding: 8px 16px;
+            padding: 10px 20px; /* 패딩 증가 */
             text-decoration: none;
             color: #0078D7;
             border: 1px solid #0078D7;
             border-radius: 5px;
-            transition: background-color 0.2s, color 0.2s;
+            transition: background-color 0.3s, color 0.3s;
         }
-
         .pagination a:hover {
-            background-color: #E1E1E1;
-            color: white;
+            background-color: #0078D7; /* 호버 시 배경 색상 변경 */
+            color: white; /* 호버 시 텍스트 색상 변경 */
         }
-
         .pagination .active {
             background-color: #0078D7;
             color: white;
         }
-
         .sort-container {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 12px 20px; /* 패딩 증가 */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            margin-left: auto;
         }
-
         .sort-container label {
             margin-right: 10px;
             font-weight: bold;
+            color: #333;
         }
-
         .sort-container select {
             padding: 8px 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 14px;
             background-color: #f9f9f9;
+            color: #333;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .sort-container select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        .sort-container select:hover {
+            background-color: #f1f1f1;
         }
     </style>
+
+
 </head>
 <body>
-<div class="container my-5">
-    <h2 class="text-center">도서 목록</h2>
-    <div class="sort-container">
-        <!-- Your existing sort form here -->
-    </div>
-    <div class="row">
+<div class="container">
+    <h2>
+        <a href="${pageContext.request.contextPath}/board/list" style="text-decoration: none; color: black;">도서 목록</a>
+        <div class="sort-container">
+            <form action="${pageContext.request.contextPath}/board/list" method="get">
+                <input type="hidden" name="page" value="0" />
+                <input type="hidden" name="query" value="${param.query}" />
+                <label for="sort">정렬 기준:</label>
+                <select name="sort" id="sort" onchange="this.form.submit()">
+                    <option value="">기본 정렬</option>
+                    <option value="likeCount" <c:if test="${param.sort == 'likeCount'}">selected</c:if>>좋아요 순</option>
+                    <option value="reviewCount" <c:if test="${param.sort == 'reviewCount'}">selected</c:if>>리뷰 수 순</option>
+                    <option value="rating" <c:if test="${param.sort == 'rating'}">selected</c:if>>평점 수 순</option>
+                </select>
+            </form>
+        </div>
+    </h2>
+    <div class="card-container">
         <c:if test="${not empty bList}">
             <c:forEach var="book" items="${bList}">
-                <div class="col-md-4 mb-4">
-                    <a href="${pageContext.request.contextPath}/board/detail/${book.id}" class="text-decoration-none">
-                        <div class="card">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="/images/Cover4.jpg" class="card-img" alt="Book 3 이미지">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${book.name}</h5>
-                                        <p><strong>저자:</strong> ${book.writer}</p>
-                                        <p><strong>출판사:</strong> ${book.pub}</p>
-                                        <p><strong>출판 연도:</strong> ${book.year}</p>
-                                        <p><strong>평점:</strong>
-                                            <fmt:formatNumber value="${book.rating}" type="number" maxFractionDigits="1" minFractionDigits="1"/>
-                                        </p> <!-- Format rating -->
-                                        <p><strong>리뷰 수:</strong> ${book.reviewCount}</p>
-                                        <p><strong>좋아요 수:</strong> ${book.likeCount}</p>
-                                    </div>
-                                </div>
+                <a href="${pageContext.request.contextPath}/board/detail/${book.id}" class="card-link" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <img src="/images/Cover4.jpg" class="card-img-top card-img" alt="${book.name} 이미지">
+                        <div class="card-info">
+                            <h3>${book.name}</h3>
+                            <p class="author-pub"> ${book.writer} | ${book.pub}</p>
+                            <div class="like-rating">
+                                <p><strong>❤️ </strong> ${book.likeCount} <strong>   ⭐ </strong> <fmt:formatNumber value="${book.rating}" maxFractionDigits="1" /></p>
                             </div>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </c:forEach>
         </c:if>
         <c:if test="${empty bList}">
             <p>검색 결과가 없습니다.</p>
         </c:if>
     </div>
-
     <div class="pagination">
-        <!-- Your existing pagination code here -->
-
         <c:if test="${maker.hasPrevious()}">
-                <c:set var="prevStartPage" value="${(maker.number - 10) < 0 ? 0 : (maker.number - 10)}" />
-                <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage.intValue()}" class="prev">&laquo; 이전</a>
-            </c:if>
-            <c:if test="${maker.totalPages > 0}">
-                <c:set var="startPage" value="${(maker.number / 10) * 10}" />
-                <c:set var="endPage" value="${(startPage + 9) < maker.totalPages ? (startPage + 9) : (maker.totalPages - 1)}" />
-                <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                    <a href="?sort=${param.sort}&query=${param.query}&page=${i.intValue()}" class="${i == maker.number ? 'active' : ''}">
-                        ${i + 1}
-                    </a>
-                </c:forEach>
-            </c:if>
-            <c:if test="${endPage < (maker.totalPages - 1)}">
-                <c:set var="nextStartPage" value="${endPage + 1}" />
-                <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage.intValue()}" class="next">다음 &raquo;</a>
-            </c:if>
+            <c:set var="prevStartPage" value="${(maker.number - 10) < 0 ? 0 : (maker.number - 10)}" />
+            <a href="?sort=${param.sort}&query=${param.query}&page=${prevStartPage.intValue()}" class="prev">&laquo; 이전</a>
+        </c:if>
+        <c:if test="${maker.totalPages > 0}">
+            <c:set var="startPage" value="${(maker.number / 10) * 10}" />
+            <c:set var="endPage" value="${(startPage + 9) < maker.totalPages ? (startPage + 9) : (maker.totalPages - 1)}" />
+            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                <a href="?sort=${param.sort}&query=${param.query}&page=${i.intValue()}" class="${i == maker.number ? 'active' : ''}">
+                    ${i + 1}
+                </a>
+            </c:forEach>
+        </c:if>
+        <c:if test="${endPage < (maker.totalPages - 1)}">
+            <c:set var="nextStartPage" value="${endPage + 1}" />
+            <a href="?sort=${param.sort}&query=${param.query}&page=${nextStartPage.intValue()}" class="next">다음 &raquo;</a>
+        </c:if>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+6

@@ -9,6 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,13 +45,14 @@ public class ProfileController {
     }
 
     @GetMapping("/liked-books")
-    public String likedBooks(HttpServletRequest request, Model model) {
+    public String likedBooks(HttpServletRequest request,
+                             Model model,
+                             @PageableDefault(page = 0, size = 5) Pageable page) {
         HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
 
         if (user != null) {
-            List<LikedBooksResponseDTO> likedBooks = profileService.getLikedBooksForMember(
-                user.getEmail());
+            Page<LikedBooksResponseDTO> likedBooks = profileService.getLikedBooksForMember(user.getEmail(),page);
             if (likedBooks != null) {
                 System.out.println("likedBooks = " + likedBooks);
             }
@@ -61,12 +65,14 @@ public class ProfileController {
     }
 
     @GetMapping("/my-reviews")
-    public String myReviews(HttpServletRequest request, Model model) {
+    public String myReviews(HttpServletRequest request,
+                            Model model,
+                            @PageableDefault(page = 0, size = 5) Pageable page) {
         HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
         if (user != null) {
-            List<MyReviewResponseDTO> myReviews = profileService.getmyReviewsForMember(
-                user.getEmail());
+            Page<MyReviewResponseDTO> myReviews = profileService.getmyReviewsForMember(
+                user.getEmail(),page);
             model.addAttribute("myReviews", myReviews);
         }
 

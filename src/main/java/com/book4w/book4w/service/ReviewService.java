@@ -26,25 +26,16 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final BookRepository bookRepository;
 
-
-//    public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable page) {
-//        return reviewRepository.findByBookId(bookId, page).map(ReviewResponseDTO::new);
-//    }
-
     public Page<ReviewResponseDTO> getReviewList(String bookId, Pageable pageable) {
         return reviewRepository.findByBookIdOrderByCreatedDateDesc(bookId, pageable)
                 .map(ReviewResponseDTO::new);
     }
 
-
     public Review register(String bookId, ReviewPostRequestDTO dto) {
-        // 책 정보 조회
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("책을 찾을 수 없습니다."));
 
-        // 회원 정보 조회
-        String memberUuid = dto.getMemberUuid();
-        Member member = memberRepository.findById(memberUuid)
+        Member member = memberRepository.findById(dto.getMemberUuid())
                 .orElseThrow(() -> new EntityNotFoundException("회원 정보를 찾을 수 없습니다."));
 
         Review review = Review.builder()
@@ -56,30 +47,44 @@ public class ReviewService {
                 .build();
 
         reviewRepository.save(review);
+
+        book.setReviewCount(book.getReviewCount() + 1);
+        bookRepository.save(book);
+
         return review;
     }
 
-
-    public void updateReview(String reviewId, String newContent) {
+    public void updateReview(String reviewId, String newContent, String userId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
 
-        // 리뷰의 내용 업데이트
-        review.setContent(newContent);
+        // 본인의 리뷰인지 확인
+        if (!review.getMember().getUuid().equals(userId)) {
+            throw new SecurityException("본인의 리뷰만 수정할 수 있습니다.");
+        }
 
-        // 업데이트된 리뷰 저장
+        review.setContent(newContent);
         reviewRepository.save(review);
     }
 
-    // 특정 리뷰를 ID로 조회하는 메서드 추가
+    public void deleteReview(String reviewId, String userId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
+
+        // 본인의 리뷰인지 확인
+        if (!review.getMember().getUuid().equals(userId)) {
+            throw new SecurityException("본인의 리뷰만 삭제할 수 있습니다.");
+        }
+
+        Book book = review.getBook();
+        reviewRepository.deleteById(reviewId);
+
+        book.setReviewCount(book.getReviewCount() - 1);
+        bookRepository.save(book);
+    }
+
     public Review findById(String reviewId) {
         return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
     }
-
-
-    public void deleteReview(String reviewId) {
-        reviewRepository.deleteById(reviewId);
-    }
 }
-
