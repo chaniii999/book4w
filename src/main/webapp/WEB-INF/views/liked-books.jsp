@@ -1,62 +1,91 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <!-- fmt 태그 라이브러리 추가 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liked Books</title>
-    <link rel="stylesheet" href="/css/style.css">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .card {
-            border: 1px solid #ccc;
-            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin: 10px 0;
-            border-radius: 5px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
             text-decoration: none;
             color: inherit;
-            display: block;
         }
+
         .card:hover {
-            background-color: #f9f9f9;
+            transform: scale(1.02);
+            background-color: #fafafa;
         }
+
         .card-header {
-            font-weight: bold;
             font-size: 1.2em;
+            font-weight: bold;
         }
+
         .card-rating {
-            color: #f39c12;
+            color: #ffcc00; /* Star color */
         }
-        .pagination {
-            margin-top: 20px;
+
+        .card-content {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .no-reviews {
             text-align: center;
+            margin-top: 20px;
+            color: #888;
         }
-        .pagination a {
-            display: inline-block;
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a, .pagination span {
             margin: 0 5px;
             padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
             text-decoration: none;
-            color: #333;
-            transition: background-color 0.3s ease;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
 
         .pagination a:hover {
-            background-color: #f1f1f1;
+            background-color: #007bff;
+            color: white;
         }
-        .pagination a.active {
-            font-weight: bold;
-            color: #fff;
-            background-color: #333; /* 현재 페이지를 강조하는 색상 */
-            pointer-events: none; /* 클릭 비활성화 */
-        }
-        .pagination a.disabled {
-            color: #ccc;
-            border-color: #ccc;
-            pointer-events: none; /* 비활성화된 버튼 */
+
+        .pagination .active {
+            background-color: #007bff;
+            color: white;
+            border: none; /* Remove border for the active page */
         }
     </style>
 </head>
@@ -75,7 +104,7 @@
                         ${book.name} - ${book.writer}
                     </div>
                     <div class="card-rating">
-                        평점: ${book.rating} ★
+                        평점: <fmt:formatNumber value="${book.rating}" maxFractionDigits="1" /> ★
                     </div>
                     <div class="card-content">
                         좋아요 수: ${book.likeCount}
@@ -96,9 +125,14 @@
 
             <!-- 페이지 번호 -->
             <c:forEach var="i" begin="0" end="${likedBooks.totalPages - 1}">
-                <a href="?page=${i}" class="${likedBooks.number == i ? 'active' : ''}">
-                    ${i + 1}
-                </a>
+                <c:choose>
+                    <c:when test="${likedBooks.number == i}">
+                        <span class="active">${i + 1}</span> <!-- Active class applied here -->
+                    </c:when>
+                    <c:otherwise>
+                        <a href="?page=${i}">${i + 1}</a>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
 
             <!-- 다음 페이지 버튼 -->

@@ -65,12 +65,14 @@ public class ProfileController {
     }
 
     @GetMapping("/my-reviews")
-    public String myReviews(HttpServletRequest request, Model model) {
+    public String myReviews(HttpServletRequest request,
+                            Model model,
+                            @PageableDefault(page = 0, size = 5) Pageable page) {
         HttpSession session = request.getSession();
         LoginUserResponseDTO user = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
         if (user != null) {
-            List<MyReviewResponseDTO> myReviews = profileService.getmyReviewsForMember(
-                user.getEmail());
+            Page<MyReviewResponseDTO> myReviews = profileService.getmyReviewsForMember(
+                user.getEmail(),page);
             model.addAttribute("myReviews", myReviews);
         }
 

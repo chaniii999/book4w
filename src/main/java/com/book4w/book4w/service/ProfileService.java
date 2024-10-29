@@ -59,24 +59,25 @@ public class ProfileService {
 
 
 
-    public List<MyReviewResponseDTO> getmyReviewsForMember(String email) {
+    public Page<MyReviewResponseDTO> getmyReviewsForMember(String email,Pageable page) {
         Member member = memberService.findByEmail(email);
         log.info("member: {}", member);
 
         if (member != null) {
-            return member.getReviews().stream()
+            List<MyReviewResponseDTO> list = new java.util.ArrayList<>(member.getReviews().stream()
                     .map(MyReviewResponseDTO::fromReview)
-                    .toList();
-//                    .map(review -> MyReviewResponseDTO.builder()
-//                            .bookId(review.getBook().getId())
-//                            .bookName(review.getBook().getName())
-//                            .writer(review.getBook().getWriter())
-//                            .content(review.getContent())
-//                            .rating(review.getRating())
-//                            .build())
-//                    .toList();
+                    .toList());
+
+            Collections.reverse(list);
+
+            // 실제 페이지에 맞게 서브리스트로 제한
+            int start = Math.toIntExact(page.getOffset());
+            int end = Math.min(start + page.getPageSize(), list.size());
+            List<MyReviewResponseDTO> pagedList = list.subList(start, end);
+
+            return new PageImpl<>(pagedList, page, list.size());
         }
-        return Collections.emptyList();
+        return new PageImpl<>(Collections.emptyList(), page, 0);
     }
 
     public ProfileMemberResponseDTO getMyProfile(String email) {
