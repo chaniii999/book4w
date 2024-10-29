@@ -142,7 +142,7 @@
 </head>
 <body>
 <div class="container my-5 text-center">
-    <h1 class="text-center">추천 도서 목록</h1>
+    <h1 class="text-center">🔥HOT🔥 도서 목록</h1>
     <!-- 평점 순 추천 도서 슬라이드 -->
     <div class="section active-section" id="section1">
         <h2 class="mt-5">평점이 높은 도서</h2>
