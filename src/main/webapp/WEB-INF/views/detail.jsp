@@ -309,11 +309,11 @@
     }
 
     function showEditForm(reviewId) {
-        const editForm = document.getElementById(`editForm-${reviewId}`);
+        const editForm = document.getElementById(`editForm-\${reviewId}`);
         if (editForm) {
             editForm.style.display = 'block';
         } else {
-            console.error(`Edit form not found for review ID: ${reviewId}`);
+            console.error(`Edit form not found for review ID: \${reviewId}`);
         }
     }
 
@@ -341,51 +341,49 @@
     }
 
     function cancelEdit(reviewId) {
-        const editForm = document.getElementById(`editForm-${reviewId}`);
+        const editForm = document.getElementById(`editForm-\${reviewId}`);
         if (editForm) {
             editForm.style.display = 'none';
         }
     }
 
-    function submitEdit(reviewId) {
-        const content = document.getElementById(`editContent-${reviewId}`).value;
-        const reviewData = {content: content};
+function submitEdit(reviewId) {
+    const content = document.getElementById(`editContent-${reviewId}`).value;
+    const reviewData = { content: content };
 
-        fetch(`/reviews/${reviewId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(reviewData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(errorData => {
-                        throw new Error(errorData.message || '서버 응답 오류');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    document.querySelector(`.review-item[data-id="${reviewId}"] p`).innerHTML = `
-                    <strong>작성자:</strong> ${data.nickname} |
-                    <strong>내용:</strong> ${data.content} |
-                    <strong>평점:</strong> ${data.rating} / 5.0
-                `;
-                    cancelEdit(reviewId);
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+    fetch(`/reviews/${reviewId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reviewData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                throw new Error(errorData.message || '서버 응답 오류');
             });
-    }
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            document.querySelector(`.review-item[data-id="${reviewId}"] .review-content`).innerHTML = data.content;
+            cancelEdit(reviewId);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error("리뷰 수정 중 오류 발생:", error);
+        alert("리뷰 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+    });
+}
+
 
     function deleteReview(reviewId) {
         if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
-            fetch(`/reviews/${reviewId}`, {
+            fetch(`/reviews/\${reviewId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
@@ -395,7 +393,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        document.querySelector(`.review-item[data-id="${reviewId}"]`).remove();
+                        document.querySelector(`.review-item[data-id="\${reviewId}"]`).remove();
                         alert("리뷰가 성공적으로 삭제되었습니다.");
                     } else {
                         alert(data.message);
