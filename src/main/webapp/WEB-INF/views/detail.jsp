@@ -39,31 +39,71 @@
             margin-bottom: 20px;
         }
 
-        .book-meta {
-            margin-top: 20px;
-        }
-
-        .review-list {
-            margin-top: 40px;
-        }
-
+        .book-meta,
+        .review-list,
         .review-form {
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 가운데 정렬 */
+            text-align: center; /* 텍스트 가운데 정렬 */
         }
 
         .review-item {
-            border-bottom: 1px solid #ccc;
             padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+            width: 100%; /* 전체 너비 */
+            max-width: 600px;
         }
 
-        .edit-form {
-            margin-top: 10px;
-            display: none;
+        /* 작성자 닉네임과 별점을 한 줄에 배치 */
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .review-header .nickname {
+            font-size: 1.1em;
+        }
+
+        /* 평점 박스 */
+        .review-header .rating-box {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            background-color: #f0f0f0; /* 박스 배경색 */
+            border-radius: 5px;
+        }
+
+        .rating-box .star {
+            font-size: 1em;
+            margin-right: 5px;
+            color: #FFD700; /* 별 색상 */
+        }
+
+
+        /* 리뷰 내용 */
+        .review-content {
+            margin-top: 5px;
+            text-align: left;
+            font-size: 25px;
+            word-break: break-word; /* 긴 내용 줄바꿈 처리 */
+        }
+
+        /* 수정 및 삭제 버튼 */
+        .review-buttons {
+            margin-top: auto; /* 아래쪽으로 밀어 배치 */
+            text-align: right; /* 우측 정렬 */
+        }
+
+        .review-buttons button {
+            margin-right: 5px;
         }
 
         .pagination {
+            display: flex;
+            justify-content: center; /* 버튼을 가로로 가운데 정렬 */
             margin-top: 20px;
-            text-align: center;
         }
 
         .pagination a {
@@ -83,6 +123,7 @@
             pointer-events: none;
         }
     </style>
+
 </head>
 <body>
 <header>
@@ -108,54 +149,59 @@
         <p><strong>출판년도:</strong> ${book.year}</p>
         <div class="book-meta">
             <p><strong>평점:</strong> ${book.rating} / 5.0</p>
-            <p><strong>좋아요 수:</strong> ${book.likeCount}</p>
-            <p><strong>리뷰 수:</strong> ${book.reviewCount}</p>
+            <p><strong>좋아요 수:</strong> <span id="likeCount">${book.likeCount}</span></p>
+            <button id="likeButton" onclick="toggleLike()" style="color: red; font-size: 20px; cursor: pointer;">
+                <c:choose>
+                    <c:when test="${isLiked}">
+                        ❤️ 좋아요 취소
+                    </c:when>
+                    <c:otherwise>
+                        ❤ 좋아요
+                    </c:otherwise>
+                </c:choose>
+            </button>
         </div>
     </div>
 </div>
 
 <div class="book-meta">
-    <p><strong>좋아요 수:</strong> <span id="likeCount">${book.likeCount}</span></p>
-    <button id="likeButton" onclick="toggleLike()" style="color: red; font-size: 20px; cursor: pointer;">
-        <c:choose>
-            <c:when test="${isLiked}">
-                ❤️ 좋아요 취소
-            </c:when>
-            <c:otherwise>
-                ❤ 좋아요
-            </c:otherwise>
-        </c:choose>
-    </button>
+    <%--    <h3>리뷰 목록</h3>--%>
 </div>
-
-    <h3>리뷰 목록</h3>
-
-
 
 <div class="review-list">
     <c:forEach var="review" items="${reviewList}">
         <div class="review-item" data-id="${review.id}">
-            <p><strong>작성자:</strong> ${review.memberName} | <strong>내용:</strong> ${review.content} |
-                <strong>평점:</strong> ${review.rating} / 5.0</p>
-            <!-- 본인이 작성한 리뷰에만 수정 및 삭제 버튼 표시 -->
-            <c:if test="${user != null && user.uuid == review.memberUuid}">
-                <button onclick="showEditForm('${review.id}')">수정</button>
-                <button onclick="deleteReview('${review.id}')">삭제</button>
-            </c:if>
-
-            <!-- 리뷰 수정 폼 -->
-            <div id="editForm-${review.id}" class="edit-form" style="display: none;">
-                <textarea id="editContent-${review.id}">${review.content}</textarea>
-                <button onclick="submitEdit('${review.id}')">저장</button>
-                <button onclick="cancelEdit('${review.id}')">취소</button>
+            <!-- 작성자 닉네임과 평점 -->
+            <div class="review-header">
+                <span class="nickname">[${review.memberName}]</span>
+                <span class="rating-box">
+                    <span class="star">⭐</span> ${review.rating} / 5
+                </span>
             </div>
+
+            <!-- 리뷰 내용 -->
+            <div class="review-content">${review.content}</div>
+
+            <!-- 수정 및 삭제 버튼 -->
+            <c:if test="${user != null && user.uuid == review.memberUuid}">
+                <div class="review-buttons">
+                    <button onclick="showEditForm('${review.id}')">수정</button>
+                    <button onclick="deleteReview('${review.id}')">삭제</button>
+                </div>
+            </c:if>
+        </div>
+
+        <!-- 리뷰 수정 폼 -->
+        <div id="editForm-${review.id}" class="edit-form" style="display: none;">
+            <textarea id="editContent-${review.id}">${review.content}</textarea>
+            <button onclick="submitEdit('${review.id}')">저장</button>
+            <button onclick="cancelEdit('${review.id}')">취소</button>
         </div>
     </c:forEach>
 </div>
+</div>
 
-<!-- 페이지 네비게이션 영역 -->
 <div class="pagination">
-    <!-- 이전 버튼 -->
     <c:if test="${page.hasPrevious()}">
         <a href="?page=${page.number - 1}">이전</a>
     </c:if>
@@ -163,14 +209,12 @@
         <a class="disabled">이전</a>
     </c:if>
 
-    <!-- 페이지 번호 링크 -->
     <c:forEach var="i" begin="0" end="${page.totalPages > 0 ? page.totalPages - 1 : 0}">
         <a href="?page=${i}" class="${page.number == i ? 'active' : ''}">
                 ${i + 1}
         </a>
     </c:forEach>
 
-    <!-- 다음 버튼 -->
     <c:if test="${page.hasNext()}">
         <a href="?page=${page.number + 1}">다음</a>
     </c:if>
@@ -179,19 +223,20 @@
     </c:if>
 </div>
 
-<!-- 리뷰 작성 폼 -->
-<form id="reviewForm" class="review-form">
-    <h4>리뷰 작성</h4>
-    <textarea id="reviewContent" rows="3" cols="50" placeholder="리뷰 내용을 입력하세요"></textarea>
-    <br>
-    <label for="reviewRating">평점: </label>
-    <select id="reviewRating">
-        <c:forEach var="i" begin="1" end="5">
-            <option value="${i}">${i}</option>
-        </c:forEach>
-    </select>
-    <button type="submit">리뷰 작성</button>
-</form>
+<c:if test="${user != null}">
+    <form id="reviewForm" class="review-form">
+        <h4>리뷰 작성</h4>
+        <textarea id="reviewContent" rows="3" cols="50" placeholder="리뷰 내용을 입력하세요"></textarea>
+        <br>
+        <label for="reviewRating">평점: </label>
+        <select id="reviewRating">
+            <c:forEach var="i" begin="1" end="5">
+                <option value="${i}">${i}</option>
+            </c:forEach>
+        </select>
+        <button type="submit">리뷰 작성</button>
+    </form>
+</c:if>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -251,16 +296,15 @@
     }
 
     function showEditForm(reviewId) {
-        const editForm = document.getElementById(`editForm-\${reviewId}`);
+        const editForm = document.getElementById(`editForm-${reviewId}`);
         if (editForm) {
             editForm.style.display = 'block';
         } else {
-            console.error(`Edit form not found for review ID: \${reviewId}`);
+            console.error(`Edit form not found for review ID: ${reviewId}`);
         }
     }
 
-
-    let isLiked = ${isLiked}; // JSP에서 전달받은 초기 좋아요 상태
+    let isLiked = ${isLiked};
 
     function toggleLike() {
         fetch(`/board/detail/${book.id}/toggle-like`, {
@@ -272,28 +316,16 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // 좋아요 상태 변경
-                    isLiked = !isLiked; // 상태 반전
-                    document.getElementById("likeCount").innerText = data.likeCount; // 좋아요 수 업데이트
+                    isLiked = !isLiked;
+                    document.getElementById("likeCount").innerText = data.likeCount;
                     const likeButton = document.getElementById("likeButton");
-                    likeButton.innerText = isLiked ? "❤️ 좋아요 취소" : "❤ 좋아요"; // 버튼 텍스트 업데이트
+                    likeButton.innerText = isLiked ? "❤️ 좋아요 취소" : "❤ 좋아요";
                 } else {
                     alert(data.message || "로그인이 필요합니다.");
                 }
             })
             .catch(error => console.error("좋아요 토글 중 오류 발생:", error));
     }
-
-
-
-
-
-
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-        console.log("Page loaded and ready for interaction.");
-    });
 
     function cancelEdit(reviewId) {
         const editForm = document.getElementById(`editForm-${reviewId}`);
@@ -303,10 +335,10 @@
     }
 
     function submitEdit(reviewId) {
-        const content = document.getElementById(`editContent-\${reviewId}`).value;
+        const content = document.getElementById(`editContent-${reviewId}`).value;
         const reviewData = {content: content};
 
-        fetch(`/reviews/\${reviewId}`, {
+        fetch(`/reviews/${reviewId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -323,10 +355,10 @@
             })
             .then(data => {
                 if (data.success) {
-                    document.querySelector(`.review-item[data-id="\${reviewId}"] p`).innerHTML = `
-                    <strong>작성자:</strong> \${data.nickname} |
-                    <strong>내용:</strong> \${data.content} |
-                    <strong>평점:</strong> \${data.rating} / 5.0
+                    document.querySelector(`.review-item[data-id="${reviewId}"] p`).innerHTML = `
+                    <strong>작성자:</strong> ${data.nickname} |
+                    <strong>내용:</strong> ${data.content} |
+                    <strong>평점:</strong> ${data.rating} / 5.0
                 `;
                     cancelEdit(reviewId);
                 } else {
@@ -340,7 +372,7 @@
 
     function deleteReview(reviewId) {
         if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
-            fetch(`/reviews/\${reviewId}`, {
+            fetch(`/reviews/${reviewId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
@@ -350,7 +382,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        document.querySelector(`.review-item[data-id="\${reviewId}"]`).remove();
+                        document.querySelector(`.review-item[data-id="${reviewId}"]`).remove();
                         alert("리뷰가 성공적으로 삭제되었습니다.");
                     } else {
                         alert(data.message);
@@ -359,13 +391,6 @@
                 .catch(error => {
                     alert("리뷰 삭제 중 오류가 발생했습니다.");
                 });
-        }
-    }
-
-    function cancelEdit(reviewId) {
-        const editForm = document.getElementById(`editForm-\${reviewId}`);
-        if (editForm) {
-            editForm.style.display = 'none';
         }
     }
 </script>
