@@ -16,28 +16,7 @@
             margin: 0;
             padding: 0;
         }
-        header {
-            background-color: #ffffff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 {
-            color: #4CAF50;
-            font-size: 24px;
-        }
-        header a {
-            text-decoration: none;
-            background-color: #6f6d62a5;
-            color: black;
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-        header a:hover {
-            background-color: #b1b0abc7;
-        }
+
         .container {
             max-width: 500px;
             margin: 50px auto;

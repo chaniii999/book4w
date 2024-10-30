@@ -11,21 +11,11 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+      background-color: #f5efe6; /* 베이지톤 배경 */
       margin: 0;
       padding: 0;
     }
-    header {
-      background-color: #ffffff;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      color: #4CAF50;
-      font-size: 24px;
-    }
+
     .container {
       max-width: 500px;
       margin: 50px auto;
@@ -99,7 +89,7 @@
 
     <button type="submit">로그인</button>
   </form>
-  <a href="${pageContext.request.contextPath}/sign-up" class="signup-button">회원가입</a> <!-- 회원가입 버튼 추가 -->
+  <a href="${pageContext.request.contextPath}/sign-up" class="signup-button">회원가입</a>
 </div>
 
 </body>
