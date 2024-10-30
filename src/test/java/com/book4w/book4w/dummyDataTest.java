@@ -36,4 +36,25 @@ public class dummyDataTest {
             bookRepository.save(book);
         }
     }
+
+    @Test
+    @DisplayName("해리포터")
+    void dummyCreTest() {
+        // given
+        Random random = new Random();
+
+            Book book = Book.builder()
+                    .id(UUID.randomUUID().toString()) // UUID 생성
+                    .name("해리포터") // 책 이름
+                    .writer("조앤머시기 " + random.nextInt(100))
+                    .pub("Publisher " + random.nextInt(10))
+                    .year(2020 + random.nextInt(5))
+                    .coverImage("https://via.placeholder.com/150?text=Book+Cover+" + i)
+                    .likeCount(random.nextInt(100))
+                    .build();
+            bookRepository.save(book);
+        // when
+
+        // then
+    }
 }

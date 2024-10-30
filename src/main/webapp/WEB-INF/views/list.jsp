@@ -170,7 +170,7 @@
                     <option value="">기본 정렬</option>
                     <option value="likeCount" <c:if test="${param.sort == 'likeCount'}">selected</c:if>>좋아요 순</option>
                     <option value="reviewCount" <c:if test="${param.sort == 'reviewCount'}">selected</c:if>>리뷰 수 순</option>
-                    <option value="rating" <c:if test="${param.sort == 'rating'}">selected</c:if>>평점 수 순</option>
+                    <option value="rating" <c:if test="${param.sort == 'rating'}">selected</c:if>>평점 순</option>
                 </select>
             </form>
         </div>
