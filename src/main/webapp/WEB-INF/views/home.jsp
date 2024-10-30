@@ -46,44 +46,67 @@
             align-items: center;
         }
 
-        .card {
-            max-width: 320px;
-            margin: 0 15px;
-            border: none;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            background-color: #eae4da; /* 카드 배경색 */
-            transition: transform 0.3s, box-shadow 0.3s;
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
         }
-
+        .card-container > a:first-child {
+            margin-left: 1.25rem;
+        }
+        .card {
+            background-color: #eae4da; /* 카드 배경색 */
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 0; /* 패딩을 0으로 설정하여 이미지가 카드와 밀착되게 함 */
+            margin: 20px; /* 카드 간 간격 설정 */
+            flex: 1 1 calc(33.333% - 20px); /* 간격을 고려하여 너비 조정 */
+            box-sizing: border-box;
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-width: 250px;
+            max-width: 300px;
+        }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 증가 */
         }
-
-        .card-img {
-            height: 400px;
-            width: 100%;
-            object-fit: cover;
+        .card img {
+            width: 100%; /* 카드의 너비에 맞게 조정 */
+            height: auto; /* 비율을 유지하며 높이 자동 조정 */
+            border-radius: 8px; /* 둥근 모서리 증가 */
+            margin-bottom: 0; /* 아래쪽 여백 제거 */
         }
-
-        .card-body {
-            padding: 15px;
-            color: #4a3f35;
+        .card h3 {
+            font-size: 1.5em; /* 제목 크기 증가 */
+            margin: 10px 0;
+            color: #4a3f35; /* 제목 색상 변경 */
         }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #b57d52; /* 따뜻한 브라운 */
-            margin-bottom: 10px;
+        .card p {
+            margin: 5px 0;
+            color: #666; /* 설명 텍스트 색상 변경 */
         }
-
-        .card-text {
-            font-size: 1rem;
-            color: #7e7366;
-            margin-bottom: 8px;
+        .card-info {
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 나열 */
+            justify-content: center; /* 수직 중앙 정렬 */
+            text-align: left; /* 텍스트 왼쪽 정렬 */
+            padding-left: 15px; /* 왼쪽 여백 추가 */
+        }
+        .card-info .author-pub {
+            font-size: 0.9em;
+            margin: 5px 0;
+            color: #999; /* 저자 및 출판사 색상 변경 */
+        }
+        .card-info .like-rating {
+            font-size: 1.1em; /* 글자 크기 조정 */
+            margin: 5px 0;
+            display: flex;
+            justify-content: flex-start; /* 왼쪽 정렬로 변경 */
+            align-items: center; /* 수직 정렬 추가 */
+            color: #333; /* 좋아요 및 평점 텍스트 색상 변경 */
         }
 
         .control-button {

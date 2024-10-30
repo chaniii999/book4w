@@ -71,7 +71,7 @@
         .card h3 {
             font-size: 1.5em; /* 제목 크기 증가 */
             margin: 10px 0;
-            color: #0078D7; /* 제목 색상 변경 */
+            color: #4a3f35;
         }
         .card p {
             margin: 5px 0;
