@@ -219,14 +219,15 @@
     </div>
 
     <!-- 전환 버튼 -->
-    <button class="control-button prev-button" onclick="switchSection(-1)">&#9664;</button>
-    <button class="control-button next-button" onclick="switchSection(1)">&#9654;</button>
+    <button class="control-button prev-button" onclick="triggerSwitchSection(-1)">&#9664;</button>
+    <button class="control-button next-button" onclick="triggerSwitchSection(1)">&#9654;</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     let currentSection = 0;
     const sections = document.querySelectorAll('.section');
+    let autoSwitchInterval;
 
     function switchSection(direction) {
         const current = sections[currentSection];
@@ -247,9 +248,29 @@
         }, 750);
     }
 
-    setInterval(() => {
-        switchSection(1);
-    }, 5000);
+    // 자동 전환 타이머 시작
+    function startAutoSwitch() {
+        clearInterval(autoSwitchInterval);
+        autoSwitchInterval = setInterval(() => switchSection(1), 5000);
+    }
+
+    // 버튼 클릭 시 전환하고 자동 전환 타이머 재설정
+    function triggerSwitchSection(direction) {
+        switchSection(direction);
+        startAutoSwitch(); // 버튼 클릭 시 자동 전환 재시작
+    }
+
+    // 사용자 비활성 상태일 때 5초 후 자동 전환
+    function resetIdleTimer() {
+        startAutoSwitch(); // 사용자 활동 시마다 자동 전환 재시작
+    }
+
+    // 페이지 로드 후 초기 자동 전환 타이머 설정
+    window.onload = startAutoSwitch;
+
+    // 이벤트 리스너로 사용자 활동 감지
+    document.onmousemove = resetIdleTimer;
+    document.onkeypress = resetIdleTimer;
 </script>
 </body>
 </html>
