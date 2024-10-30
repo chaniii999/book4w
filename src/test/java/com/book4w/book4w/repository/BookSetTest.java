@@ -31,7 +31,8 @@ public class BookSetTest {
             int reviewCount = random.nextInt(10) + 1; // 최소 1개의 리뷰를 가정
 
             // 3. 평점 계산 (rating / reviewCount <= 5.0)
-            while (rating / reviewCount > 4.6) {
+            double randomRating =1.0 + (random.nextDouble() * 3.8); // 1.0 ~ 4.8 사이의 값
+            while (rating / reviewCount > randomRating) {
                 reviewCount++; // reviewCount를 증가시켜 평점이 5를 넘지 않도록 조정
             }
 

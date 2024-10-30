@@ -4,8 +4,6 @@ package com.book4w.book4w.service;
 import com.book4w.book4w.dto.response.BookDetailResponseDTO;
 import com.book4w.book4w.entity.Book;
 
-import com.book4w.book4w.entity.BookLike;
-import com.book4w.book4w.entity.Member;
 import com.book4w.book4w.repository.BookLikeRepository;
 import com.book4w.book4w.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +37,7 @@ public class BoardService {
     }
     // 평점순 조회
     public Page<BookDetailResponseDTO> getOrderRatingDesc(Pageable page) {
-        Page<Book> bookPage = bookRepository.findAllByOrderByRatingDesc(page);
+        Page<Book> bookPage = bookRepository.findAllByOrderByRatingDividedByReviewCountDesc(page);
         return bookPage.map(BookDetailResponseDTO::new);
     }
 
@@ -56,38 +52,15 @@ public class BoardService {
         Page<Book> bookPage = bookRepository.findAllByNameContainingOrderByLikeCountDesc(query, page);
         return bookPage.map(BookDetailResponseDTO::new);
     }
-    // 제목검색 + 리뷰순 정렬
+    // 리뷰순 정렬
     public Page<BookDetailResponseDTO> searchBookByNameOrderByReviewDesc(Pageable page, String query) {
         Page<Book> bookPage = bookRepository.findAllByNameContainingOrderByReviewCountDesc(query, page);
         return bookPage.map(BookDetailResponseDTO::new);
     }
-
+    // 평점 순 정렬
     public Page<BookDetailResponseDTO> searchBookByNameOrderByRatingDesc(Pageable page, String query) {
-        Page<Book> bookPage = bookRepository.findAllByNameContainingOrderByRatingDesc(query, page);
+        Page<Book> bookPage = bookRepository.findAllByNameContainingOrderByRatingDividedByReviewCountDesc(query, page);
         return bookPage.map(BookDetailResponseDTO::new);
     }
 
-    public void addLikedBook(String bookId, String uuid) {
-        Book book = bookRepository.findById(bookId)
-               .orElseThrow(() -> new RuntimeException("���을 ��을 수 없습니다."));
-        Optional<Member> user = memberService.findById(uuid);
-        Member member = user.get();
-        bookRepository.save(book);
-
-        bookLikeRepository.save(BookLike.builder()
-                .book(book)
-                .member(member)
-                .build());
-    }
-
-    public void removeLikedBook(String bookId, String uuid) {
-        Book book = bookRepository.findById(bookId)
-               .orElseThrow(() -> new RuntimeException("책 데이터를 읽을 수 없습니다."));
-        Member member = memberService.findByUuid(uuid);
-
-        BookLike bookLike = bookLikeRepository.findByBookAndMember(book, member);
-        if (bookLike!= null) {
-            bookLikeRepository.delete(bookLike);
-        }
-    }
 }
