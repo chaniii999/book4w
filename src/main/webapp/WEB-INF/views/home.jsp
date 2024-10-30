@@ -132,91 +132,101 @@
     <h1 class="text-center">🔥HOT🔥 도서 목록</h1>
 
     <!-- 평점 순 추천 도서 슬라이드 -->
-    <div class="section active-section" id="section1">
-        <h2 class="mt-5">평점이 높은 도서</h2>
-        <div class="slider">
-            <div class="slider-wrapper" id="ratingSlider">
-                <c:forEach var="book" items="${recommendedByRating}">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
-                            <img src="/images/Cover1.jpg" class="card-img-top card-img" alt="Book 1 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">⭐:
+<div class="section active-section" id="section1">
+    <h2 class="mt-5">평점이 높은 도서</h2>
+    <div class="slider">
+        <div class="slider-wrapper" id="ratingSlider">
+            <c:forEach var="book" items="${recommendedByRating}">
+                <div class="card mb-4 shadow-sm">
+                    <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
+                        <img src="/images/Cover1.jpg" class="card-img-top card-img" alt="Book 1 이미지">
+                        <div class="card-info">
+                            <h3 class="card-title">${book.bookName}</h3>
+                            <p class="author-pub">${book.bookWriter} | ${book.bookPub}</p>
+                            <div class="like-rating">
+                                <strong>❤️ ${book.likeCount}</strong>
+                                <strong> ⭐
                                     <c:choose>
                                         <c:when test="${book.reviewCount == 0}">0</c:when>
                                         <c:otherwise>
                                             <fmt:formatNumber value="${book.bookRating / book.reviewCount}" type="number" minFractionDigits="1" maxFractionDigits="1"/>
                                         </c:otherwise>
                                     </c:choose>
-                                </p>
-                                <p class="card-text">❤️: ${book.likeCount}</p>
+                                </strong>
+                                <strong> 🗨️ ${book.reviewCount}</strong>
                             </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
         </div>
     </div>
+</div>
 
-    <!-- 리뷰 수가 많은 도서 슬라이드 -->
-    <div class="section" id="section2">
-        <h2 class="mt-5">리뷰 수가 많은 도서</h2>
-        <div class="slider">
-            <div class="slider-wrapper" id="reviewSlider">
-                <c:forEach var="book" items="${recommendedByReviewCount}">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
-                            <img src="/images/Cover2.jpg" class="card-img-top card-img" alt="Book 2 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">⭐:
+<!-- 리뷰 수가 많은 도서 슬라이드 -->
+<div class="section" id="section2">
+    <h2 class="mt-5">리뷰 수가 많은 도서</h2>
+    <div class="slider">
+        <div class="slider-wrapper" id="reviewSlider">
+            <c:forEach var="book" items="${recommendedByReviewCount}">
+                <div class="card mb-4 shadow-sm">
+                    <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
+                        <img src="/images/Cover2.jpg" class="card-img-top card-img" alt="Book 2 이미지">
+                        <div class="card-info">
+                            <h3 class="card-title">${book.bookName}</h3>
+                            <p class="author-pub">${book.bookWriter} | ${book.bookPub}</p>
+                            <div class="like-rating">
+                                <strong>❤️ ${book.likeCount}</strong>
+                                <strong> ⭐
                                     <c:choose>
                                         <c:when test="${book.reviewCount == 0}">0</c:when>
                                         <c:otherwise>
                                             <fmt:formatNumber value="${book.bookRating / book.reviewCount}" type="number" minFractionDigits="1" maxFractionDigits="1"/>
                                         </c:otherwise>
                                     </c:choose>
-                                </p>
-                                <p class="card-text">❤️: ${book.likeCount}</p>
+                                </strong>
+                                <strong> 🗨️ ${book.reviewCount}</strong>
                             </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
         </div>
     </div>
+</div>
 
-    <!-- 좋아요 수가 많은 도서 슬라이드 -->
-    <div class="section" id="section3">
-        <h2 class="mt-5">좋아요 수가 많은 도서</h2>
-        <div class="slider">
-            <div class="slider-wrapper" id="likeSlider">
-                <c:forEach var="book" items="${recommendedByLikeCount}">
-                    <div class="card mb-4 shadow-sm">
-                        <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
-                            <img src="/images/Cover3.jpg" class="card-img-top card-img" alt="Book 3 이미지">
-                            <div class="card-body">
-                                <h5 class="card-title">${book.bookName}</h5>
-                                <p class="card-text">출판사: ${book.bookPub}</p>
-                                <p class="card-text">⭐:
+<!-- 좋아요 수가 많은 도서 슬라이드 -->
+<div class="section" id="section3">
+    <h2 class="mt-5">좋아요 수가 많은 도서</h2>
+    <div class="slider">
+        <div class="slider-wrapper" id="likeSlider">
+            <c:forEach var="book" items="${recommendedByLikeCount}">
+                <div class="card mb-4 shadow-sm">
+                    <a href="board/detail/${book.bookUuid}" class="text-decoration-none">
+                        <img src="/images/Cover3.jpg" class="card-img-top card-img" alt="Book 3 이미지">
+                        <div class="card-info">
+                            <h3 class="card-title">${book.bookName}</h3>
+                            <p class="author-pub">${book.bookWriter} | ${book.bookPub}</p>
+                            <div class="like-rating">
+                                <strong>❤️ ${book.likeCount}</strong>
+                                <strong> ⭐
                                     <c:choose>
                                         <c:when test="${book.reviewCount == 0}">0</c:when>
                                         <c:otherwise>
                                             <fmt:formatNumber value="${book.bookRating / book.reviewCount}" type="number" minFractionDigits="1" maxFractionDigits="1"/>
                                         </c:otherwise>
                                     </c:choose>
-                                </p>
-                                <p class="card-text">❤️: ${book.likeCount}</p>
+                                </strong>
+                                <strong> 🗨️ ${book.reviewCount}</strong>
                             </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
         </div>
     </div>
+</div>
+
 
     <!-- 전환 버튼 -->
     <button class="control-button prev-button" onclick="triggerSwitchSection(-1)">&#9664;</button>
