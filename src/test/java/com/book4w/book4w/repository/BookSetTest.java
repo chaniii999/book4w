@@ -24,16 +24,18 @@ public class BookSetTest {
         List<Book> books = bookRepository.findAll();
 
         for (Book book : books) {
-            // 1.0부터 5.0 사이의 랜덤 평점을 생성
-            double rating = random.nextInt(100) + 1; // 0~ 399
+            double desiredAverageRating = 1.3 + (random.nextDouble() * (4.7 - 1.3)); // 1.3 ~ 4.7 랜덤값 생성
 
-            // 2. rating을 바탕으로 reviewCount를 설정 (rating이 최대 5.0일 때 reviewCount는 최소 1)
-            int reviewCount = random.nextInt(10) + 1; // 최소 1개의 리뷰를 가정
+            // 1.0부터 400 사이의 랜덤 총 평점 생성
+            int rating = random.nextInt(400) + 1; // 총 평점 수 (1 ~ 400)
 
-            // 3. 평점 계산 (rating / reviewCount <= 5.0)
-            double randomRating =1.0 + (random.nextDouble() * 3.8); // 1.0 ~ 4.8 사이의 값
-            while (rating / reviewCount > randomRating) {
-                reviewCount++; // reviewCount를 증가시켜 평점이 5를 넘지 않도록 조정
+            // 2. 적어도 평균 평점이 1.0이 되도록 reviewCount 설정
+            // reviewCount는 총 평점을 평균 평점으로 나눈 값의 정수 부분으로 설정
+            int reviewCount = (int) Math.max(Math.ceil((double) rating / desiredAverageRating), 1);
+
+            // 3. 리뷰 수가 최소 1개 이상이고, 생성된 값보다 클 수 있도록 재설정
+            if (reviewCount < 1) {
+                reviewCount = 1; // 최소 1개의 리뷰는 필수
             }
 
             // 4. 도서 객체에 값 설정
