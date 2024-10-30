@@ -25,13 +25,13 @@ public class BookSetTest {
 
         for (Book book : books) {
             // 1.0부터 5.0 사이의 랜덤 평점을 생성
-            double rating = random.nextInt(400); // 1.0 ~ 5.0
+            double rating = random.nextInt(100) + 1; // 0~ 399
 
             // 2. rating을 바탕으로 reviewCount를 설정 (rating이 최대 5.0일 때 reviewCount는 최소 1)
             int reviewCount = random.nextInt(10) + 1; // 최소 1개의 리뷰를 가정
 
             // 3. 평점 계산 (rating / reviewCount <= 5.0)
-            while (rating / reviewCount > 5.0) {
+            while (rating / reviewCount > 4.6) {
                 reviewCount++; // reviewCount를 증가시켜 평점이 5를 넘지 않도록 조정
             }
 

@@ -17,7 +17,7 @@ public class dummyDataTest {
     BookRepository bookRepository;
 
     @Test
-    @DisplayName("더미데이터 생성")
+    @DisplayName("더미데이터 생성(무지성 생성이므로 평점 5를 초과할수있음)")
     void createDummy() {
         Random random = new Random();
 
