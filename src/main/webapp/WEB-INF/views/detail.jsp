@@ -343,7 +343,7 @@
     <c:forEach var="review" items="${reviewList}">
         <div class="review-item" data-id="${review.id}">
             <div class="review-header">
-                <span class="nickname">[${review.memberName}]</span>
+                <span class="nickname">${review.memberName}</span>
                 <span class="rating-box">
                     <!-- 평점에 따른 채워진 별 (오른쪽 정렬) -->
                     <c:forEach var="i" begin="1" end="${5 - review.rating}">
