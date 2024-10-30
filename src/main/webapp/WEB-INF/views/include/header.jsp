@@ -112,7 +112,7 @@
 <header>
     <div class="header-container">
          <a href="${pageContext.request.contextPath}/" class="logo">
-            <img src="/images/Logo21.png" alt="BookForW 로고" style="height: 35px; vertical-align: middle;" />
+            <img src="/images/Logo365.png" alt="BookForW 로고" style="height: 40px; vertical-align: middle;" />
             BookForW
         </a>
         <nav class="nav-links">
