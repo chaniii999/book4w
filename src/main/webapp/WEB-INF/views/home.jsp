@@ -63,12 +63,13 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 0; /* 패딩을 0으로 설정하여 이미지가 카드와 밀착되게 함 */
             margin: 20px; /* 카드 간 간격 설정 */
-            flex: 1 1 calc(33.333% - 20px); /* 간격을 고려하여 너비 조정 */
+            flex: 1 1 calc(25% - 20px); /* 카드 너비를 줄임 */
             box-sizing: border-box;
             transition: transform 0.3s, box-shadow 0.3s;
-            min-width: 250px;
-            max-width: 300px;
+            min-width: 200px; /* 최소 너비 조정 */
+            max-width: 250px; /* 최대 너비 조정 */
         }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 증가 */
