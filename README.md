@@ -1,6 +1,6 @@
 # Book4W 도서 리뷰 웹사이트 프로젝트
 
-<img width="917" alt="스크린샷" src="https://github.com/user-attachments/assets/74fcf318-75da-4603-9ec3-0d3f076265c8">
+![2024-10-30_175404](https://github.com/user-attachments/assets/71ec3af9-3a00-4c03-8b2b-85770a1e7a45)
 
 ## 1. 서비스 개요
 
