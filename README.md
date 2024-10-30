@@ -18,7 +18,7 @@
 ## 2. 개발 이력
 ### 2.1. 개발 기간: 2024-10-21 ~ 2024-10-30
 ### 2.2. 팀원
-- 박성찬(PM, Back), 김원(Back), 배승준(Front), 김성철(Back)
+- 박성찬(PM, Back-End), 김원(Back-End), 배승준(Front-End), 김성철(Back-End)
 ### 2.3. 기술 스택
 
 - <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
