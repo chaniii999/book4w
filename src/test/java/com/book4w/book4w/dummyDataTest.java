@@ -17,7 +17,7 @@ public class dummyDataTest {
     BookRepository bookRepository;
 
     @Test
-    @DisplayName("더미데이터 생성")
+    @DisplayName("더미데이터 생성(무지성 생성이므로 평점 5를 초과할수있음)")
     void createDummy() {
         Random random = new Random();
 
@@ -35,5 +35,26 @@ public class dummyDataTest {
                     .build();
             bookRepository.save(book);
         }
+    }
+
+    @Test
+    @DisplayName("해리포터")
+    void dummyCreTest() {
+        // given
+        Random random = new Random();
+
+            Book book = Book.builder()
+                    .id(UUID.randomUUID().toString()) // UUID 생성
+                    .name("해리포터") // 책 이름
+                    .writer("조앤머시기 " + random.nextInt(100))
+                    .pub("Publisher " + random.nextInt(10))
+                    .year(2020 + random.nextInt(5))
+                    .coverImage("https://via.placeholder.com/150?text=Book+Cover+")
+                    .likeCount(random.nextInt(100))
+                    .build();
+            bookRepository.save(book);
+        // when
+
+        // then
     }
 }

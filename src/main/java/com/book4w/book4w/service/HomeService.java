@@ -4,6 +4,7 @@ import com.book4w.book4w.dto.response.HomeRecommendedResponseDTO;
 import com.book4w.book4w.entity.Book;
 import com.book4w.book4w.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,8 @@ public class HomeService {
 
     // 평점 순으로 3개의 책 추천
     public List<HomeRecommendedResponseDTO> recommendedListByRating() {
-        List<Book> books = bookRepository.findTop3ByOrderByRatingDesc();  // 평점 순 상위 3개
+        List<Book> books = bookRepository.findTop3ByOrderByRatingDividedByReviewCountDesc(PageRequest.of(0, 3));
+        // 평점 순 상위 3개
         return books.stream()
                 .map(book -> new HomeRecommendedResponseDTO(
                        book.getId(),

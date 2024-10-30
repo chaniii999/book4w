@@ -68,7 +68,7 @@ public class ProfileService {
                     .map(MyReviewResponseDTO::fromReview)
                     .toList());
 
-            //Collections.reverse(list);
+            Collections.reverse(list);
 
             // 실제 페이지에 맞게 서브리스트로 제한
             int start = Math.toIntExact(page.getOffset());
