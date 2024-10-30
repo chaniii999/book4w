@@ -47,17 +47,18 @@
             margin-left: 1.25rem;
         }
         .card {
-            background-color: #eae4da; /* 카드 배경색 */
+            background-color: #eae4da;
             border: 1px solid #e0e0e0;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 0; /* 패딩을 0으로 설정하여 이미지가 카드와 밀착되게 함 */
-            flex: 1 1 calc(33.333% - 40px);
+            padding: 0;
+            flex: 1 1 calc(25% - 40px); /* 4열로 조정 */
             box-sizing: border-box;
             transition: transform 0.3s, box-shadow 0.3s;
-            min-width: 250px;
-            max-width: 300px;
+            min-width: 150px;
+            max-width: 200px;
         }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 효과 증가 */
@@ -177,31 +178,31 @@
     </h2>
     <div class="card-container">
         <c:if test="${not empty bList}">
-            <c:forEach var="book" items="${bList}">
-                <a href="${pageContext.request.contextPath}/board/detail/${book.id}" class="card-link" style="text-decoration: none; color: inherit;">
-                    <div class="card">
-                        <img src="/images/Cover4.jpg" class="card-img-top card-img" alt="${book.name} 이미지">
-                        <div class="card-info">
-                            <h3>${book.name}</h3>
-                            <p class="author-pub"> ${book.writer} | ${book.pub}</p>
-                            <div class="like-rating">
-                                <p><strong>❤️ </strong> ${book.likeCount} <strong>   ⭐ </strong>
-    <c:choose>
-        <c:when test="${book.reviewCount == 0}">
-            0
-        </c:when>
-        <c:otherwise>
-            <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1" />
-        </c:otherwise>
-    </c:choose>
-    <strong>🗨️ </strong>${book.reviewCount}
-</p>
+            <c:forEach var="book" items="${bList}" begin="0" end="7">
+    <a href="${pageContext.request.contextPath}/board/detail/${book.id}" class="card-link" style="text-decoration: none; color: inherit;">
+        <div class="card">
+            <img src="/images/Cover4.jpg" class="card-img-top card-img" alt="${book.name} 이미지">
+            <div class="card-info">
+                <h3>${book.name}</h3>
+                <p class="author-pub">${book.writer} | ${book.pub}</p>
+                <div class="like-rating">
+                    <p><strong>❤️</strong> ${book.likeCount} <strong>⭐</strong>
+                        <c:choose>
+                            <c:when test="${book.reviewCount == 0}">
+                                0
+                            </c:when>
+                            <c:otherwise>
+                                <fmt:formatNumber value="${book.rating / book.reviewCount}" maxFractionDigits="1" />
+                            </c:otherwise>
+                        </c:choose>
+                        <strong>🗨️</strong> ${book.reviewCount}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </a>
+</c:forEach>
 
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </c:forEach>
         </c:if>
         <c:if test="${empty bList}">
             <p>검색 결과가 없습니다.</p>

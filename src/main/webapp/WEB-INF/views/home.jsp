@@ -16,28 +16,30 @@
             margin: 0;
             padding: 0;
         }
+        .container {
+            margin-top: 0; /* 컨테이너 상단 여백 제거 */
+            padding-top: 0; /* 컨테이너 내부의 상단 여백도 최소화 */
+        }
 
-        h1, h2 {
+
+
+
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 5px; /* h2 요소의 상단 여백 제거 */
+            margin-bottom: 5px; /* 슬라이더와의 간격을 줄임 */
             color: #b57d52; /* 따뜻한 브라운 */
             font-weight: 700;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-top: 30px;
-        }
-
-        h2 {
-            font-size: 1.75rem;
-            margin-bottom: 20px;
-        }
 
         .slider {
             position: relative;
             overflow: hidden;
             display: flex;
             justify-content: center;
-            margin-bottom: 40px;
+            margin-top: -5px; /* 슬라이더의 위쪽 여백을 줄여 h2와의 간격을 최소화 */
+            margin-bottom: 10px; /* 아래쪽 여백 조정 */
         }
 
         .slider-wrapper {
@@ -66,8 +68,8 @@
             flex: 1 1 calc(25% - 20px); /* 카드 너비를 줄임 */
             box-sizing: border-box;
             transition: transform 0.3s, box-shadow 0.3s;
-            min-width: 200px; /* 최소 너비 조정 */
-            max-width: 250px; /* 최대 너비 조정 */
+            min-width: 150px; /* 최소 너비 조정 */
+            max-width: 200px; /* 최대 너비 조정 */
         }
 
         .card:hover {
@@ -153,11 +155,11 @@
 </head>
 <body>
 <div class="container my-5 text-center">
-    <h1 class="text-center">🔥HOT🔥 도서 목록</h1>
+
 
     <!-- 평점 순 추천 도서 슬라이드 -->
 <div class="section active-section" id="section1">
-    <h2 class="mt-5">평점이 높은 도서</h2>
+    <h2 class="mt-5">🔥HOT🔥 평점이 높은 도서</h2>
     <div class="slider">
         <div class="slider-wrapper" id="ratingSlider">
             <c:forEach var="book" items="${recommendedByRating}">
@@ -189,7 +191,7 @@
 
 <!-- 리뷰 수가 많은 도서 슬라이드 -->
 <div class="section" id="section2">
-    <h2 class="mt-5">리뷰 수가 많은 도서</h2>
+    <h2 class="mt-5">🔥HOT🔥 리뷰 수가 많은 도서</h2>
     <div class="slider">
         <div class="slider-wrapper" id="reviewSlider">
             <c:forEach var="book" items="${recommendedByReviewCount}">
@@ -221,7 +223,7 @@
 
 <!-- 좋아요 수가 많은 도서 슬라이드 -->
 <div class="section" id="section3">
-    <h2 class="mt-5">좋아요 수가 많은 도서</h2>
+    <h2 class="mt-5">🔥HOT🔥 좋아요 수가 많은 도서</h2>
     <div class="slider">
         <div class="slider-wrapper" id="likeSlider">
             <c:forEach var="book" items="${recommendedByLikeCount}">
