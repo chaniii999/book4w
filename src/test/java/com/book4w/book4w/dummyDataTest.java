@@ -49,7 +49,7 @@ public class dummyDataTest {
                     .writer("조앤머시기 " + random.nextInt(100))
                     .pub("Publisher " + random.nextInt(10))
                     .year(2020 + random.nextInt(5))
-                    .coverImage("https://via.placeholder.com/150?text=Book+Cover+" + i)
+                    .coverImage("https://via.placeholder.com/150?text=Book+Cover+")
                     .likeCount(random.nextInt(100))
                     .build();
             bookRepository.save(book);
