@@ -15,7 +15,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-color: #f4f4f4; /* 배경 색상 변경 */
+            background-color: #f5efe6; /* 베이지톤 배경 */
         }
         .container {
             flex: 1;
@@ -29,8 +29,12 @@
             justify-content: space-between;
             align-items: center;
             font-size: 2em; /* 제목 크기 증가 */
-            color: #333; /* 제목 색상 변경 */
+            color: #e7d9c7; /* 부드러운 베이지 */
             margin-bottom: 20px; /* 아래쪽 여백 증가 */
+        }
+        h2 a {
+            color: #e7d9c7; /* 부드러운 베이지 */
+            font-weight: 700;
         }
         .card-container {
             display: flex;
@@ -43,7 +47,7 @@
             margin-left: 1.25rem;
         }
         .card {
-            background-color: white;
+            background-color: #eae4da; /* 카드 배경색 */
             border: 1px solid #e0e0e0;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

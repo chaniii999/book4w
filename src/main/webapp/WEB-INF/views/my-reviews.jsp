@@ -9,83 +9,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Reviews</title>
     <style>
+        /* 전체 테마 색상과 글꼴 조정 */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5efe6; /* 톤 다운된 베이지 배경 */
+            color: #4a3f35; /* 딥 브라운 텍스트 */
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: #b57d52; /* 따뜻한 브라운 */
+            margin: 20px 0;
         }
-
         .card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin: 10px 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s;
+            background-color: #eae4da; /* 카드에 밝은 베이지톤 배경 */
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 24px;
+            width: 90%;
+            max-width: 700px;
+            color: #4a3f35;
+            transition: transform 0.3s, box-shadow 0.3s;
             text-decoration: none;
-            color: inherit;
+            display: block;
         }
-
         .card:hover {
-            transform: scale(1.02);
-            background-color: #fafafa;
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background-color: #dcd4c5; /* 카드 hover 시 살짝 진한 베이지 */
         }
-
         .card-header {
-            font-size: 1.2em;
+            font-size: 1.5rem;
             font-weight: bold;
+            color: #b57d52; /* 따뜻한 브라운 */
+            margin-bottom: 10px;
         }
-
         .card-rating {
-            color: #ffcc00; /* Star color */
+            font-size: 1.2rem;
+            color: #d4a373; /* 따뜻한 옐로우 브라운 */
+            margin-bottom: 12px;
         }
-
         .card-content {
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #555;
+            font-size: 1.1rem;
+            color: #4a3f35;
+            line-height: 1.6;
         }
-
         .no-reviews {
             text-align: center;
-            margin-top: 20px;
-            color: #888;
+            margin-top: 40px;
+            color: #7e7366;
+            font-size: 1.4rem;
         }
-
         .pagination {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
-
         .pagination a, .pagination span {
-            margin: 0 5px;
-            padding: 8px 12px;
+            margin: 0 6px;
+            padding: 12px 18px;
             text-decoration: none;
-            color: #007bff;
-            border: 1px solid #007bff;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            color: #7e7366; /* 차분한 브라운 */
+            border: 1px solid #b57d52;
+            border-radius: 50%;
+            transition: background-color 0.3s, color 0.3s;
+            font-weight: bold;
         }
-
         .pagination a:hover {
-            background-color: #007bff;
-            color: white;
+            background-color: #b57d52;
+            color: #ffffff;
         }
-
         .pagination .active {
-            background-color: #007bff;
-            color: white;
-            border: none; /* Remove border for the active page */
+            background-color: #b57d52;
+            color: #ffffff;
+            border: none;
         }
     </style>
 </head>
@@ -122,7 +122,7 @@
                 <c:forEach var="i" begin="0" end="${myReviews.totalPages - 1}">
                     <c:choose>
                         <c:when test="${i == myReviews.number}">
-                            <span class="active">${i + 1}</span> <!-- Active class applied here -->
+                            <span class="active">${i + 1}</span>
                         </c:when>
                         <c:otherwise>
                             <a href="?page=${i}">${i + 1}</a>

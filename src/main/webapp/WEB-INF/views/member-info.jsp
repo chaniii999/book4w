@@ -8,23 +8,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 프로필</title>
     <style>
+        /* 전체 페이지 스타일 */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5efe6; /* 톤 다운된 베이지 배경 */
+            color: #4a3f35; /* 딥 브라운 텍스트 */
             margin: 0;
             padding: 20px;
         }
         .container {
             max-width: 800px;
             margin: auto;
-            background: #fff;
+            background: #eae4da; /* 밝은 베이지 */
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #b57d52; /* 따뜻한 브라운 */
+            font-size: 2.2rem;
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
@@ -35,22 +39,30 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            font-size: 1rem;
         }
         th {
-            background-color: #f2f2f2;
-            color: #555;
+            background-color: #dcd4c5; /* 연한 브라운 배경 */
+            color: #4a3f35;
+            font-weight: bold;
+        }
+        td {
+            color: #4a3f35;
         }
         .no-info {
             text-align: center;
-            color: #777;
+            color: #7e7366;
+            font-size: 1.2rem;
+            margin-top: 20px;
         }
+        /* 버튼 스타일 */
         .btn-container {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
         .btn {
-            background-color: #007bff;
+            background-color: #b57d52; /* 따뜻한 브라운 */
             color: white;
             padding: 10px 20px;
             border: none;
@@ -58,21 +70,31 @@
             text-decoration: none;
             margin: 0 10px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
         .btn:hover {
-            background-color: #0056b3;
+            background-color: #a0694a;
         }
+        /* 닉네임 변경 섹션 */
         .nickname-change {
             display: none;
             flex-direction: column;
             align-items: center;
             margin-top: 20px;
+            background-color: #f5efe6;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .nickname-change input {
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             margin-bottom: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            font-size: 1rem;
         }
     </style>
     <script>

@@ -9,79 +9,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* 전체 배경과 기본 글꼴 스타일 */
         body {
             font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f4efe9; /* 베이지톤 배경 */
+            color: #4a3f35; /* 딥 브라운 텍스트 */
             margin: 0;
             padding: 0;
         }
+        /* 헤더 스타일 */
         header {
-            background-color: #f8f9fa;
-            padding: 20px 0;
-            border-bottom: 1px solid #dee2e6;
+            background-color: #8c7a6b; /* 차분한 브라운 */
+            border-bottom: 1px solid #6b5d4d;
+            padding: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px; /* 전체 너비를 늘림 */
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 30px; /* 좌우 여백 조정 */
+            padding: 0 20px;
         }
+        /* 로고 스타일 */
         .logo {
-            font-size: 28px;
+            font-size: 1.6rem;
             font-weight: bold;
-            color: #007bff;
+            color: #e7d9c7; /* 밝은 베이지 */
             text-decoration: none;
         }
+        .logo:hover {
+            color: #ffffff;
+        }
+        /* 네비게이션 링크 스타일 */
         .nav-links {
             display: flex;
             align-items: center;
         }
         .nav-links a {
-            margin-left: 15px; /* 여백 조정 */
+            margin-left: 20px;
             text-decoration: none;
-            color: #333;
-            font-size: 18px; /* 폰트 크기 조정 */
+            color: #e7d9c7; /* 부드러운 베이지 */
+            font-size: 1rem;
+            font-weight: 700;
+            transition: color 0.3s;
         }
         .nav-links a:hover {
-            color: #007bff;
+            color: #ffffff;
         }
+        /* 로그인 버튼 */
         .login-button {
-            margin-left: 15px; /* 여백 조정 */
-            background-color: #007bff;
-            color: white;
+            margin-left: 15px;
+            background-color: #bfa58a; /* 브라운 톤의 버튼 */
+            color: #ffffff;
             border: none;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 5px;
             cursor: pointer;
-            text-decoration: none; /* 링크에서 밑줄 제거 */
-            display: inline-block; /* 블록으로 변경 */
-            font-size: 18px; /* 폰트 크기 조정 */
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s;
         }
         .login-button:hover {
-            background-color: #0056b3;
+            background-color: #9e8a73;
         }
+        /* 검색 바 스타일 */
         .search-container {
             display: flex;
             align-items: center;
+            background-color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .search-container input[type="text"] {
-            padding: 6px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            margin-right: 5px;
-            width: 250px; /* 검색 입력창 너비 늘림 */
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #4a3f35;
+            padding: 5px 10px;
+            font-size: 1rem;
+            width: 200px;
         }
         .search-container input[type="submit"] {
-            background-color: #007bff;
-            color: white;
+            background-color: #bfa58a;
+            color: #ffffff;
             border: none;
-            padding: 6px 10px;
+            padding: 6px 12px;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.9rem;
         }
         .search-container input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #9e8a73;
         }
     </style>
 </head>
@@ -89,7 +112,7 @@
 <header>
     <div class="header-container">
          <a href="${pageContext.request.contextPath}/" class="logo">
-            <img src="/images/Logo21.png" alt="BookForW 로고" style="height: 40px; vertical-align: middle;" />
+            <img src="/images/Logo21.png" alt="BookForW 로고" style="height: 35px; vertical-align: middle;" />
             BookForW
         </a>
         <nav class="nav-links">
@@ -109,11 +132,11 @@
         </div>
         <!-- 세션 체크 후 버튼 변경 -->
         <c:choose>
-            <c:when test="${not empty sessionScope.login}"> <!-- 세션에 로그인 정보가 있는지 확인 -->
-                <a href="${pageContext.request.contextPath}/log-out" class="login-button">Log-out</a> <!-- 로그아웃 버튼 -->
+            <c:when test="${not empty sessionScope.login}">
+                <a href="${pageContext.request.contextPath}/log-out" class="login-button">Log-out</a>
             </c:when>
             <c:otherwise>
-                <a href="${pageContext.request.contextPath}/sign-in" class="login-button">Log-in</a> <!-- 로그인 버튼 -->
+                <a href="${pageContext.request.contextPath}/sign-in" class="login-button">Log-in</a>
             </c:otherwise>
         </c:choose>
     </div>
