@@ -142,5 +142,6 @@
 >2. MYsql에서 wwww 라는 이름으로 DB를 생성한다. ( application.yml 에서 서버이름 수정가능)
 >3. application.yml 에서 ddl-auto : create로 설정
 >4. 서버 정상 가동 후 종료
->5. 테스트 클래스에서 BookSetTest 클래스의 테스트메서드 실행 ( TestAccount 메서드도 존재 필요시 사용)
->6. 서버 가동 후 체험
+>5. application.yml 에서 ddl-auto : update로 설정
+>6. 테스트 클래스에서 BookSetTest 클래스의 테스트메서드 실행 ( TestAccount 메서드도 존재 필요시 사용)
+>7. 서버 가동 후 체험
